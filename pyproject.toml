@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "maniscope"
+version = "1.0.0"
+description = "Efficient neural reranking via geodesic distances on k-NN manifolds"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Wen G. Gong", email = "wen.gong.research@gmail.com"},
+    {name = "Albert Gong", email = "ag2435@cornell.edu"},
+]
+keywords = [
+    "information-retrieval",
+    "reranking",
+    "manifold-learning",
+    "geodesic-distance",
+    "neural-search",
+    "rag",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Text Processing :: Indexing",
+]
+
+dependencies = [
+    "numpy>=1.21.0",
+    "networkx>=2.6.0",
+    "scikit-learn>=1.0.0",
+    "sentence-transformers>=2.2.0",
+    "torch>=1.10.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "mypy>=0.950",
+]
+
+[project.urls]
+Homepage = "https://github.com/digital-duck/maniscope"
+Documentation = "https://maniscope.readthedocs.io"
+Repository = "https://github.com/digital-duck/maniscope.git"
+"Bug Tracker" = "https://github.com/digital-duck/maniscope/issues"
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
