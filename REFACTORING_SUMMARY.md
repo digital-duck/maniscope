@@ -72,7 +72,39 @@
 - ✅ numpy (numerical ops)
 - ✅ torch (transformers backend)
 
-### 5. Testing
+### 5. Disk-Based Embedding Cache (v1.1.0 Feature)
+
+**Added on**: 2026-01-18
+
+**Motivation**: Avoid expensive re-encoding when testing different k/alpha parameters
+
+**Implementation**:
+- Embeddings automatically cached to `~/projects/embedding_cache/maniscope` (configurable)
+- Cache key computed from document content hash + model name
+- Cache files stored as pickle (.pkl) format
+- Automatic cache directory creation
+- Graceful error handling for cache failures
+
+**New Parameters**:
+```python
+ManiscopeEngine(
+    cache_dir='~/projects/embedding_cache/maniscope',  # Cache location
+    use_cache=True  # Enable/disable caching
+)
+```
+
+**Benefits**:
+- Instant loading for repeated experiments on same corpus
+- Faster iteration when tuning k/alpha parameters
+- Reduced computation time for batch benchmarking
+- Significant speedup for large document collections
+
+**Testing**:
+- Added 4 new tests: `test_caching_enabled`, `test_caching_disabled`, `test_cache_invalidation`, `test_cache_directory_creation`
+- All 11 tests pass (7 original + 4 caching)
+- Created `examples/caching_demo.py` to demonstrate benefits
+
+### 6. Testing
 
 **Verification steps**:
 ```bash

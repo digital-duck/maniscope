@@ -60,6 +60,36 @@ comparison = engine.compare_methods("What is Python?", top_n=5)
 print(f"Ranking changed: {comparison['ranking_changed']}")
 ```
 
+## Advanced Configuration
+
+### Embedding Cache
+
+Maniscope automatically caches document embeddings to disk to avoid recomputation. This is especially valuable when:
+- Testing different `k` and `alpha` parameters on the same corpus
+- Re-running experiments after code changes
+- Benchmarking multiple rerankers on the same dataset
+
+```python
+engine = ManiscopeEngine(
+    model_name='all-MiniLM-L6-v2',
+    k=5,
+    alpha=0.3,
+    cache_dir='~/projects/embedding_cache/maniscope',  # Custom cache location
+    use_cache=True  # Enable/disable caching (default: True)
+)
+```
+
+**Cache behavior:**
+- Cache files are stored in `cache_dir` (default: `~/projects/embedding_cache/maniscope`)
+- Cache key is computed from document content + model name
+- Embeddings are automatically loaded from cache if available
+- Cache is updated when documents change
+
+**Benefits:**
+- Avoid expensive re-encoding when testing different parameters
+- Faster iteration during development
+- Reduced computation time for batch benchmarking
+
 ## How It Works
 
 Maniscope uses a two-stage retrieval architecture:

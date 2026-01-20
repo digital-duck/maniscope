@@ -11,10 +11,10 @@ Example:
     >>> results = engine.search("your query", top_n=10)
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__ = "Wen G. Gong, Albert Gong"
 __license__ = "MIT"
 
-from .engine import ManiscopeEngine
+from .engine import ManiscopeEngine, ManiscopeEngine__v1
 
-__all__ = ['ManiscopeEngine']
+__all__ = ['ManiscopeEngine', 'ManiscopeEngine__v1']

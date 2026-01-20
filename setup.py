@@ -11,7 +11,7 @@ long_description = readme_path.read_text() if readme_path.exists() else ""
 
 setup(
     name="maniscope",
-    version="1.0.0",
+    version="1.1.0",
     author="Wen G. Gong, Albert Gong",
     author_email="wen.gong.research@gmail.com",
     description="Efficient neural reranking via geodesic distances on k-NN manifolds",

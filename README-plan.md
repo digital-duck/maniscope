@@ -2,6 +2,7 @@
 
 **Date**: 2026-01-18
 **Status**: ✅ **Ready for Independent Release**
+**Version**: v1.1.0 (with disk caching)
 **Location**: `~/projects/digital-duck/maniscope/`
 
 ---
@@ -12,12 +13,45 @@ Clean, independent, production-ready Maniscope package successfully created. Thi
 
 ---
 
+## 🆕 What's New in v1.1.0
+
+**Release Date**: 2026-01-18
+
+### Disk-Based Embedding Cache
+
+- **Automatic caching**: Document embeddings are now cached to disk to avoid re-encoding
+- **Configurable location**: Default `~/projects/embedding_cache/maniscope`, user-configurable
+- **Smart invalidation**: Cache keys based on document content hash + model name
+- **Seamless integration**: Works transparently, requires no code changes
+- **Performance boost**: Instant loading for repeated experiments on same corpus
+
+**Benefits**:
+- Faster iteration when tuning `k` and `alpha` parameters
+- Reduced computation time for batch benchmarking
+- Especially valuable for large document collections
+
+**New Parameters**:
+```python
+ManiscopeEngine(
+    cache_dir='~/projects/embedding_cache/maniscope',  # Custom cache location
+    use_cache=True  # Enable/disable caching (default: True)
+)
+```
+
+**Testing**:
+- 4 new unit tests for caching (11 total tests, all passing)
+- New `examples/caching_demo.py` to demonstrate benefits
+
+---
+
 ## 📦 Repository Contents
 
 ### Core Package (2 files)
 
-- **`maniscope/__init__.py`** - Package initialization, exports `ManiscopeEngine`
-- **`maniscope/engine.py`** - Core algorithm (450 lines, fully documented)
+- **`maniscope/__init__.py`** - Package initialization, exports `ManiscopeEngine` (v1.1.0)
+- **`maniscope/engine.py`** - Core algorithm (~500 lines, fully documented)
+  - Geodesic reranking implementation
+  - Disk-based embedding cache (v1.1.0 feature)
 
 ### Configuration Files (4 files)
 
@@ -31,23 +65,28 @@ Clean, independent, production-ready Maniscope package successfully created. Thi
   - torch >= 1.10.0
 - **`.gitignore`** - Python project ignore patterns
 
-### Documentation (4 files)
+### Documentation (5 files)
 
 - **`README.md`** - Comprehensive package documentation
   - Installation instructions
   - Quick start guide
+  - Advanced configuration (caching)
   - API reference
   - Performance benchmarks
   - Environmental impact analysis
   - Citation information
+- **`CHANGELOG.md`** - Version history (v1.0.0, v1.1.0)
 - **`LICENSE`** - MIT License
 - **`REPO_STRUCTURE.md`** - Repository organization explained
 - **`REFACTORING_SUMMARY.md`** - Detailed refactoring notes
 
-### Testing & Examples (2 files)
+### Testing & Examples (3 files)
 
-- **`tests/test_engine.py`** - pytest unit test suite (7 tests)
+- **`tests/test_engine.py`** - pytest unit test suite (11 tests)
+  - 7 original tests (initialization, fit, search methods, error handling)
+  - 4 caching tests (enabled, disabled, invalidation, directory creation)
 - **`examples/basic_usage.py`** - Complete working demonstration
+- **`examples/caching_demo.py`** - Caching benefits demonstration
 
 ---
 
@@ -68,8 +107,13 @@ Clean, independent, production-ready Maniscope package successfully created. Thi
 - ✅ Method chaining support (`fit()` returns `self`)
 - ✅ Proper error handling (`ValueError` if `fit()` not called)
 - ✅ Production-ready packaging (setup.py + pyproject.toml)
-- ✅ Unit test suite
+- ✅ Unit test suite (11 tests total)
 - ✅ Working examples
+- ✅ **Disk-based embedding cache** (v1.1.0)
+  - Automatic caching to avoid re-encoding documents
+  - Configurable cache directory
+  - Cache invalidation based on document hash
+  - Significant speedup for parameter tuning
 
 ### API Improvements
 
@@ -103,12 +147,13 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
 
 | Metric | Value |
 |--------|-------|
-| Core code | ~450 lines (engine.py) |
+| Version | v1.1.0 |
+| Core code | ~500 lines (engine.py) |
 | Dependencies | 5 (standard ML libraries) |
 | Public methods | 5 (fit, search, search_baseline, search_detailed, compare_methods) |
-| Unit tests | 7 |
-| Examples | 1 comprehensive demo |
-| Documentation | 4 markdown files |
+| Unit tests | 11 (7 original + 4 caching) |
+| Examples | 2 (basic_usage.py, caching_demo.py) |
+| Documentation | 5 markdown files |
 | License | MIT |
 | Python version | >= 3.8 |
 
@@ -124,14 +169,16 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
   pip install -e .
   ```
 
-- [ ] **Run example script**
+- [ ] **Run example scripts**
   ```bash
   python examples/basic_usage.py
+  python examples/caching_demo.py
   ```
 
 - [ ] **Run unit tests**
   ```bash
   pytest tests/ -v
+  # Should show 11 tests passing
   ```
 
 - [ ] **Test import in clean environment**
@@ -150,7 +197,7 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
   cd ~/projects/digital-duck/maniscope
   git init
   git add .
-  git commit -m "Initial release v1.0.0 - Efficient neural reranking via geodesic distances"
+  git commit -m "Initial release v1.1.0 - Efficient neural reranking with disk caching"
   ```
 
 - [ ] **Create GitHub repository** (manual step on github.com)
@@ -174,12 +221,12 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
 
 ### Phase 3: Pre-Release Polish
 
-- [ ] **Review all docstrings** for clarity and completeness
-- [ ] **Add more unit tests** if coverage gaps found
+- [x] **Review all docstrings** for clarity and completeness
+- [x] **Add CHANGELOG.md** (v1.0.0 and v1.1.0)
 - [ ] **Update README.md** with actual GitHub URL
 - [ ] **Add CONTRIBUTING.md** (optional)
-- [ ] **Add CHANGELOG.md** starting with v1.0.0
 - [ ] **Verify all examples work** on fresh install
+- [ ] **Add more unit tests** if coverage gaps found (currently 11/11 passing)
 
 ### Phase 4: PyPI Publication
 
@@ -192,7 +239,7 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
   ```bash
   cd ~/projects/digital-duck/maniscope
   python -m build
-  # Creates dist/maniscope-1.0.0.tar.gz and dist/maniscope-1.0.0-py3-none-any.whl
+  # Creates dist/maniscope-1.1.0.tar.gz and dist/maniscope-1.1.0-py3-none-any.whl
   ```
 
 - [ ] **Check distribution**
@@ -233,17 +280,18 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
 ### Phase 6: Announcement
 
 - [ ] **Update arXiv paper links** to point to GitHub repo
-- [ ] **Create release notes** (v1.0.0)
+- [ ] **Create release notes** (v1.1.0)
 - [ ] **Tag release on GitHub**
   ```bash
-  git tag -a v1.0.0 -m "Release v1.0.0 - Initial public release"
-  git push origin v1.0.0
+  git tag -a v1.1.0 -m "Release v1.1.0 - Added disk-based embedding cache"
+  git push origin v1.1.0
   ```
 
 - [ ] **Submit to community resources**
   - Papers With Code
   - Awesome-RAG lists
   - Reddit r/MachineLearning (optional)
+  - Hacker News (optional)
 
 ---
 
@@ -257,11 +305,12 @@ git clone https://github.com/digital-duck/maniscope.git
 cd maniscope
 pip install -e .
 
-# Run tests
-pytest tests/
+# Run tests (11 tests should pass)
+pytest tests/ -v
 
-# Run example
+# Run examples
 python examples/basic_usage.py
+python examples/caching_demo.py
 ```
 
 ### Build and Publish
@@ -284,10 +333,11 @@ twine upload dist/*
 # - maniscope/__init__.py
 # - setup.py
 # - pyproject.toml
+# - CHANGELOG.md (add new version entry)
 
 # Tag release
-git tag -a v1.0.1 -m "Release v1.0.1"
-git push origin v1.0.1
+git tag -a v1.2.0 -m "Release v1.2.0 - [Feature description]"
+git push origin v1.2.0
 ```
 
 ---
@@ -311,6 +361,36 @@ git push origin v1.0.1
 - **GitHub**: https://github.com/digital-duck/maniscope (to be created)
 - **Paper**: arXiv:XXXX.XXXXX (v2.0 - Paradigm Shift Edition)
 - **PyPI**: https://pypi.org/project/maniscope/ (after publication)
+
+---
+
+## 📋 Current Development Status
+
+**Version**: v1.1.0
+**Status**: ✅ Production-Ready
+**Date**: 2026-01-18
+
+### Completed
+- [x] Core geodesic reranking algorithm
+- [x] Disk-based embedding cache (v1.1.0)
+- [x] 11 unit tests (all passing)
+- [x] 2 example scripts (basic_usage.py, caching_demo.py)
+- [x] Comprehensive documentation (README.md, CHANGELOG.md, etc.)
+- [x] Package metadata (setup.py, pyproject.toml)
+- [x] MIT License
+
+### Pending
+- [ ] GitHub repository creation
+- [ ] PyPI publication
+- [ ] CI/CD setup (GitHub Actions)
+- [ ] Documentation site (ReadTheDocs)
+- [ ] Community announcements
+
+### Ready For
+1. **Sandbox testing** in clean virtual environment
+2. **GitHub repository** initialization and push
+3. **PyPI publication** (TestPyPI → production)
+4. **arXiv paper submission** with GitHub repo link
 
 ---
 

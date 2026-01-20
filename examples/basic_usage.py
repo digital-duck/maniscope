@@ -8,7 +8,7 @@ This script demonstrates:
 4. Comparing baseline vs Maniscope
 """
 
-from maniscope import ManiscopeEngine
+from maniscope import ManiscopeEngine, ManiscopeEngine__v1
 
 # Sample document corpus
 documents = [
@@ -35,7 +35,10 @@ def main():
         model_name='all-MiniLM-L6-v2',
         k=5,              # 5 nearest neighbors
         alpha=0.3,        # 30% cosine, 70% geodesic
-        verbose=True
+        verbose=True,
+        # Caching is enabled by default to avoid re-encoding documents
+        # cache_dir='~/projects/embedding_cache/maniscope',  # Custom location
+        # use_cache=True  # Set to False to disable caching
     )
     
     # Fit on documents
@@ -59,13 +62,13 @@ def main():
     for i, (doc, score, idx) in enumerate(maniscope, 1):
         print(f"  [{i}] Score: {score:.3f} | {doc}")
     
-    # Detailed comparison
+    # Detailed comparison using optimized engine
     print("\n4. Detailed Comparison:")
     print("-" * 70)
-    comparison = engine.compare_methods(query, top_n=3)
-    print(f"Ranking changed: {comparison['ranking_changed']}")
-    print(f"Baseline top-1: Doc #{comparison['baseline_top1']}")
-    print(f"Maniscope top-1: Doc #{comparison['maniscope_top1']}")
+    detailed = engine.search_detailed(query, top_n=3)
+    print(f"Optimized engine results:")
+    for i, result in enumerate(detailed, 1):
+        print(f"  [{i}] Final: {result['final_score']:.3f}, Cosine: {result['cosine_score']:.3f}, Geo: {result['geo_score']:.3f}")
     
     # Detailed scores
     print("\n5. Detailed Scoring Breakdown:")
@@ -79,6 +82,31 @@ def main():
         print(f"    Connected: {result['connected']}")
         print(f"    Text: {result['document'][:60]}...")
     
+    # Performance comparison with optimized version
+    print("\n6. Performance Comparison (Original vs Optimized):")
+    print("-" * 70)
+
+    # Initialize optimized engine
+    engine_v1 = ManiscopeEngine__v1(
+        model_name='all-MiniLM-L6-v2',
+        k=5,
+        alpha=0.3,
+        verbose=False
+    )
+    engine_v1.fit(documents)
+
+    # Compare performance
+    perf_comparison = ManiscopeEngine.compare_performance(
+        engine, engine_v1, query, top_n=3, num_runs=5
+    )
+
+    print(f"Original engine time:  {perf_comparison['engine1_time']:.4f}s")
+    print(f"Optimized engine time: {perf_comparison['engine2_time']:.4f}s")
+    print(f"Speedup: {perf_comparison['speedup']:.2f}x")
+    print(f"Results consistent: {perf_comparison['results_consistent']}")
+    if hasattr(engine_v1, 'query_cache'):
+        print(f"Cache size: {len(engine_v1.query_cache)}/{engine_v1.query_cache_size}")
+
     print("\n" + "=" * 70)
     print("Demo complete!")
     print("=" * 70)
