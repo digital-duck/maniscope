@@ -1,0 +1,1 @@
+"""Maniscope Streamlit evaluation application."""

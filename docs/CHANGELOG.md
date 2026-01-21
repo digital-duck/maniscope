@@ -27,7 +27,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `test_caching_disabled`: Verify caching can be disabled
   - `test_cache_invalidation`: Verify different document sets create separate caches
   - `test_cache_directory_creation`: Verify cache directory is auto-created
-- Added `examples/caching_demo.py` to demonstrate caching benefits
+- Added `demo/caching_demo.py` to demonstrate caching benefits
 - All 11 tests passing (7 original + 4 caching)
 
 ### Benefits

@@ -30,14 +30,37 @@ pip install -e .
 
 ## Quick Start
 
-```python
-from maniscope import ManiscopeEngine
+### Option 1: Interactive Evaluation App (Recommended)
 
-# Initialize engine
-engine = ManiscopeEngine(
+Launch the Streamlit evaluation interface to benchmark and visualize results:
+
+```bash
+# Install dependencies
+pip install -e .
+
+# Launch the app
+python run_app.py
+```
+
+The app provides:
+- 📊 **Benchmark Suite**: 6 BEIR datasets (AorB, SciFact, MS MARCO, TREC-COVID, ArguAna, FiQA)
+- ⚡ **Optimization Comparison**: Test v0, v1, v2, v3, and v2o versions side-by-side
+- 📈 **Analytics Dashboard**: MRR, NDCG@K, MAP, latency analysis
+- 🎯 **Live Benchmarking**: Real-time comparison with BGE-M3, Jina Reranker, LLM rerankers
+- 💾 **Export Results**: Publication-ready tables and figures
+
+### Option 2: Python API
+
+```python
+from maniscope import ManiscopeEngine_v2o
+
+# Initialize engine (v2o: Ultimate optimization - 20-235× speedup)
+engine = ManiscopeEngine_v2o(
     model_name='all-MiniLM-L6-v2',
     k=5,              # Number of nearest neighbors
     alpha=0.3,        # Hybrid scoring weight
+    device=None,      # Auto-detect GPU
+    use_cache=True,   # Enable persistent disk cache
     verbose=True
 )
 
@@ -60,6 +83,53 @@ comparison = engine.compare_methods("What is Python?", top_n=5)
 print(f"Ranking changed: {comparison['ranking_changed']}")
 ```
 
+## Optimization Versions
+
+Maniscope provides multiple optimization levels for different use cases:
+
+| Version | Description | Speedup | Best For |
+|---------|-------------|---------|----------|
+| **v0** | Baseline (CPU, no cache) | 1.0× | Reference |
+| **v1** | GPU + graph caching | 3.0× | GPU available |
+| **v2** | FAISS + scipy + vectorization | 5.0× | Cold cache |
+| **v3** | Persistent cache + query LRU | 1-10× | Repeated experiments |
+| **v2o** | 🌟 **RECOMMENDED** - All optimizations | **20-235×** | Production |
+
+**v2o Performance (Real-World Results):**
+- MS MARCO: 132ms → 0.58ms (229× speedup)
+- TREC-COVID: 85ms → 0.38ms (226× speedup)
+- SciFact: 92ms → 0.39ms (235× speedup)
+- 100% accuracy preservation (MRR=1.0)
+
+### Using Optimized Versions
+
+```python
+# v2o: Ultimate optimization (recommended)
+from maniscope import ManiscopeEngine_v2o
+engine = ManiscopeEngine_v2o(
+    k=5, alpha=0.3,
+    device=None,       # Auto-detect GPU
+    use_cache=True,    # Persistent disk cache
+    use_faiss=True     # GPU-accelerated k-NN
+)
+
+# v3: CPU-friendly with caching
+from maniscope import ManiscopeEngine_v3
+engine = ManiscopeEngine_v3(k=5, alpha=0.3, use_cache=True)
+
+# v2: Fast cold-cache performance
+from maniscope import ManiscopeEngine_v2
+engine = ManiscopeEngine_v2(k=5, alpha=0.3, use_faiss=True)
+
+# v1: Simple GPU acceleration
+from maniscope import ManiscopeEngine_v1
+engine = ManiscopeEngine_v1(k=5, alpha=0.3)
+
+# v0: Baseline
+from maniscope import ManiscopeEngine
+engine = ManiscopeEngine(k=5, alpha=0.3)
+```
+
 ## Advanced Configuration
 
 ### Embedding Cache
@@ -70,12 +140,13 @@ Maniscope automatically caches document embeddings to disk to avoid recomputatio
 - Benchmarking multiple rerankers on the same dataset
 
 ```python
-engine = ManiscopeEngine(
+engine = ManiscopeEngine_v2o(
     model_name='all-MiniLM-L6-v2',
     k=5,
     alpha=0.3,
     cache_dir='~/projects/embedding_cache/maniscope',  # Custom cache location
-    use_cache=True  # Enable/disable caching (default: True)
+    use_cache=True,           # Enable persistent disk cache
+    query_cache_size=100      # LRU cache for 100 queries
 )
 ```
 
@@ -83,12 +154,13 @@ engine = ManiscopeEngine(
 - Cache files are stored in `cache_dir` (default: `~/projects/embedding_cache/maniscope`)
 - Cache key is computed from document content + model name
 - Embeddings are automatically loaded from cache if available
-- Cache is updated when documents change
+- Query LRU cache stores recent query embeddings in memory
 
 **Benefits:**
 - Avoid expensive re-encoding when testing different parameters
 - Faster iteration during development
 - Reduced computation time for batch benchmarking
+- Query cache provides instant response for repeated queries
 
 ## How It Works
 
@@ -105,9 +177,43 @@ Geodesic reranking on k-NN manifold graph:
 
 **Key Insight**: Local manifold structure captures semantic relationships better than global Euclidean distances.
 
+## Datasets
+
+The repository includes 6 BEIR benchmark datasets (12 files total: full + quick test versions):
+
+| Dataset | Queries | Domain | Description |
+|---------|---------|--------|-------------|
+| **AorB** | 50 | Disambiguation | Semantic word sense disambiguation |
+| **SciFact** | 100 | Scientific | Scientific claim verification |
+| **MS MARCO** | 200 | Web Search | Web search queries |
+| **TREC-COVID** | 50 | Medical | COVID-19 research papers |
+| **ArguAna** | 100 | Argumentation | Counter-argument retrieval |
+| **FiQA** | 100 | Finance | Financial question answering |
+
+Each dataset includes:
+- `dataset-{name}.json`: Full benchmark dataset
+- `dataset-{name}-10.json`: Quick test version (10 queries)
+
+**Dataset Format:**
+```json
+{
+  "corpus": {
+    "doc_id": {"text": "document text", "title": "..."}
+  },
+  "queries": {
+    "query_id": "query text"
+  },
+  "qrels": {
+    "query_id": {"doc_id": 1}
+  }
+}
+```
+
+See `data/` directory for all datasets.
+
 ## Performance
 
-Benchmarked on 5 BEIR datasets (550 queries total):
+Benchmarked on 6 BEIR datasets (600 queries total):
 
 | Dataset | MRR | Latency | Speedup vs BGE-M3 |
 |---------|-----|---------|-------------------|

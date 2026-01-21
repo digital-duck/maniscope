@@ -40,7 +40,7 @@ ManiscopeEngine(
 
 **Testing**:
 - 4 new unit tests for caching (11 total tests, all passing)
-- New `examples/caching_demo.py` to demonstrate benefits
+- New `demo/caching_demo.py` to demonstrate benefits
 
 ---
 
@@ -85,8 +85,8 @@ ManiscopeEngine(
 - **`tests/test_engine.py`** - pytest unit test suite (11 tests)
   - 7 original tests (initialization, fit, search methods, error handling)
   - 4 caching tests (enabled, disabled, invalidation, directory creation)
-- **`examples/basic_usage.py`** - Complete working demonstration
-- **`examples/caching_demo.py`** - Caching benefits demonstration
+- **`demo/basic_demo.py`** - Complete working demonstration
+- **`demo/caching_demo.py`** - Caching benefits demonstration
 
 ---
 
@@ -152,7 +152,7 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
 | Dependencies | 5 (standard ML libraries) |
 | Public methods | 5 (fit, search, search_baseline, search_detailed, compare_methods) |
 | Unit tests | 11 (7 original + 4 caching) |
-| Examples | 2 (basic_usage.py, caching_demo.py) |
+| Examples | 2 (basic_demo.py, caching_demo.py) |
 | Documentation | 5 markdown files |
 | License | MIT |
 | Python version | >= 3.8 |
@@ -171,8 +171,8 @@ python -c "from maniscope import ManiscopeEngine; print('✅ Works!')"
 
 - [ ] **Run example scripts**
   ```bash
-  python examples/basic_usage.py
-  python examples/caching_demo.py
+  python demo/basic_demo.py
+  python demo/caching_demo.py
   ```
 
 - [ ] **Run unit tests**
@@ -309,8 +309,8 @@ pip install -e .
 pytest tests/ -v
 
 # Run examples
-python examples/basic_usage.py
-python examples/caching_demo.py
+python demo/basic_demo.py
+python demo/caching_demo.py
 ```
 
 ### Build and Publish
@@ -374,7 +374,7 @@ git push origin v1.2.0
 - [x] Core geodesic reranking algorithm
 - [x] Disk-based embedding cache (v1.1.0)
 - [x] 11 unit tests (all passing)
-- [x] 2 example scripts (basic_usage.py, caching_demo.py)
+- [x] 2 example scripts (basic_demo.py, caching_demo.py)
 - [x] Comprehensive documentation (README.md, CHANGELOG.md, etc.)
 - [x] Package metadata (setup.py, pyproject.toml)
 - [x] MIT License
@@ -394,4 +394,138 @@ git push origin v1.2.0
 
 ---
 
-**Status**: Package is production-ready and awaiting GitHub creation + PyPI publication! 🚀
+## 🔧 Maintainer Follow-Up Tasks
+
+**Updated**: 2026-01-20
+**Post-Migration Checklist** for repository maintainer
+
+### Task 1: Create Fresh Virtual Environment
+
+Test the package in a clean environment to verify all dependencies are properly specified:
+
+```bash
+# Create new virtual environment
+cd ~/projects/digital-duck/maniscope
+python -m venv venv-test
+source venv-test/bin/activate  # On Windows: venv-test\Scripts\activate
+
+# Install package in development mode
+pip install -e .
+
+# Verify installation
+python -c "from maniscope import ManiscopeEngine_v2o; print('✅ Import successful')"
+```
+
+**Expected result**: Clean installation with no missing dependencies
+
+### Task 2: Run Tests, Demos, and Streamlit App
+
+Verify all functionality works correctly after recent refactoring:
+
+```bash
+# Activate virtual environment (from Task 1)
+source venv-test/bin/activate
+
+# Run quick test suite
+./scripts/QUICK_TEST.sh
+
+# Run unit tests (if pytest available)
+# pip install pytest
+# pytest tests/ -v
+
+# Run demo scripts
+python demo/basic_demo.py
+python demo/caching_demo.py
+
+# Launch Streamlit app
+python run_app.py
+# Test key workflows:
+# - Navigate to "⚡ Optimization" page
+# - Run v0 vs v2o comparison
+# - Check "🔬 Eval ReRanker" page
+# - Verify "🚀 Batch Benchmark" works
+```
+
+**Expected results**:
+- ✅ All quick tests pass (5/5)
+- ✅ Demo scripts run without errors
+- ✅ Streamlit app launches and loads all pages
+- ✅ Can run benchmarks and view results
+
+### Task 3: Review Documentation ✅
+
+**Status**: Migration-specific docs have been moved to `archive/docs/`
+
+```bash
+cd ~/projects/digital-duck/maniscope/docs
+ls -l
+```
+
+**Current `docs/` files** (4 clean files):
+- ✅ `CHANGELOG.md` - Version history (keep)
+- ✅ `REPO_STRUCTURE.md` - Repository layout guide (keep)
+- ✅ `README-plan.md` - Release planning / this file (keep)
+- ⚠️  `readme-opencode.md` - Review if still relevant
+
+**Archived in `archive/docs/`** (8 migration files):
+- ✅ `CLEANUP_SUMMARY.md` - Moved to archive
+- ✅ `ENGINE_CONSOLIDATION.md` - Moved to archive
+- ✅ `FINAL_REVIEW.md` - Moved to archive
+- ✅ `MIGRATION_REVIEW.md` - Moved to archive
+- ✅ `PROFESSIONAL_RENAME.md` - Moved to archive
+- ✅ `REFACTORING_SUMMARY.md` - Moved to archive
+- ✅ `REFACTORING_UI.md` - Moved to archive
+- ✅ `TEST_RESULTS.md` - Moved to archive
+
+**Action items for maintainer**:
+
+1. **Review `readme-opencode.md`**:
+   - Check if content is still relevant
+   - If superseded by main `README.md`, move to archive:
+     ```bash
+     mv docs/readme-opencode.md archive/docs/
+     ```
+
+2. **Update `CHANGELOG.md`** (if needed):
+   - Add v2.0 entry documenting the migration
+   - Include key improvements (engine consolidation, UI refactoring, etc.)
+
+3. **Update `REPO_STRUCTURE.md`**:
+   - Verify it reflects the current clean structure
+   - Update if any major changes since last edit
+
+**Final clean structure**:
+```
+maniscope/
+├── archive/
+│   ├── docs/                  # 8 migration history docs
+│   ├── engine_old_backup.py
+│   ├── maniscope_engine_ui_duplicate.py
+│   └── README.md
+├── docs/
+│   ├── CHANGELOG.md           # ✅ Keep - version history
+│   ├── REPO_STRUCTURE.md      # ✅ Keep - repository guide
+│   ├── README-plan.md         # ✅ Keep - release planning
+│   └── readme-opencode.md     # ⚠️  Review - may archive
+├── data/                      # 12 BEIR datasets
+├── demo/                      # 2 demo scripts
+├── maniscope/                 # Core package
+├── ui/                        # Streamlit app
+└── ...
+```
+
+---
+
+## ✅ Completion Checklist
+
+Mark tasks complete after verification:
+
+- [ ] **Task 1**: Fresh virtual environment created and package installs cleanly
+- [ ] **Task 2**: All tests, demos, and Streamlit app work correctly
+- [ ] **Task 3**: Documentation cleaned up and organized
+
+**After completion**: Repository is ready for GitHub push and arXiv paper submission!
+
+---
+
+**Status**: Package is production-ready and awaiting final verification + GitHub publication! 🚀

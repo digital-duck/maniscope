@@ -1,0 +1,1056 @@
+[
+  {
+    "query": "Python breeding habits and reproduction",
+    "docs": [
+      "Ball pythons (Python regius) are oviparous snakes, laying clutches of 4-10 eggs. Female pythons exhibit maternal care by coiling around their eggs and using muscular contractions to regulate temperature during the 55-60 day incubation period. They can raise egg temperature by up to 7°C above ambient through thermogenesis.",
+      "Python 3.11 introduces improved error messages and performance optimizations. The new exception groups feature allows multiple exceptions to be raised and handled simultaneously, making error handling more robust in concurrent programming scenarios.",
+      "Reticulated pythons reach sexual maturity at 3-4 years of age. Breeding season typically occurs between September and March, with females producing pheromones to attract males. Multiple males may compete for a single female, engaging in combat rituals.",
+      "The asyncio library in Python provides infrastructure for writing concurrent code using async/await syntax. It is particularly useful for IO-bound and high-level structured network programming, handling multiple connections simultaneously.",
+      "Green tree pythons undergo ontogenetic color change, with juveniles being bright yellow or red before transitioning to the characteristic green coloration at 6-12 months of age. This adaptation helps camouflage them in rainforest canopies.",
+      "Django web framework supports multiple database backends including PostgreSQL, MySQL, and SQLite. The Object-Relational Mapping (ORM) system allows developers to interact with databases using Python objects rather than SQL queries.",
+      "Python eggs require specific humidity levels between 90-100% for successful development. Artificial incubation typically uses vermiculite or perlite substrate to maintain consistent moisture while allowing gas exchange.",
+      "NumPy arrays provide efficient storage and operations for homogeneous numerical data. Broadcasting rules allow arithmetic operations between arrays of different shapes, making vectorized computations significantly faster than iterative approaches."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0,
+      "6": 1,
+      "7": 0
+    },
+    "query_id": "aorb_001",
+    "num_docs": 8
+  },
+  {
+    "query": "How to handle exceptions in Python programs",
+    "docs": [
+      "Python's try-except blocks allow graceful error handling. The finally clause executes regardless of whether an exception occurred, making it ideal for cleanup operations like closing file handles or database connections.",
+      "Pythons are ambush predators that rely on heat-sensing pits to detect warm-blooded prey in complete darkness. These thermoreceptors can detect temperature differences as small as 0.003°C, allowing accurate strikes at prey.",
+      "Custom exception classes should inherit from the Exception base class. Well-designed exceptions include descriptive names and helpful error messages, following the principle that errors should never pass silently unless explicitly silenced.",
+      "Burmese pythons are invasive species in the Florida Everglades, with populations estimated at over 100,000 individuals. They have decimated native mammal populations, with studies showing 90% declines in raccoon and opossum sightings.",
+      "Context managers using the 'with' statement ensure proper resource acquisition and release. The __enter__ and __exit__ methods define setup and teardown behavior, preventing resource leaks even when exceptions occur.",
+      "Python constriction mechanics involve applying pressure of 20-30 kPa, which disrupts blood flow rather than causing asphyxiation. Death in prey typically results from circulatory arrest within 3-5 minutes of constriction initiation."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_002",
+    "num_docs": 6
+  },
+  {
+    "query": "What does a python eat in the wild",
+    "docs": [
+      "Reticulated pythons prey on mammals ranging from rats to deer, occasionally even primates. Large adults have been documented consuming prey up to 60% of their own body weight, requiring weeks to months for complete digestion.",
+      "Python decorators are functions that modify the behavior of other functions or methods. The @property decorator transforms methods into read-only attributes, while @staticmethod and @classmethod alter how methods bind to classes.",
+      "African rock pythons exhibit dietary flexibility, consuming everything from rodents and birds to antelopes and crocodiles. Prey selection correlates with snake size, with juveniles targeting smaller vertebrates and adults taking progressively larger game.",
+      "The Python Package Index (PyPI) hosts over 400,000 third-party packages covering domains from web development to scientific computing. The pip package manager handles dependency resolution and installation automatically.",
+      "Pythons can survive extended periods without food, with some species fasting for over 12 months. During fasting, metabolic rate decreases by up to 70%, and snakes mobilize fat reserves while maintaining muscle mass through protein conservation.",
+      "List comprehensions provide concise syntax for creating lists from iterables. Generator expressions use similar syntax but return iterators instead of lists, offering memory efficiency for large datasets by producing values on-demand."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_003",
+    "num_docs": 6
+  },
+  {
+    "query": "Python tutorial for beginners",
+    "docs": [
+      "Starting with Python programming requires understanding variables, data types, and control flow. The print() function displays output, while input() captures user input as strings that can be converted to other types using int() or float().",
+      "Handling pythons safely requires supporting their full body weight and avoiding sudden movements. Never place snakes around your neck, and wash hands before and after handling to prevent salmonella transmission.",
+      "Python's indentation-based syntax eliminates braces and enforces readable code structure. Each indentation level typically uses four spaces, with consistent indentation being syntactically required rather than merely stylistic.",
+      "Juvenile ball pythons require specific husbandry including ambient temperatures of 78-80°F with a basking spot of 88-92°F. Humidity should be maintained at 50-60%, increasing to 65-70% during shedding periods.",
+      "Functions in Python use the def keyword and can accept positional, keyword, and default arguments. The return statement sends values back to the caller, while functions without explicit returns default to returning None.",
+      "Python substrate options include aspen shavings, cypress mulch, or paper-based bedding. Avoid cedar and pine, which contain aromatic oils toxic to reptiles. Substrate depth should allow for burrowing behavior, typically 2-3 inches."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_004",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple orchard management techniques",
+    "docs": [
+      "Optimal apple tree spacing depends on rootstock vigor, with dwarf varieties planted at 6x12 feet and standard trees requiring 18x25 feet. High-density orchards maximize yield per acre but require intensive pruning and support systems.",
+      "Apple's M2 chip features an 8-core CPU with 4 performance cores and 4 efficiency cores, delivering 18% better performance than M1. The 10-core GPU provides 35% faster graphics processing for professional creative workflows.",
+      "Integrated pest management in apple orchards combines biological controls, pheromone traps, and targeted pesticide applications. Monitoring codling moth populations using degree-day models allows precise timing of interventions.",
+      "The App Store generated $72.3 billion in revenue in 2022, with Apple taking a 30% commission on most transactions. Small developers earning under $1 million annually qualify for reduced 15% commission rates.",
+      "Apple varieties require specific chill hours (temperatures below 45°F) for proper dormancy and fruit set. Honeycrisp requires 800-1000 hours, while Fuji needs only 300-400, making variety selection climate-dependent.",
+      "iOS 17 introduces interactive widgets that respond to taps without launching apps. StandBy mode transforms iPhones into smart displays when charging horizontally, showing clocks, photos, and widgets."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_005",
+    "num_docs": 6
+  },
+  {
+    "query": "Best fertilizer for Gala apple trees",
+    "docs": [
+      "Apple trees require balanced NPK ratios of 10-10-10 or 12-12-12 applied in early spring before bud break. Mature trees need 1-2 pounds of actual nitrogen per year, split into 2-3 applications to prevent excessive vegetative growth.",
+      "Apple Silicon Macs require developers to compile universal binaries supporting both ARM64 and x86_64 architectures. Rosetta 2 translation provides backward compatibility for Intel-only applications with minimal performance overhead.",
+      "Gala apples benefit from foliar applications of calcium nitrate during fruit development to prevent bitter pit disorder. Soil pH should be maintained between 6.0-6.5 for optimal nutrient availability, particularly iron and manganese.",
+      "MacBook Pro models feature ProMotion displays with adaptive refresh rates up to 120Hz. The Liquid Retina XDR screen delivers 1000 nits sustained brightness and 1600 nits peak, supporting HDR content production.",
+      "Organic apple production utilizes composted manure, fish emulsion, and kelp meal as nitrogen sources. Cover crops like clover and vetch fix atmospheric nitrogen while improving soil structure and preventing erosion.",
+      "Apple Pay transaction volume exceeded 6 billion in 2022, with contactless payments accounting for 85% of usage. The Secure Element chip and tokenization ensure that merchant never receives actual card numbers."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_006",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple stock price prediction 2024",
+    "docs": [
+      "Apple Inc. (AAPL) closed Q3 2023 with market capitalization of $2.8 trillion. Analysts project EPS growth of 8-12% driven by services revenue expansion and Vision Pro adoption, with price targets ranging from $180-220.",
+      "Apple scab (Venturia inaequalis) causes significant economic losses in apple production. Resistant varieties like Liberty and Enterprise reduce fungicide dependency, while susceptible cultivars require 8-12 seasonal applications.",
+      "iPhone revenue contributes 52% of total Apple revenue, with services segment growing 14% year-over-year. China market represents 18% of sales, with regulatory risks and competition from Huawei affecting growth forecasts.",
+      "Honeycrisp apples command premium retail prices of $3-5 per pound due to controlled variety licensing and superior eating quality. Production challenges include biennial bearing and susceptibility to bitter pit.",
+      "Apple's services ecosystem including iCloud, Apple Music, and Apple TV+ generated $21.2 billion in Q3 2023. Gross margin on services exceeds 70%, significantly higher than hardware's 35-40% margins.",
+      "Post-harvest apple storage utilizes controlled atmosphere (CA) facilities maintaining 2-3% oxygen and 1-3% CO2. SmartFresh (1-MCP) treatment extends storage life by blocking ethylene receptors, preserving firmness for 12+ months."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_007",
+    "num_docs": 6
+  },
+  {
+    "query": "Java coffee bean cultivation methods",
+    "docs": [
+      "Java Arabica coffee thrives at elevations of 1000-1700 meters with annual rainfall of 1500-3000mm. Volcanic soils rich in organic matter and minerals contribute to the distinctive earthy, full-bodied flavor profile.",
+      "Java Virtual Machine (JVM) employs just-in-time (JIT) compilation to convert bytecode into native machine instructions during runtime. The HotSpot compiler identifies frequently executed code paths and applies aggressive optimizations.",
+      "Traditional shade-grown Java coffee intercropped with Leucaena and Erythrina trees produces superior beans while maintaining biodiversity. Shade reduces temperature stress and extends cherry maturation for complex flavor development.",
+      "Spring Framework's dependency injection container manages object lifecycle and relationships. The @Autowired annotation enables automatic wiring of beans, while @Configuration classes define bean definitions using Java-based configuration.",
+      "Wet-hull processing, distinctive to Indonesian coffee, involves removing parchment before final drying when moisture content reaches 20-24%. This method produces Java coffee's characteristic low acidity and heavy body.",
+      "Java garbage collection algorithms include Serial GC for single-threaded applications, Parallel GC for throughput, and G1 GC for low-latency requirements. Tuning heap size and GC strategy based on application needs optimizes performance."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_008",
+    "num_docs": 6
+  },
+  {
+    "query": "Object-oriented programming in Java",
+    "docs": [
+      "Java classes encapsulate data and behavior through fields and methods. Access modifiers (public, private, protected) control visibility, while inheritance using extends keyword promotes code reuse and polymorphism.",
+      "Java island's Borobudur temple, built in the 9th century, represents the largest Buddhist monument globally. The structure contains 504 Buddha statues and 2,672 relief panels depicting Buddhist cosmology and Javanese life.",
+      "Interfaces in Java define contracts that implementing classes must fulfill. The default keyword allows interface methods to have implementations, while static methods provide utility functions without requiring object instances.",
+      "Mount Merapi, Central Java's most active volcano, has erupted over 80 times since 1548. The 2010 eruption displaced 350,000 people and deposited pyroclastic flows that devastated villages within 15km radius.",
+      "Abstract classes in Java cannot be instantiated but may contain both abstract and concrete methods. They serve as templates for subclasses, enforcing implementation of abstract methods while providing shared functionality.",
+      "Javanese gamelan orchestras feature bronze metallophones, gongs, and drums tuned to slendro and pelog scales. Performances accompany wayang kulit shadow puppet theater, with musical modes matching dramatic narrative arcs."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_009",
+    "num_docs": 6
+  },
+  {
+    "query": "Java tourism destinations and attractions",
+    "docs": [
+      "Prambanan temple complex showcases 9th-century Hindu architecture with 47-meter tall Shiva temple as centerpiece. Evening Ramayana ballet performances against illuminated temples attract 1.3 million visitors annually.",
+      "HashMap in Java provides O(1) average-case performance for get() and put() operations using hash codes. Load factor of 0.75 balances memory usage against performance, triggering rehashing when capacity threshold is exceeded.",
+      "Bogor Botanical Gardens spans 87 hectares containing 15,000 plant species including giant water lilies and rare palms. Established in 1817, it serves both conservation and research functions while attracting 500,000 tourists yearly.",
+      "Java Streams API enables functional-style operations on collections. Methods like filter(), map(), and reduce() support lazy evaluation and parallel processing, improving code readability and performance for data transformations.",
+      "Bromo Tengger Semeru National Park features volcanic landscapes with Mount Bromo's smoking crater accessible via sunrise jeep tours. Annual Kasada ceremony sees Tenggerese Hindus throw offerings into the active caldera.",
+      "Multithreading in Java uses Thread class or Runnable interface to create concurrent execution paths. Synchronized keyword and java.util.concurrent package provide thread-safe operations and high-level concurrency utilities."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_010",
+    "num_docs": 6
+  },
+  {
+    "query": "Surface temperature of Mercury measurements",
+    "docs": [
+      "Mercury's dayside temperature reaches 430°C (800°F) while nightside plunges to -180°C (-290°F), creating the solar system's largest temperature variation. Lack of atmosphere prevents heat distribution, causing extreme diurnal swings.",
+      "Mercury thermometers contain liquid elemental mercury that expands predictably with temperature. Clinical thermometers typically span 35-42°C, while laboratory models range from -39°C (mercury's freezing point) to 357°C.",
+      "MESSENGER spacecraft revealed Mercury's surface composition includes high concentrations of sulfur and potassium, suggesting volatile-rich formation. Radar-bright deposits in permanently shadowed polar craters likely contain water ice.",
+      "Mercury toxicity manifests through neurological symptoms including tremors, cognitive deficits, and peripheral neuropathy. Organic mercury compounds like methylmercury bioaccumulate in fish, with predatory species containing highest concentrations.",
+      "BepiColombo mission's dual spacecraft will study Mercury's magnetic field generation despite the planet's small size. The magnetosphere, only 1% as strong as Earth's, still deflects solar wind through poorly understood mechanisms.",
+      "Mercury sphygmomanometers measure blood pressure using a column of mercury rising against gravity. Digital devices have largely replaced them in clinical settings due to mercury hazard concerns, though mercury models remain calibration standards."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_011",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury poisoning symptoms and treatment",
+    "docs": [
+      "Acute mercury exposure causes gastrointestinal damage, renal failure, and respiratory distress. Chelation therapy using DMSA or DMPS binds mercury for urinary excretion, though treatment efficacy decreases as mercury redistributes to brain tissue.",
+      "Mercury's orbital eccentricity of 0.206 produces significant variation in solar distance from 46 to 70 million km. This elliptical orbit combined with 3:2 spin-orbit resonance creates unique conditions where some locations experience double sunrises.",
+      "Chronic mercury exposure in dental professionals and miners historically caused erethism (mad hatter disease), characterized by irritability, social withdrawal, and tremors. Occupational exposure limits now set at 0.05 mg/m³ for elemental mercury vapor.",
+      "Mercury's cratered highlands resemble lunar terrain, but intercrater plains formed through volcanic flooding differ from Moon's maria. Hokusai crater's bright ray system extends 1000 km, marking relatively recent impact events.",
+      "Minamata disease resulted from industrial methylmercury discharge contaminating fish in Japan's Minamata Bay. Over 2000 cases documented severe neurological damage including ataxia, sensory disturbances, and congenital defects in exposed infants.",
+      "Mercury has the highest density of terrestrial planets at 5.43 g/cm³, indicating a large iron core comprising 85% of planetary radius. The thin silicate mantle suggests a giant impact stripped away lighter materials early in formation."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_012",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury mythology and Roman god attributes",
+    "docs": [
+      "Mercury, Roman equivalent of Greek Hermes, served as messenger of the gods and psychopomp guiding souls to the underworld. His winged sandals (talaria) and caduceus symbolized swift communication and commerce.",
+      "Mercury's proximity to Sun makes ground-based observation challenging, visible only during brief twilight periods near maximum elongation. Ancient astronomers tracked Mercury's 88-day orbit, noting its rapid motion inspired naming after the swift messenger deity.",
+      "Liquid mercury's unique properties fascinated alchemists who associated it with transformation and the prima materia. Medieval alchemists believed mercury formed a bridge between metals and could transmute base metals into gold.",
+      "Wednesday (Mercredi in French, Miércoles in Spanish) derives from Mercury's day, reflecting Roman planetary week system. Mercury governed commerce, travel, and communication, with merchants particularly devoted to his worship.",
+      "The Caloris Basin, Mercury's largest impact structure at 1,550 km diameter, generated seismic waves that created chaotic terrain on the opposite hemisphere. Subsequent volcanic flooding filled the basin with smooth plains material.",
+      "Mercury retrograde periods occur 3-4 times yearly when Earth's faster orbit creates apparent backward motion against background stars. Though astronomically routine, astrological traditions associate these periods with communication disruptions."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 0,
+      "3": 1,
+      "4": 0,
+      "5": 0
+    },
+    "query_id": "aorb_013",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar habitat and conservation status",
+    "docs": [
+      "Jaguars (Panthera onca) inhabit diverse ecosystems from Mexican forests to Argentine wetlands, requiring large territories of 25-150 km². Pantanal populations maintain highest densities with prey biomass supporting one jaguar per 20 km².",
+      "Jaguar Land Rover's manufacturing facilities in Castle Bromwich and Solihull produce 300,000 vehicles annually. The transition to electric vehicle platforms includes £15 billion investment in battery technology and charging infrastructure development.",
+      "Jaguar populations declined 50% over past century due to habitat fragmentation and prey depletion. IUCN Near Threatened status reflects conservation concerns, with Panthera's Jaguar Corridor Initiative protecting genetic connectivity across 18 countries.",
+      "The Jaguar F-Type sports car features supercharged V8 engines producing 575 horsepower with 0-60 mph acceleration in 3.5 seconds. Aluminum monocoque construction reduces weight to 1665 kg, optimizing power-to-weight ratio.",
+      "Camera trap studies reveal jaguars exhibit melanistic (black panther) variants at 6% frequency in Amazon populations. Melanistic individuals result from dominant allele expression, offering potential thermoregulatory advantages in dense forest habitats.",
+      "Jaguar's I-PACE electric SUV delivers 394 horsepower through dual motors with 90 kWh battery providing 470 km range. Rapid charging capability restores 80% capacity in 45 minutes using 100 kW DC fast chargers."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_014",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar performance specifications and features",
+    "docs": [
+      "Jaguar XJ sedan features adaptive air suspension adjusting ride height and damping based on driving conditions. The 5.0L supercharged V8 generates 550 hp, reaching 100 km/h in 4.4 seconds with electronically limited 250 km/h top speed.",
+      "Jaguar bite force exceeds 1500 PSI, strongest among big cats relative to size. Unique killing technique involves skull penetration through temporal bones, directly accessing prey's brain. Powerful jaws enable consumption of turtle shells and armored caiman.",
+      "The F-PACE SVR performance SUV combines 550 hp supercharged V8 with all-wheel drive and active differential. Torque vectoring distributes power between rear wheels, improving cornering dynamics while maintaining practical 650-liter cargo capacity.",
+      "Jaguars are apex predators controlling ecosystem dynamics through trophic cascades. By regulating capybara and peccary populations, jaguars indirectly influence vegetation structure and riverbank erosion patterns in Pantanal wetlands.",
+      "Jaguar's Meridian sound systems feature 26 speakers with dual-channel subwoofers and 1300W amplification. Digital signal processing compensates for cabin acoustics, while Quantum Logic Surround technology creates immersive three-dimensional soundstage.",
+      "Unlike most felids, jaguars exhibit strong swimming ability and preference for aquatic habitats. They regularly hunt caimans, river turtles, and fish, with documented cases of individuals swimming 15+ km across river channels."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_015",
+    "num_docs": 6
+  },
+  {
+    "query": "Flow cytometry data analysis techniques",
+    "docs": [
+      "Flow cytometry quantifies cell populations using fluorescent antibodies and forward/side scatter parameters. Compensation matrices correct for spectral overlap between fluorophores, while gating strategies identify subpopulations based on marker expression patterns.",
+      "Laminar flow in pipes follows Poiseuille's law where volumetric flow rate is proportional to pressure gradient and fourth power of radius. Reynolds numbers below 2300 indicate laminar flow, characterized by parallel streamlines and minimal mixing.",
+      "FlowJo software enables hierarchical gating with Boolean logic combining multiple parameters. t-SNE and UMAP dimensionality reduction visualize high-dimensional cytometry data, revealing rare cell populations obscured in traditional biaxial plots.",
+      "Turbulent flow exhibits chaotic eddies and mixing at Reynolds numbers exceeding 4000. The Moody diagram relates friction factor to Reynolds number and surface roughness, essential for calculating pressure drops in pipeline systems.",
+      "Cell cycle analysis uses DNA-binding dyes like propidium iodide to distinguish G1, S, and G2/M phases based on DNA content. Proliferation markers (Ki-67, BrdU) combined with DNA staining quantify actively dividing versus quiescent cell fractions.",
+      "Computational fluid dynamics (CFD) simulates flow behavior using Navier-Stokes equations discretized over mesh grids. ANSYS Fluent and OpenFOAM packages solve complex geometries, predicting velocity fields, pressure distributions, and turbulence characteristics."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_016",
+    "num_docs": 6
+  },
+  {
+    "query": "Workflow automation in business processes",
+    "docs": [
+      "Business process automation platforms like UiPath and Automation Anywhere employ robotic process automation (RPA) to handle repetitive tasks. Bots interact with applications through UI elements, processing invoices, data entry, and report generation at 3-5x human speed.",
+      "Open-channel flow follows Manning's equation where velocity depends on hydraulic radius, channel slope, and roughness coefficient. Critical flow occurs when Froude number equals 1.0, transitioning between subcritical and supercritical regimes.",
+      "Workflow engines such as Apache Airflow orchestrate data pipelines using directed acyclic graphs (DAGs). Task dependencies, conditional branching, and retry logic automate ETL processes, with sensors monitoring external triggers for pipeline execution.",
+      "Bernoulli's principle explains pressure-velocity relationships in flowing fluids, fundamental to venturi meters and pitot tubes. Applications include aircraft wing lift generation and carburetor operation in internal combustion engines.",
+      "Low-code platforms enable business users to build workflow applications through visual interfaces without extensive programming. Integration connectors link CRM, ERP, and database systems, while approval routing and notifications automate document workflows.",
+      "Two-phase flow regimes in pipelines include bubbly, slug, churn, and annular patterns depending on gas-liquid ratios and flow velocities. Pressure drop calculations require correlation models like Lockhart-Martinelli to account for interfacial friction."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_017",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury orbital mechanics and trajectory",
+    "docs": [
+      "Mercury's 3:2 spin-orbit resonance means three rotations per two orbits, unlike 1:1 tidal locking. This results from orbital eccentricity combined with solar tidal forces, creating unique insolation patterns across the surface.",
+      "Mercury remediation requires identifying source, containing spread, and safe disposal as hazardous waste. HEPA filtration systems capture mercury vapor, while amalgamation with zinc or sulfur powder stabilizes liquid droplets for landfill disposal.",
+      "Messenger spacecraft used solar electric propulsion and gravity assists from Earth, Venus, and Mercury to enter orbit in 2011. The complex trajectory required 6 years and 15 flybys to shed kinetic energy for Mercury orbit insertion.",
+      "Cinnabar ore (HgS) historically provided mercury for gold and silver amalgamation in mining. Roasting cinnabar at 600°C liberates elemental mercury vapor, condensed and collected for industrial applications including electrical switches.",
+      "Mercury's perihelion precession of 43 arcseconds per century exceeded Newtonian predictions, providing critical evidence for general relativity. Einstein's field equations accurately predicted this anomalous precession from spacetime curvature near the Sun.",
+      "Mercury bioaccumulation in aquatic food chains converts inorganic mercury to methylmercury through bacterial action. Methylmercury concentrates up trophic levels, with apex predators like tuna containing mercury levels 10-million-fold higher than surrounding water."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_018",
+    "num_docs": 6
+  },
+  {
+    "query": "Python syntax and best practices",
+    "docs": [
+      "PEP 8 style guide recommends 79-character line limits, snake_case for variables/functions, and PascalCase for classes. Type hints improve code documentation and enable static analysis tools like mypy to catch type-related bugs.",
+      "Python regurgitation behavior involves consuming large prey whole then gradually digesting over weeks. Post-feeding metabolic surge increases energy expenditure 7-fold, with gut tissues rapidly upregulating to handle digestive demands before atrophying between meals.",
+      "List slicing uses [start:stop:step] notation for extracting subsequences. Negative indices count from the end, while omitted values default to sequence bounds. The walrus operator := enables assignment within expressions, reducing code verbosity.",
+      "Albino ball pythons result from recessive mutations eliminating melanin production. Breeders combine morphs like piebald, clown, and banana to create designer varieties commanding premium prices despite no survival advantage over wild-type coloration.",
+      "Python's Global Interpreter Lock (GIL) allows only one thread to execute bytecode at a time. Multiprocessing circumvents GIL limitations for CPU-bound tasks, while asyncio handles I/O-bound concurrency without thread overhead.",
+      "Jacobson's organ in pythons detects chemical cues when tongue flicks deliver particles to vomeronasal receptors. This chemosensory system identifies prey trails, potential mates, and territorial boundaries through sophisticated scent discrimination."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_019",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple quarterly earnings report analysis",
+    "docs": [
+      "Apple's Q4 2023 revenue reached $89.5 billion with services growing to $22.3 billion. iPhone 15 Pro models contributed to 48% ASP increase, while Mac revenue declined 34% due to difficult comparisons against M1 launch period.",
+      "Fire blight (Erwinia amylovora) causes devastating bacterial infections in apple and pear orchards. Streptomycin sprays during bloom provide protection, but antibiotic resistance concerns drive adoption of biological controls like Bacillus subtilis.",
+      "Gross margin expansion to 45.2% reflects services mix shift and favorable foreign exchange impacts. Operating expenses as percentage of revenue improved to 12%, demonstrating operating leverage as scale increases relative to fixed cost base.",
+      "Apple harvest timing depends on starch index testing and firmness measurements. Commercial maturity precedes physiological maturity, with ethylene production triggering softening. Delayed harvest increases sugars but reduces storage potential.",
+      "Greater China revenue of $15.1 billion declined 2.5% year-over-year due to local competition and economic headwinds. India manufacturing expansion aims to reduce geopolitical supply chain risks while accessing growing emerging market.",
+      "Rootstock selection influences apple tree precocity, with M9 and M27 inducing fruiting within 2-3 years versus 5-7 years for standard seedling rootstocks. Dwarfing rootstocks enable high-density planting but require permanent trellis support."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_020",
+    "num_docs": 6
+  },
+  {
+    "query": "Java garbage collection optimization",
+    "docs": [
+      "G1 garbage collector divides heap into regions, targeting those with most garbage first. Mixed collections evacuate live objects from old regions into new regions, while concurrent marking identifies regions with low liveness for priority collection.",
+      "Java's gamelan traditions classify into court style (halus) and village style (kasar), with ceremonial contexts determining appropriate repertoire. Slendro tuning divides octave into five roughly equal intervals, while pelog uses seven unequal tones.",
+      "ZGC and Shenandoah collectors achieve sub-10ms pause times through concurrent operations and colored pointers. Load barriers track object references during concurrent marking and relocation, eliminating stop-the-world phases except brief root scanning.",
+      "Javanese kraton (palace) architecture exemplifies cosmic symbolism with north-south alignment representing mountain-sea axis. Pendopo pavilions feature teak columns supporting high roofs, serving as reception halls for ceremonies and gamelan performances.",
+      "Tuning heap size using -Xms and -Xmx flags balances memory usage against GC frequency. Larger heaps reduce collection frequency but increase pause times, while NewRatio parameter controls young generation size affecting minor GC behavior.",
+      "Batik textile production in Java employs hot wax resist dyeing with copper tjanting tools or carved wooden blocks. Traditional patterns like kawung and parang reserved for royalty, with UNESCO recognizing Indonesian batik as Intangible Cultural Heritage."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_021",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar engine specifications comparison",
+    "docs": [
+      "Jaguar's Ingenium family includes 2.0L turbocharged inline-4 (300 hp) and 3.0L supercharged inline-6 (380 hp) gasoline engines. The inline-6 features electric supercharger for instant response plus twin-scroll turbocharger for peak power delivery.",
+      "Jaguar roar frequency ranges 50-500 Hz, with fundamental frequencies around 100 Hz enabling long-distance communication through dense forest. Laryngeal modifications including incompletely ossified hyoid bones allow low-frequency vocalizations impossible for smaller cats.",
+      "The XE P300 Sport uses Ingenium 2.0L engine with twin-scroll turbo, producing 300 hp and 400 Nm torque. Continuously variable valve lift optimizes breathing across RPM range, while integrated exhaust manifold reduces turbo lag through heat management.",
+      "Jaguars possess the most powerful bite force relative to body mass among felids, adapted for puncturing reptilian armor. Skull morphology features shortened rostrum and robust zygomatic arches anchoring massive temporalis muscles generating crushing force.",
+      "Mild hybrid (MHEV) systems in Jaguar vehicles use belt-integrated starter-generator (BiSG) with 48V battery. The 15 kW motor provides torque assist, regenerative braking, and enables engine-off coasting with instant restart capability for fuel savings.",
+      "Melanistic jaguars exhibit identical spot patterns beneath black fur, visible under correct lighting. Melanism confers no hunting advantage in open Pantanal habitats but may benefit camouflage in dense Amazonian understory, explaining geographic frequency variation."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_022",
+    "num_docs": 6
+  },
+  {
+    "query": "Python data analysis libraries",
+    "docs": [
+      "Pandas provides DataFrame structures for tabular data manipulation with operations like groupby, merge, and pivot. Built on NumPy, it handles missing values, time series operations, and I/O for CSV, Excel, SQL, and HDF5 formats.",
+      "Python metabolic water production through cellular respiration allows survival without drinking. Desert-dwelling species like Children's python extract sufficient water from prey metabolism, with extremely efficient kidneys producing concentrated uric acid rather than dilute urine.",
+      "Matplotlib generates publication-quality visualizations with pyplot interface mimicking MATLAB syntax. Object-oriented API provides fine-grained control over figure elements including subplots, axes, colormaps, and custom transformations.",
+      "Infrared pit organs in pythons contain 7,000 thermoreceptors per membrane, detecting infrared radiation through temperature-sensitive ion channels. Bilateral pits enable stereoscopic heat detection, allowing accurate prey localization in complete darkness.",
+      "SciPy extends NumPy with modules for optimization, integration, interpolation, and signal processing. The stats module includes 100+ probability distributions, hypothesis tests, and kernel density estimation for statistical analysis workflows.",
+      "Python locomotion employs rectilinear movement for slow stalking, using ventral scales as anchors while body segments sequentially contract. Lateral undulation provides faster movement, with muscular waves propagating posteriorly generating forward thrust."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_023",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple ecosystem integration features",
+    "docs": [
+      "Universal Control enables seamless mouse and keyboard sharing across Mac and iPad without setup. Drag-and-drop functionality transfers files between devices, while Sidecar transforms iPad into secondary Mac display supporting Apple Pencil input.",
+      "Cross-pollination requirements affect apple orchard design, with most varieties requiring pollen from genetically distinct cultivars. Crabapples like Manchurian and Dolgo provide extended bloom periods, ensuring pollination overlap with diverse commercial varieties.",
+      "iCloud seamlessly syncs photos, documents, and app data across devices using end-to-end encryption. Family Sharing allows six members to access purchased content, subscriptions, and shared photo libraries while maintaining separate Apple IDs.",
+      "Apple scab resistance breeding programs introgressed Vf, Vm, and Vr genes from Malus floribunda and M. micromalus wild species. Pyramiding multiple resistance genes prevents pathogen adaptation, maintaining durable resistance across growing seasons.",
+      "Handoff allows starting tasks on one device and continuing on another, with active apps appearing in Dock and app switcher. Automatic device switching routes audio to AirPods based on which device is actively playing, reading, or in calls.",
+      "Integrated pest management scouts for codling moth using pheromone traps, establishing biofix dates for degree-day modeling. Mating disruption using synthetic pheromone dispensers prevents reproduction, reducing larval populations without insecticide sprays."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_024",
+    "num_docs": 6
+  },
+  {
+    "query": "Java concurrency programming patterns",
+    "docs": [
+      "ExecutorService framework manages thread pools, avoiding overhead of creating threads for each task. ThreadPoolExecutor configures core pool size, maximum threads, and keep-alive policies, while scheduled executors handle recurring tasks.",
+      "Java's Hindu-Buddhist kingdoms (8th-15th centuries) constructed massive stone temples including Borobudur and Prambanan. Trade networks connected Java to India, China, and Southeast Asia, facilitating cultural exchange and religious syncretism.",
+      "CompletableFuture enables asynchronous programming with methods like thenApply, thenCompose, and exceptionally for chaining operations. Multiple futures combine using allOf and anyOf for complex coordination without blocking threads.",
+      "Majapahit Empire (1293-1527) controlled maritime trade throughout Indonesian archipelago from Java base. Gajah Mada's 14th-century conquests extended influence to Sumatra, Borneo, and Maluku, creating Southeast Asia's largest thalassocracy.",
+      "ReentrantLock provides explicit lock control with fairness policies and multiple condition variables. StampedLock offers optimistic read mode that fails if write occurs, useful for read-heavy scenarios avoiding pessimistic locking overhead.",
+      "Dutch East India Company (VOC) established Batavia (Jakarta) in 1619, making Java the center of colonial spice trade. Coffee, tea, and sugar cultivation under Cultivation System (1830-1870) extracted enormous wealth while impoverishing Javanese peasantry."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_025",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury's atmosphere composition",
+    "docs": [
+      "Mercury's exosphere contains oxygen, sodium, hydrogen, helium, and potassium at surface pressures of 10^-15 bar. Solar wind sputtering and meteoroid impacts continuously replenish this tenuous atmosphere, with sodium tail extending 25,000 km from solar radiation pressure.",
+      "Mercury vapor lamps emit bluish-white light through electrical discharge in mercury vapor producing UV radiation. Phosphor coatings convert UV to visible light with luminous efficacy of 45-60 lumens/watt, though largely replaced by LEDs due to mercury content.",
+      "Potassium exosphere shows asymmetric distribution with concentrations 2-3 times higher on dusk-side versus dawn-side. This results from thermal desorption processes peaking during afternoon local time, combined with photon-stimulated desorption mechanisms.",
+      "Dimethylmercury and monomethylmercury represent highly toxic organomercury compounds formed through microbial methylation in aquatic sediments. Dimethylmercury penetrates latex gloves and biological membranes, causing irreversible neurological damage with microliter exposures.",
+      "Calcium was unexpectedly detected in Mercury's exosphere by MESSENGER, challenging formation models. The calcium/sodium ratio varies with true anomaly angle, suggesting temperature-dependent release mechanisms differ between elements.",
+      "Mercury switches utilize liquid metal to complete electrical circuits through gravity or electromagnetism. Silent operation and high current capacity suited applications like thermostats and pinball machines before solid-state alternatives eliminated mercury hazards."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_026",
+    "num_docs": 6
+  },
+  {
+    "query": "Laminar versus turbulent flow regimes",
+    "docs": [
+      "Transition from laminar to turbulent flow occurs at critical Reynolds number around 2300 for pipe flow. Laminar flow exhibits parabolic velocity profile, while turbulent flow develops flatter profile with thin viscous sublayer near walls.",
+      "Cash flow statements categorize activities into operating, investing, and financing sections. Indirect method reconciles net income to operating cash flow by adjusting non-cash expenses and working capital changes, revealing true liquidity position.",
+      "Turbulence modeling approaches include Reynolds-Averaged Navier-Stokes (RANS) using k-epsilon or k-omega models, and Large Eddy Simulation (LES) resolving large-scale eddies while modeling subgrid turbulence for greater accuracy.",
+      "Workflow diagrams use Business Process Model and Notation (BPMN) symbols for events, activities, and gateways. Swimlanes separate responsibilities across departments, while sequence flows define process logic including parallel and conditional paths.",
+      "Hydraulic diameter concept enables Reynolds number calculation for non-circular conduits, defined as four times flow area divided by wetted perimeter. This allows friction factor determination from Moody chart for rectangular ducts and annular spaces.",
+      "Agile workflow emphasizes iterative development through 2-4 week sprints with daily standups and retrospectives. Kanban boards visualize work-in-progress limits, while continuous integration/deployment pipelines automate testing and release processes."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_027",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar territorial behavior patterns",
+    "docs": [
+      "Male jaguars maintain territories of 50-150 km² marked through urine spraying, fecal deposits, and tree scratching. Territories overlap female home ranges while excluding other males, with boundary confrontations potentially escalating to fatal combat.",
+      "Jaguar XF sedan features aluminum-intensive architecture reducing weight by 190 kg versus predecessor. InControl Touch Pro Duo system uses dual touchscreens with haptic feedback, integrating navigation, climate control, and vehicle settings through intuitive interface.",
+      "Jaguars exhibit solitary behavior except during mating and maternal care periods. Camera traps reveal individuals tolerate conspecifics at kill sites more than other big cats, suggesting flexible social dynamics depending on prey abundance.",
+      "Jaguar's Adaptive Dynamics suspension with Adaptive Surface Response monitors driving conditions 500 times per second. Continuously variable dampers adjust compression and rebound independently for each wheel, optimizing comfort and handling simultaneously.",
+      "Vocalizations including roars, grunts, and meows facilitate long-distance communication and territory advertisement. Roaring sequences consist of 5-6 individual roars lasting 1-2 seconds each, audible up to 5 km through rainforest canopy.",
+      "All-Wheel Drive with Intelligent Driveline Dynamics distributes torque between axles based on traction and driving dynamics. Torque-on-Demand transfer case varies front-rear split from 0-100% to 50-50%, maximizing efficiency while maintaining capability."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_028",
+    "num_docs": 6
+  },
+  {
+    "query": "Python web framework comparison",
+    "docs": [
+      "Django provides batteries-included approach with ORM, authentication, admin interface, and template engine. Monolithic architecture suits rapid development of database-driven applications, though flexibility sacrificed versus micro-frameworks.",
+      "Python thermoregulation relies primarily on behavioral strategies including basking, shade-seeking, and nocturnal activity patterns. Limited physiological thermoregulation includes muscular thermogenesis during egg incubation and vasodilation/vasoconstriction for heat exchange.",
+      "Flask offers minimalist core with extensions for database integration, form validation, and authentication. Blueprint system organizes large applications into modules, while Werkzeug WSGI library and Jinja2 templates provide solid foundation.",
+      "Burmese python populations in Florida demonstrate rapid adaptation to temperate conditions, with individuals surviving temperatures below 5°C through refuge selection in limestone outcrops and mammal burrows providing thermal buffering.",
+      "FastAPI leverages Python type hints for automatic API documentation, request validation, and serialization. Async/await support built on Starlette enables high-concurrency performance rivaling Node.js while maintaining Python's productivity advantages.",
+      "Neonatal pythons utilize yolk reserves for first 2-3 weeks post-hatching before initial feeding. First shed occurs 7-14 days after emergence, signaling readiness to accept appropriately-sized prey items like pinky mice or rat pups."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_029",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple silicon chip architecture details",
+    "docs": [
+      "M2 Pro and Max chips feature up to 12-core CPU with 8 performance and 4 efficiency cores based on ARMv9 architecture. The unified memory architecture with up to 400 GB/s bandwidth eliminates discrete GPU memory, reducing latency and power consumption.",
+      "Apple pollination biology requires cross-compatible varieties blooming simultaneously within 100-meter bee flight distance. Triploid varieties like Jonagold produce sterile pollen, necessitating two diploid pollinizers for orchard planning.",
+      "Neural Engine with 16 cores delivers 15.8 trillion operations per second for machine learning tasks. Dedicated ProRes encode/decode engines enable simultaneous playback of 8K video streams, accelerating professional video workflows.",
+      "Malus domestica genome contains 17 chromosomes with approximately 57,000 genes. Self-incompatibility controlled by S-locus prevents self-fertilization, requiring genetic diversity for successful fruit set. Modern cultivars propagated through grafting maintain clone fidelity.",
+      "The M2 Ultra fuses two M2 Max dies using UltraFusion interconnect providing 2.5 TB/s bandwidth. This creates 24-core CPU with 76-core GPU, competing with discrete workstation configurations while maintaining single-die memory coherency.",
+      "Fire blight resistant rootstock Geneva 41 combines precocity, productivity, and cold hardiness. Burr knots on rootstock shank facilitate layering propagation, while resistance to crown rot and replant disease suits intensive production systems."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_030",
+    "num_docs": 6
+  },
+  {
+    "query": "Java Spring Boot application development",
+    "docs": [
+      "Spring Boot auto-configuration eliminates boilerplate setup using @SpringBootApplication annotation combining component scanning and configuration. Embedded Tomcat/Jetty servers enable standalone JAR deployment without separate application server.",
+      "Java's population of 151 million makes it the world's most populous island. Urbanization centers around Jakarta metropolitan area (34 million), Surabaya (3 million), and Bandung (2.5 million), with 58% of Indonesia's GDP generated on Java.",
+      "Spring Data JPA repositories reduce data access code through interface-based programming. Method name parsing creates queries automatically, while @Query annotation enables custom JPQL or native SQL for complex requirements.",
+      "Javanese language exhibits elaborate honorific levels (ngoko, madya, krama) reflecting social hierarchy. Kromo inggil used addressing superiors incorporates Sanskrit and Old Javanese vocabulary, contrasting with informal ngoko used among peers.",
+      "@RestController and @RequestMapping annotations simplify REST API development. ResponseEntity provides fine-grained HTTP response control, while exception handlers using @ExceptionHandler centralize error responses across application.",
+      "Agriculture employs 40% of Java's workforce despite contributing only 14% of regional GDP. Rice paddies cover 30% of land area using intensive sawah cultivation, producing three harvests annually in irrigated lowlands supporting high population density."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_031",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury retrograde astronomical phenomenon",
+    "docs": [
+      "Apparent retrograde motion occurs when Earth's faster orbit causes Mercury to appear moving backward against fixed stars for approximately 24 days per cycle. Three retrograde periods occur annually, strictly due to relative orbital mechanics.",
+      "Methylmercury bioavailability depends on environmental pH and dissolved organic carbon concentrations. Acidic waters enhance mercury methylation rates by sulfate-reducing bacteria, increasing neurotoxin accumulation in fish tissue and subsequent human exposure risk.",
+      "Superior conjunction places Mercury on far side of Sun relative to Earth, while inferior conjunction positions Mercury between Earth and Sun. Transits occur only during inferior conjunction when orbital planes align, happening 13-14 times per century.",
+      "Mercury amalgams in dentistry combine liquid mercury with silver-tin-copper powder, forming stable restorations lasting 10-15 years. Biocompatibility controversies persist despite American Dental Association affirming safety for most patients excluding mercury-allergic individuals.",
+      "Greatest elongation angles of 18-28° from Sun depend on Mercury's orbital position. Eastern elongations favor evening visibility as 'evening star,' while western elongations enable predawn observation, both requiring clear horizon views.",
+      "Mercury fulminate [Hg(CNO)₂] serves as primary explosive in percussion caps and detonators. Highly sensitive to friction and impact, it reliably initiates secondary explosives like TNT, though largely replaced by safer lead azide in modern applications."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_032",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar hunting behavior and prey selection",
+    "docs": [
+      "Jaguars employ stalk-and-ambush tactics rather than sustained pursuit, utilizing dense vegetation for concealment within 5-10 meters before explosive charge. Success rates average 10-15%, higher than most big cats due to powerful build enabling single-strike kills.",
+      "Jaguar F-PACE features configurable drive modes adjusting throttle response, transmission mapping, and suspension damping. Dynamic mode sharpens responses for spirited driving, while Eco mode optimizes fuel efficiency through earlier upshifts and coast functionality.",
+      "Prey spectrum encompasses over 85 species including capybaras (largest rodent), peccaries, deer, caiman, and giant anteaters. Opportunistic feeding includes turtles, armadillos, fish, and domestic cattle when natural prey depleted, demonstrating dietary plasticity.",
+      "Jaguar's Activity Key wearable waterproof wristband enables keyless access and starting without carrying traditional fob. The ruggedized design suits active lifestyles, allowing vehicle security while swimming, running, or participating in water sports.",
+      "Nocturnal and crepuscular activity patterns peak during twilight hours when prey most active. Radio telemetry studies show 60-70% of hunting occurs at night, with moon phase influencing activity levels through illumination affecting both predator and prey behavior.",
+      "InControl Remote smartphone app enables climate pre-conditioning, location tracking, and vehicle status monitoring. Secure Tracker immediately alerts owners to unauthorized movement, collaborating with law enforcement for stolen vehicle recovery."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_033",
+    "num_docs": 6
+  },
+  {
+    "query": "Python machine learning libraries overview",
+    "docs": [
+      "scikit-learn provides comprehensive algorithms for classification, regression, clustering, and dimensionality reduction. Consistent API across algorithms simplifies workflow, with Pipeline class chaining preprocessing and model steps for reproducible analysis.",
+      "Python immune response relies on innate immunity including antimicrobial peptides in skin secretions and heterophils (reptilian neutrophils). Adaptive immunity develops slowly versus mammals, with optimal function requiring appropriate temperature ranges.",
+      "TensorFlow and PyTorch dominate deep learning with computational graph frameworks supporting GPU acceleration. PyTorch's dynamic graphs suit research, while TensorFlow's production tools including TensorFlow Lite and TensorFlow.js enable edge deployment.",
+      "Python ecdysis (shedding) frequency correlates with growth rate, occurring every 4-6 weeks in juveniles versus 2-3 times yearly in adults. Pre-shed signs include cloudy eyes and dulled coloration as new epidermis forms beneath old layer.",
+      "XGBoost and LightGBM implement gradient boosting with optimizations for speed and memory efficiency. Histogram-based algorithms reduce computational complexity, while GPU support accelerates training on large datasets by orders of magnitude.",
+      "Respiratory infections in captive pythons manifest as wheezing, mucoid discharge, and open-mouth breathing. Etiology includes bacterial (Pseudomonas, Aeromonas) and viral pathogens, exacerbated by suboptimal temperatures preventing proper immune function."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_034",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple product supply chain management",
+    "docs": [
+      "Apple's supplier network spans 49 countries with final assembly concentrated in China (Foxconn, Pegatron) and expanding to India and Vietnam. Just-in-time manufacturing minimizes inventory while air freight enables rapid global distribution within 24-48 hours.",
+      "Controlled atmosphere storage extends apple marketing season by reducing respiration through low oxygen (1-3%) and elevated CO2 (1-5%). SmartFresh (1-MCP) technology blocks ethylene receptors, maintaining firmness and acidity for 9-12 months post-harvest.",
+      "Component sourcing includes TSMC for processors, Samsung/LG for displays, and Sony for camera sensors. Vertical integration of custom silicon design reduces supplier dependence while enabling differentiated features impossible with off-the-shelf components.",
+      "Apple grading separates fruit by size, color, and defects using automated optical sorting equipment. US Extra Fancy grade requires 66% surface color for red varieties with minimal blemishes, commanding premium prices versus lower utility grades.",
+      "Supplier audits enforce labor standards, environmental compliance, and conflict mineral policies across 1000+ facilities. Supplier Clean Energy Program commits contract manufacturers to 100% renewable electricity, addressing Scope 3 emissions.",
+      "Post-harvest 1-MCP treatment costs $0.05-0.10 per bushel but extends storage window 3-6 months. Economic analysis shows positive ROI through reduced shrink, maintained quality premiums, and flexibility in market timing for optimal price realization."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_035",
+    "num_docs": 6
+  },
+  {
+    "query": "Java performance optimization techniques",
+    "docs": [
+      "JIT compiler employs tiered compilation with C1 (client) compiler for quick startup and C2 (server) compiler for peak performance. Escape analysis eliminates unnecessary object allocations by stack-allocating or scalarizing objects with local scope.",
+      "Javanese wayang kulit performances last 8-9 hours from 9 PM to dawn, narrating episodes from Mahabharata and Ramayana epics. Dalang puppeteer manipulates 200+ leather puppets while voicing characters, conducting gamelan, and providing philosophical commentary.",
+      "String interning reduces memory overhead by storing unique string literals in constant pool. However, excessive interning increases GC pressure, so selective use limited to frequently compared strings provides optimal balance.",
+      "Batik cap (copper stamp) technique accelerates production versus traditional batik tulis (hand-drawn wax). Cap prints repeat geometric patterns in minutes versus days for tulis, though connoisseurs value tulis higher for artistic individuality and fine detail.",
+      "Object pooling reuses expensive objects like database connections and thread resources. Apache Commons Pool provides generic pooling framework, though overuse increases complexity and modern GCs often outperform manual pooling for simple objects.",
+      "Yogyakarta and Surakarta kraton preserve Javanese court culture including classical dance forms like bedhaya and srimpi. Female dancers execute slow, controlled movements in highly stylized choreography representing refined Javanese aesthetic ideals."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_036",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury's magnetic field characteristics",
+    "docs": [
+      "Mercury's dipole magnetic field strength at the surface measures 300 nT (1% of Earth's), generated through dynamo action in partially molten iron core. The field's north-south offset by 20% of planetary radius suggests complex internal structure.",
+      "Mercury barometers measure atmospheric pressure using evacuated glass tube with mercury column height proportional to pressure. Standard atmospheric pressure (101.325 kPa) supports 760 mm mercury column, with inch-mercury (inHg) units common in meteorology.",
+      "Magnetopause standoff distance of only 1.5 Mercury radii creates smallest magnetosphere among terrestrial planets. Substorms and reconnection events inject sodium ions from surface into magnetosphere, creating distinctive exosphere-magnetosphere coupling.",
+      "Mercury manometers use U-tube configuration to measure pressure differentials in laboratory and industrial applications. Fluid column height difference directly indicates pressure, with precision to 0.1 mm Hg for careful measurements using cathetometer.",
+      "Magnetic field asymmetry shows northern hemisphere field nearly twice southern strength, attributed to non-central dipole offset and possible crustal magnetic anomalies from ancient core convection patterns when planetary rotation was faster.",
+      "Mercury diffusion pumps achieve high vacuum (10^-6 to 10^-9 Torr) using heated mercury vapor jet to entrain and remove gas molecules. Though historically important, they've been superseded by turbomolecular and ion pumps eliminating mercury contamination risks."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_037",
+    "num_docs": 6
+  },
+  {
+    "query": "Python decorators and metaprogramming",
+    "docs": [
+      "Decorators modify function behavior using @decorator syntax wrapping original function. Functools.wraps preserves original function metadata, while stacked decorators apply in bottom-up order enabling modular behavior composition.",
+      "Python sexual dimorphism exhibits females larger than males in most species, with size differences reaching 50% in some populations. Larger females produce more/larger eggs, while smaller males reduce competition for limited resources.",
+      "Class decorators transform entire classes rather than individual methods. Dataclasses decorator auto-generates __init__, __repr__, and comparison methods from type-annotated attributes, reducing boilerplate while maintaining clarity.",
+      "Parthenogenesis documented in captive ball pythons produces viable female offspring from unfertilized eggs through terminal fusion automixis. This facultative reproductive strategy may represent adaptation allowing reproduction when males unavailable.",
+      "Metaclasses control class creation by inheriting from type. The __new__ method intercepts class construction, enabling attribute validation, automatic registration, or interface enforcement at class definition time rather than instantiation.",
+      "Python chromosomes exhibit ZW sex determination with males ZZ and females ZW, opposite of mammalian XY system. Temperature-dependent sex determination absent, with genetic sex determination maintaining 1:1 sex ratios across incubation temperatures."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_038",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple iOS development best practices",
+    "docs": [
+      "SwiftUI declarative syntax builds interfaces through view composition with automatic state management. Combine framework handles asynchronous events and data flow, while @State and @ObservedObject property wrappers drive reactive UI updates.",
+      "Integrated pest management combines cultural practices (sanitation, pruning), biological controls (predatory mites, parasitoid wasps), and chemical treatments as final option. Monitoring trap catches and degree-day models time interventions for maximum efficacy.",
+      "Memory management uses Automatic Reference Counting (ARC) eliminating manual retain/release. Weak references prevent retain cycles, while unowned references assume referenced object outlives referencing object, enforcing relationships through compilation.",
+      "Thinning removes excess fruitlets 30-45 days after bloom, improving size and quality of remaining fruit. Chemical thinners (NAA, carbaryl) or mechanical string thinners reduce fruit load to 1 per 6 inches for optimal return bloom and biennial bearing control.",
+      "Protocol-oriented programming emphasizes protocol conformance over class inheritance. Protocol extensions provide default implementations, while associated types enable generic constraints maintaining type safety across abstracted interfaces.",
+      "Pollination efficiency increases with diverse native bee populations supplementing managed honeybees. Mason bees (Osmia lignaria) emerge during apple bloom, visiting more flowers per minute than honeybees while tolerating colder temperatures."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_039",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar reproductive biology and mating",
+    "docs": [
+      "Jaguars lack defined breeding season in tropical regions, though births peak during wet season when prey abundance increases. Estrous cycle lasts 37 days with receptivity spanning 6-17 days, advertised through increased vocalization and scent marking.",
+      "Jaguar XJ luxury sedan features 5.0L supercharged V8 producing 470 hp in standard trim and 550 hp in XJR performance variant. Aluminum body architecture achieves 50/50 weight distribution while reducing mass 150 kg versus steel construction.",
+      "Gestation averages 93-105 days, producing litters of 1-4 cubs (typically 2) born blind and dependent. Maternal dens in caves, hollow logs, or dense vegetation provide protection during vulnerable neonatal period lasting 2 weeks until eyes open.",
+      "Adaptive Cruise Control with Queue Assist maintains set speed and following distance, reducing to complete stop in traffic and resuming automatically. Stereo camera system detects vehicles up to 200 meters ahead, adjusting speed smoothly.",
+      "Cubs remain with mother 18-24 months learning hunting skills through observation and practice on mother-provided prey. Sexual maturity reached at 2-3 years, though males often delay breeding until establishing territories at 3-4 years.",
+      "Touch Pro Duo infotainment features upper 10-inch and lower 5.5-inch touchscreens with configurable layouts. Meridian audio system with 1300W amplification and 23 speakers creates concert-hall acoustics through Digital Signal Processing."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_040",
+    "num_docs": 6
+  },
+  {
+    "query": "Flow measurement instrumentation methods",
+    "docs": [
+      "Differential pressure flowmeters including orifice plates, venturi tubes, and flow nozzles operate via Bernoulli's principle. Square-root relationship between pressure drop and flow rate requires signal linearization, with accuracy ±0.5-2% of reading.",
+      "Cash flow forecasting projects future liquidity through time-series analysis of receivables, payables, and seasonal patterns. Rolling 13-week projections balance detail and adaptability, while sensitivity analysis tests impacts of revenue/expense variances.",
+      "Magnetic flowmeters measure conductive liquids using Faraday's law of electromagnetic induction. Electromagnetic coils generate field perpendicular to flow, inducing voltage proportional to velocity. Zero pressure drop and no moving parts suit slurry applications.",
+      "Workflow analytics track key performance indicators including cycle time, bottleneck identification, and resource utilization. Process mining algorithms analyze event logs to discover actual process flows versus designed workflows, revealing optimization opportunities.",
+      "Ultrasonic flowmeters employ time-of-flight or Doppler principles for non-invasive measurement. Clamp-on transducers eliminate pipe penetration, while transit-time method achieves ±0.5% accuracy for clean liquids in applications from water to cryogenic LNG.",
+      "Robotic Process Automation bots execute rule-based tasks with audit trails documenting every action. Exception handling routes edge cases to human workers, while machine learning gradually expands bot capabilities through supervised learning from human resolutions."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_041",
+    "num_docs": 6
+  },
+  {
+    "query": "Python asynchronous programming with asyncio",
+    "docs": [
+      "Event loop executes coroutines cooperatively, yielding control at await points to schedule other tasks. asyncio.create_task() schedules concurrent execution, while asyncio.gather() awaits multiple coroutines returning results as ordered list.",
+      "Python embryonic development exhibits direct development without larval stage, with organogenesis complete before hatching. Incubation duration varies 50-90 days depending on species and temperature, with thermal regime affecting sex ratios in some lineages.",
+      "Async context managers using async with ensure proper resource cleanup in asynchronous code. aiohttp for HTTP requests and aiomysql for database connections provide async-compatible alternatives to blocking synchronous libraries.",
+      "Ball python color mutations include over 6000 documented morphs from simple recessive traits to polygenic combinations. Albinism, piebaldism, and pattern modifications combined through selective breeding create designer morphs valued at $5000+ for rare combinations.",
+      "Asyncio synchronization primitives include Lock, Semaphore, Event, and Condition for coordinating coroutines. Queue class provides async-safe communication channel between producer and consumer tasks without blocking event loop.",
+      "Python longevity exceeds 20-30 years in captivity with some individuals reaching 40+ years. Growth continues throughout life though decelerating with age, with annual increments becoming negligible after reaching adult size at 3-5 years."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_042",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple retail store customer experience design",
+    "docs": [
+      "Apple Store spatial design emphasizes open layouts with natural materials including stone floors and living walls. Genius Grove consultation areas feature trees and seating, while Forum spaces host Today at Apple sessions teaching creative skills.",
+      "Apple harvest labor requires skilled pickers maintaining fruit integrity while achieving 100-150 bushels per day productivity. Platform systems enable efficient canopy access in high-density orchards, while bin handling equipment reduces physical strain.",
+      "Product tables display devices without barriers, encouraging hands-on interaction. Specialists use mobile POS systems for checkout anywhere in store, eliminating traditional registers and queuing. Same-day personalization and trade-in services enhance convenience.",
+      "Mechanical harvest uses trunk or canopy shakers dislodging fruit onto catching frames, suitable for processing apples but causing excessive bruising for fresh market. Technology improvements include soft-catch surfaces and selective shaking reducing damage.",
+      "Genius Bar technicians diagnose hardware issues using suite of diagnostic tools while customer observes, building trust through transparency. Modular repairs replace components rather than entire devices, extending product lifespan and supporting sustainability.",
+      "Reflective ground covers (white or metallic) beneath trees increase light reflection into lower canopy, improving color development on shaded fruit. Reflectance increases 30-50% improving packout percentages for color-intensive varieties like Honeycrisp."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_043",
+    "num_docs": 6
+  },
+  {
+    "query": "Java microservices architecture patterns",
+    "docs": [
+      "Service discovery using Netflix Eureka or Consul enables dynamic service registration and location. Client-side load balancing with Ribbon distributes requests across service instances, while circuit breakers using Hystrix prevent cascading failures.",
+      "Indonesian independence movement gained momentum on Java during WWII Japanese occupation (1942-1945). Sukarno and Hatta proclaimed independence August 17, 1945, triggering four-year revolution against returning Dutch forces concentrated on Java's cities.",
+      "API Gateway pattern consolidates client interactions through single entry point, handling authentication, rate limiting, and request routing. Spring Cloud Gateway provides reactive routing with filters for cross-cutting concerns before forwarding to microservices.",
+      "Javanese agriculture historically depended on sawah (irrigated rice paddies) using subak-like irrigation cooperatives. Green Revolution (1960s-70s) introduced high-yield rice varieties, chemical fertilizers, and mechanization tripling production supporting population growth.",
+      "Event-driven architecture uses message brokers like RabbitMQ or Kafka for asynchronous communication. Saga pattern coordinates distributed transactions through event choreography or orchestration, maintaining eventual consistency without distributed ACID transactions.",
+      "Transmigration program relocated millions from overcrowded Java to outer islands (Sumatra, Kalimantan, Papua) between 1950-2015. Controversial policy aimed to reduce Javanese population density while developing frontier regions, creating ethnic tensions in receiving areas."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_044",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury's geological features and cratering",
+    "docs": [
+      "Caloris Basin impact created 1550 km multi-ring structure with peak-ring interior and radial sculpture extending 1000 km. Subsequent volcanic flooding filled basin floor with smooth plains, while impact-generated seismic waves disrupted antipodal terrain.",
+      "Mercury amalgamation process dissolves gold and silver into mercury forming amalgam, concentrating precious metals from ore. Subsequent heating vaporizes mercury leaving purified metal, though environmental mercury contamination makes this method obsolete in developed regions.",
+      "Lobate scarps represent thrust faults extending hundreds of kilometers, formed by global contraction from core cooling. Planet-wide shrinkage reduced Mercury's radius by 7 km over 4 billion years, generating these tectonic features unique among terrestrial planets.",
+      "Cinnabar deposits form in hydrothermal systems associated with recent volcanic activity. Spain's Almadén mine produced mercury for 2000+ years from world's largest deposit, though most historic mines closed due to mercury price collapse and environmental regulations.",
+      "Hollows comprise irregular shallow depressions with bright halos formed through sublimation of volatile-rich materials. These young features actively forming today through solar wind sputtering removing volatile components, exposing fresh bright material.",
+      "Mercury fulminant synthesis involves treating ethanol with nitric acid in presence of mercury, forming explosive white crystals sensitive to shock and friction. Historical use in blasting caps now replaced by safer primary explosives in commercial applications."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_045",
+    "num_docs": 6
+  },
+  {
+    "query": "Python package management and virtual environments",
+    "docs": [
+      "Virtual environments isolate project dependencies using venv module creating self-contained Python installations. Each environment maintains separate site-packages directory preventing conflicts between projects requiring different package versions.",
+      "Python distribution patterns vary from localized endemics like Oenpelli python (Australia) to widespread generalists like ball python across West African savanna. Biogeographic barriers including oceans and deserts prevent dispersal creating distinct regional radiations.",
+      "Poetry manages dependencies and packaging through pyproject.toml using semantic versioning constraints. Automatic virtual environment creation and lock files ensure reproducible installations, while build system integration simplifies package publishing to PyPI.",
+      "Burmese python invasion of Everglades represents archetypal biological invasion, with founder population from released/escaped pets establishing reproducing population. Exponential growth crashed native mammal populations demonstrating invasive species ecological impacts.",
+      "Conda provides cross-platform package management handling both Python and non-Python dependencies. Environment files specify exact package versions and channels, enabling reproducible scientific computing environments across operating systems and architectures.",
+      "Python phylogeny divides family Pythonidae into African pythons (Python), Asian pythons (Python reticulatus, molurus), and Australasian pythons (Morelia, Liasis). Molecular phylogenetics reveals paraphyly requiring taxonomic revision separating Old World lineages."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_046",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple Watch health monitoring capabilities",
+    "docs": [
+      "Electrocardiogram (ECG) app uses electrical heart sensor taking single-lead ECG reading in 30 seconds, detecting atrial fibrillation or sinus rhythm. Irregular rhythm notifications alert users to potential AFib episodes between ECG readings.",
+      "Apple rootstock breeding programs select for disease resistance, environmental adaptability, and horticultural characteristics. Geneva series rootstocks combine fire blight resistance, cold hardiness, and productivity improvements over historical East Malling selections.",
+      "Blood oxygen sensor uses red and infrared LEDs measuring light absorption determining oxygen saturation. Background measurements occur during sleep, with on-demand readings available anytime providing insights into respiratory and cardiovascular health.",
+      "Bitter pit disorder results from calcium deficiency exacerbated by excessive nitrogen and irregular watering. Large fruit from vigorous trees most susceptible, with symptoms developing during storage as cellular calcium depletion reaches critical thresholds.",
+      "Heart rate variability (HRV) measurements analyze time intervals between heartbeats indicating autonomic nervous system balance. Trends over time correlate with stress, recovery, and overall cardiovascular fitness, informing training and lifestyle adjustments.",
+      "Calcium chloride sprays (4-6 applications at 14-day intervals) supplement soil calcium, reducing bitter pit incidence. Optimal timing begins 3-4 weeks post-bloom during rapid fruit expansion when calcium demand peaks and vascular transport declines."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_047",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar brand history and evolution",
+    "docs": [
+      "Jaguar Cars founded 1922 as Swallow Sidecar Company producing motorcycle sidecars before transitioning to automobiles. Name changed to Jaguar 1945 post-WWII, with XK120 (1948) establishing performance reputation through 120 mph top speed.",
+      "Jaguar populations historically ranged from southwestern United States through Central America to northern Argentina. Current distribution reduced to 46% of historic range, with extirpations throughout Uruguay, El Salvador, and most of Mexico except fragmented populations.",
+      "XJ6 sedan (1968) introduced refined styling and independent rear suspension defining luxury sports sedan category. E-Type sports car achieved iconic status through Enzo Ferrari calling it 'most beautiful car ever made,' combining performance with elegant design.",
+      "Panthera onca evolved in Eurasia approximately 2 million years ago, migrating to Americas via Bering land bridge during Pleistocene. Fossil record shows North American populations until 10,000 years ago, with current northern range limit in Sonora, Mexico.",
+      "British Leyland ownership (1968-1984) caused quality issues through underfunding and labor disputes. Ford acquisition (1989-2008) modernized facilities and platforms, while current Tata Motors ownership (2008-present) invested in electrification and new platforms.",
+      "Genetic studies reveal five jaguar subspecies with distinct populations in Amazon, Atlantic Forest, Cerrado, Pantanal, and Mesoamerica. Corridor conservation connects populations preventing genetic isolation, though highway development and deforestation fragment critical linkages."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_048",
+    "num_docs": 6
+  },
+  {
+    "query": "Flow simulation in computational fluid dynamics",
+    "docs": [
+      "Direct Numerical Simulation (DNS) resolves all turbulent scales from Kolmogorov microscale to integral length scale requiring computational grids with (Re)^9/4 cells. Practical only for low Reynolds numbers due to computational cost scaling with Re^3.",
+      "Workflow simulation using discrete event modeling predicts system performance before implementation. Arena and Simio software model resource constraints, queuing behavior, and process variability, identifying bottlenecks and capacity requirements through statistical analysis.",
+      "Large Eddy Simulation (LES) resolves large energy-containing eddies while modeling subgrid-scale turbulence through Smagorinsky or dynamic models. Filtered Navier-Stokes equations capture 80% of turbulent kinetic energy at 1% of DNS computational cost.",
+      "Monte Carlo simulation evaluates workflow scenarios through probabilistic inputs generating distribution of outcomes. Risk analysis quantifies project completion times and resource utilization under uncertainty, supporting capacity planning and schedule management decisions.",
+      "Detached Eddy Simulation (DES) combines RANS near walls with LES in separated regions, balancing accuracy and computational efficiency. Delayed DES (DDES) prevents premature LES mode in attached boundary layers where RANS performs adequately.",
+      "Agent-based modeling simulates individual entities following behavioral rules with emergent system-level patterns. Pedestrian flow in stadiums, customer behavior in retail, and emergency evacuation dynamics modeled through autonomous agents interacting with environment and each other."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_049",
+    "num_docs": 6
+  },
+  {
+    "query": "Python testing frameworks and methodologies",
+    "docs": [
+      "Pytest provides powerful fixture system for test setup/teardown with dependency injection. Parametrized tests reduce code duplication while testing multiple inputs, and plugins extend functionality for coverage reporting, parallel execution, and mocking.",
+      "Python senses include chemoreception via tongue/vomeronasal organ, thermoreception through pit organs, mechanoreception for vibration detection, and vision adapted to low-light conditions. Absence of external ears limits hearing to ground-borne vibrations.",
+      "Unittest framework follows xUnit architecture with setUp/tearDown methods and assertion helpers. Test discovery automatically finds test cases, while mock module enables dependency isolation by replacing components with controlled test doubles.",
+      "Defensive behavior includes hissing, striking, and constriction when threatened. Ball pythons curl into defensive ball hiding head, while reticulated pythons strike aggressively. Musk glands release foul-smelling secretions deterring predators.",
+      "Test-driven development (TDD) writes failing tests before implementation, driving design through test requirements. Red-green-refactor cycle ensures code coverage while maintaining simplicity through incremental development and continuous refactoring.",
+      "Python captive care requires appropriate enclosure sizing (minimum length equal to snake length), temperature gradient 75-90°F, humidity 50-70%, hiding spots, and water bowl. Feeding frequency decreases with age from weekly juveniles to monthly adults."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_050",
+    "num_docs": 6
+  }
+]

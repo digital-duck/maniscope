@@ -11,8 +11,8 @@ maniscope/
 ├── maniscope/              # Core package
 │   ├── __init__.py        # Package initialization and exports
 │   └── engine.py          # ManiscopeEngine core implementation
-├── examples/              # Usage examples
-│   └── basic_usage.py    # Basic usage demonstration
+├── demo/              # Usage examples
+│   └── basic_demo.py    # Basic usage demonstration
 ├── tests/                 # Unit tests
 │   └── test_engine.py    # Engine tests (pytest)
 ├── docs/                  # Documentation (placeholder)
@@ -96,7 +96,7 @@ pytest tests/
 
 ```bash
 cd ~/projects/digital-duck/maniscope
-python examples/basic_usage.py
+python demo/basic_demo.py
 ```
 
 ## Dependencies
@@ -125,7 +125,7 @@ python examples/basic_usage.py
 
 1. ✅ Test package installation: `pip install -e .`
 2. ✅ Run unit tests: `pytest tests/`
-3. ✅ Run example: `python examples/basic_usage.py`
+3. ✅ Run example: `python demo/basic_demo.py`
 4. 📦 Create GitHub repository
 5. 📝 Add comprehensive docstrings
 6. 🚀 Publish to PyPI

@@ -61,7 +61,7 @@ Created `ManiscopeEngine__v1`, an optimized version of `ManiscopeEngine` with si
 - Added tests for `ManiscopeEngine__v1`: initialization, fitting, search, caching, performance comparison
 - All 17 tests pass
 
-### `examples/basic_usage.py`
+### `demo/basic_demo.py`
 - Added performance comparison section using `compare_performance()`
 
 ### `AGENTS.md` (created)
@@ -95,7 +95,7 @@ pytest tests/test_engine.py -k "v1"
 pytest tests/test_engine.py::test_performance_comparison
 
 # Run example with comparison
-python examples/basic_usage.py
+python demo/basic_demo.py
 
 # Run detailed benchmark
 python benchmark_comparison.py

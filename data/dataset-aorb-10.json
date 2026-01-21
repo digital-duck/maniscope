@@ -1,0 +1,216 @@
+[
+  {
+    "query": "Python breeding habits and reproduction",
+    "docs": [
+      "Ball pythons (Python regius) are oviparous snakes, laying clutches of 4-10 eggs. Female pythons exhibit maternal care by coiling around their eggs and using muscular contractions to regulate temperature during the 55-60 day incubation period. They can raise egg temperature by up to 7\u00b0C above ambient through thermogenesis.",
+      "Python 3.11 introduces improved error messages and performance optimizations. The new exception groups feature allows multiple exceptions to be raised and handled simultaneously, making error handling more robust in concurrent programming scenarios.",
+      "Reticulated pythons reach sexual maturity at 3-4 years of age. Breeding season typically occurs between September and March, with females producing pheromones to attract males. Multiple males may compete for a single female, engaging in combat rituals.",
+      "The asyncio library in Python provides infrastructure for writing concurrent code using async/await syntax. It is particularly useful for IO-bound and high-level structured network programming, handling multiple connections simultaneously.",
+      "Green tree pythons undergo ontogenetic color change, with juveniles being bright yellow or red before transitioning to the characteristic green coloration at 6-12 months of age. This adaptation helps camouflage them in rainforest canopies.",
+      "Django web framework supports multiple database backends including PostgreSQL, MySQL, and SQLite. The Object-Relational Mapping (ORM) system allows developers to interact with databases using Python objects rather than SQL queries.",
+      "Python eggs require specific humidity levels between 90-100% for successful development. Artificial incubation typically uses vermiculite or perlite substrate to maintain consistent moisture while allowing gas exchange.",
+      "NumPy arrays provide efficient storage and operations for homogeneous numerical data. Broadcasting rules allow arithmetic operations between arrays of different shapes, making vectorized computations significantly faster than iterative approaches."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0,
+      "6": 1,
+      "7": 0
+    },
+    "query_id": "aorb_001",
+    "num_docs": 8
+  },
+  {
+    "query": "How to handle exceptions in Python programs",
+    "docs": [
+      "Python's try-except blocks allow graceful error handling. The finally clause executes regardless of whether an exception occurred, making it ideal for cleanup operations like closing file handles or database connections.",
+      "Pythons are ambush predators that rely on heat-sensing pits to detect warm-blooded prey in complete darkness. These thermoreceptors can detect temperature differences as small as 0.003\u00b0C, allowing accurate strikes at prey.",
+      "Custom exception classes should inherit from the Exception base class. Well-designed exceptions include descriptive names and helpful error messages, following the principle that errors should never pass silently unless explicitly silenced.",
+      "Burmese pythons are invasive species in the Florida Everglades, with populations estimated at over 100,000 individuals. They have decimated native mammal populations, with studies showing 90% declines in raccoon and opossum sightings.",
+      "Context managers using the 'with' statement ensure proper resource acquisition and release. The __enter__ and __exit__ methods define setup and teardown behavior, preventing resource leaks even when exceptions occur.",
+      "Python constriction mechanics involve applying pressure of 20-30 kPa, which disrupts blood flow rather than causing asphyxiation. Death in prey typically results from circulatory arrest within 3-5 minutes of constriction initiation."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_002",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple orchard management techniques",
+    "docs": [
+      "Optimal apple tree spacing depends on rootstock vigor, with dwarf varieties planted at 6x12 feet and standard trees requiring 18x25 feet. High-density orchards maximize yield per acre but require intensive pruning and support systems.",
+      "Apple's M2 chip features an 8-core CPU with 4 performance cores and 4 efficiency cores, delivering 18% better performance than M1. The 10-core GPU provides 35% faster graphics processing for professional creative workflows.",
+      "Integrated pest management in apple orchards combines biological controls, pheromone traps, and targeted pesticide applications. Monitoring codling moth populations using degree-day models allows precise timing of interventions.",
+      "The App Store generated $72.3 billion in revenue in 2022, with Apple taking a 30% commission on most transactions. Small developers earning under $1 million annually qualify for reduced 15% commission rates.",
+      "Apple varieties require specific chill hours (temperatures below 45\u00b0F) for proper dormancy and fruit set. Honeycrisp requires 800-1000 hours, while Fuji needs only 300-400, making variety selection climate-dependent.",
+      "iOS 17 introduces interactive widgets that respond to taps without launching apps. StandBy mode transforms iPhones into smart displays when charging horizontally, showing clocks, photos, and widgets."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_005",
+    "num_docs": 6
+  },
+  {
+    "query": "Apple stock price prediction 2024",
+    "docs": [
+      "Apple Inc. (AAPL) closed Q3 2023 with market capitalization of $2.8 trillion. Analysts project EPS growth of 8-12% driven by services revenue expansion and Vision Pro adoption, with price targets ranging from $180-220.",
+      "Apple scab (Venturia inaequalis) causes significant economic losses in apple production. Resistant varieties like Liberty and Enterprise reduce fungicide dependency, while susceptible cultivars require 8-12 seasonal applications.",
+      "iPhone revenue contributes 52% of total Apple revenue, with services segment growing 14% year-over-year. China market represents 18% of sales, with regulatory risks and competition from Huawei affecting growth forecasts.",
+      "Honeycrisp apples command premium retail prices of $3-5 per pound due to controlled variety licensing and superior eating quality. Production challenges include biennial bearing and susceptibility to bitter pit.",
+      "Apple's services ecosystem including iCloud, Apple Music, and Apple TV+ generated $21.2 billion in Q3 2023. Gross margin on services exceeds 70%, significantly higher than hardware's 35-40% margins.",
+      "Post-harvest apple storage utilizes controlled atmosphere (CA) facilities maintaining 2-3% oxygen and 1-3% CO2. SmartFresh (1-MCP) treatment extends storage life by blocking ethylene receptors, preserving firmness for 12+ months."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_007",
+    "num_docs": 6
+  },
+  {
+    "query": "Java coffee bean cultivation methods",
+    "docs": [
+      "Java Arabica coffee thrives at elevations of 1000-1700 meters with annual rainfall of 1500-3000mm. Volcanic soils rich in organic matter and minerals contribute to the distinctive earthy, full-bodied flavor profile.",
+      "Java Virtual Machine (JVM) employs just-in-time (JIT) compilation to convert bytecode into native machine instructions during runtime. The HotSpot compiler identifies frequently executed code paths and applies aggressive optimizations.",
+      "Traditional shade-grown Java coffee intercropped with Leucaena and Erythrina trees produces superior beans while maintaining biodiversity. Shade reduces temperature stress and extends cherry maturation for complex flavor development.",
+      "Spring Framework's dependency injection container manages object lifecycle and relationships. The @Autowired annotation enables automatic wiring of beans, while @Configuration classes define bean definitions using Java-based configuration.",
+      "Wet-hull processing, distinctive to Indonesian coffee, involves removing parchment before final drying when moisture content reaches 20-24%. This method produces Java coffee's characteristic low acidity and heavy body.",
+      "Java garbage collection algorithms include Serial GC for single-threaded applications, Parallel GC for throughput, and G1 GC for low-latency requirements. Tuning heap size and GC strategy based on application needs optimizes performance."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_008",
+    "num_docs": 6
+  },
+  {
+    "query": "Java tourism destinations and attractions",
+    "docs": [
+      "Prambanan temple complex showcases 9th-century Hindu architecture with 47-meter tall Shiva temple as centerpiece. Evening Ramayana ballet performances against illuminated temples attract 1.3 million visitors annually.",
+      "HashMap in Java provides O(1) average-case performance for get() and put() operations using hash codes. Load factor of 0.75 balances memory usage against performance, triggering rehashing when capacity threshold is exceeded.",
+      "Bogor Botanical Gardens spans 87 hectares containing 15,000 plant species including giant water lilies and rare palms. Established in 1817, it serves both conservation and research functions while attracting 500,000 tourists yearly.",
+      "Java Streams API enables functional-style operations on collections. Methods like filter(), map(), and reduce() support lazy evaluation and parallel processing, improving code readability and performance for data transformations.",
+      "Bromo Tengger Semeru National Park features volcanic landscapes with Mount Bromo's smoking crater accessible via sunrise jeep tours. Annual Kasada ceremony sees Tenggerese Hindus throw offerings into the active caldera.",
+      "Multithreading in Java uses Thread class or Runnable interface to create concurrent execution paths. Synchronized keyword and java.util.concurrent package provide thread-safe operations and high-level concurrency utilities."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_010",
+    "num_docs": 6
+  },
+  {
+    "query": "Surface temperature of Mercury measurements",
+    "docs": [
+      "Mercury's dayside temperature reaches 430\u00b0C (800\u00b0F) while nightside plunges to -180\u00b0C (-290\u00b0F), creating the solar system's largest temperature variation. Lack of atmosphere prevents heat distribution, causing extreme diurnal swings.",
+      "Mercury thermometers contain liquid elemental mercury that expands predictably with temperature. Clinical thermometers typically span 35-42\u00b0C, while laboratory models range from -39\u00b0C (mercury's freezing point) to 357\u00b0C.",
+      "MESSENGER spacecraft revealed Mercury's surface composition includes high concentrations of sulfur and potassium, suggesting volatile-rich formation. Radar-bright deposits in permanently shadowed polar craters likely contain water ice.",
+      "Mercury toxicity manifests through neurological symptoms including tremors, cognitive deficits, and peripheral neuropathy. Organic mercury compounds like methylmercury bioaccumulate in fish, with predatory species containing highest concentrations.",
+      "BepiColombo mission's dual spacecraft will study Mercury's magnetic field generation despite the planet's small size. The magnetosphere, only 1% as strong as Earth's, still deflects solar wind through poorly understood mechanisms.",
+      "Mercury sphygmomanometers measure blood pressure using a column of mercury rising against gravity. Digital devices have largely replaced them in clinical settings due to mercury hazard concerns, though mercury models remain calibration standards."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_011",
+    "num_docs": 6
+  },
+  {
+    "query": "Mercury poisoning symptoms and treatment",
+    "docs": [
+      "Acute mercury exposure causes gastrointestinal damage, renal failure, and respiratory distress. Chelation therapy using DMSA or DMPS binds mercury for urinary excretion, though treatment efficacy decreases as mercury redistributes to brain tissue.",
+      "Mercury's orbital eccentricity of 0.206 produces significant variation in solar distance from 46 to 70 million km. This elliptical orbit combined with 3:2 spin-orbit resonance creates unique conditions where some locations experience double sunrises.",
+      "Chronic mercury exposure in dental professionals and miners historically caused erethism (mad hatter disease), characterized by irritability, social withdrawal, and tremors. Occupational exposure limits now set at 0.05 mg/m\u00b3 for elemental mercury vapor.",
+      "Mercury's cratered highlands resemble lunar terrain, but intercrater plains formed through volcanic flooding differ from Moon's maria. Hokusai crater's bright ray system extends 1000 km, marking relatively recent impact events.",
+      "Minamata disease resulted from industrial methylmercury discharge contaminating fish in Japan's Minamata Bay. Over 2000 cases documented severe neurological damage including ataxia, sensory disturbances, and congenital defects in exposed infants.",
+      "Mercury has the highest density of terrestrial planets at 5.43 g/cm\u00b3, indicating a large iron core comprising 85% of planetary radius. The thin silicate mantle suggests a giant impact stripped away lighter materials early in formation."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_012",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar habitat and conservation status",
+    "docs": [
+      "Jaguars (Panthera onca) inhabit diverse ecosystems from Mexican forests to Argentine wetlands, requiring large territories of 25-150 km\u00b2. Pantanal populations maintain highest densities with prey biomass supporting one jaguar per 20 km\u00b2.",
+      "Jaguar Land Rover's manufacturing facilities in Castle Bromwich and Solihull produce 300,000 vehicles annually. The transition to electric vehicle platforms includes \u00a315 billion investment in battery technology and charging infrastructure development.",
+      "Jaguar populations declined 50% over past century due to habitat fragmentation and prey depletion. IUCN Near Threatened status reflects conservation concerns, with Panthera's Jaguar Corridor Initiative protecting genetic connectivity across 18 countries.",
+      "The Jaguar F-Type sports car features supercharged V8 engines producing 575 horsepower with 0-60 mph acceleration in 3.5 seconds. Aluminum monocoque construction reduces weight to 1665 kg, optimizing power-to-weight ratio.",
+      "Camera trap studies reveal jaguars exhibit melanistic (black panther) variants at 6% frequency in Amazon populations. Melanistic individuals result from dominant allele expression, offering potential thermoregulatory advantages in dense forest habitats.",
+      "Jaguar's I-PACE electric SUV delivers 394 horsepower through dual motors with 90 kWh battery providing 470 km range. Rapid charging capability restores 80% capacity in 45 minutes using 100 kW DC fast chargers."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_014",
+    "num_docs": 6
+  },
+  {
+    "query": "Jaguar performance specifications and features",
+    "docs": [
+      "Jaguar XJ sedan features adaptive air suspension adjusting ride height and damping based on driving conditions. The 5.0L supercharged V8 generates 550 hp, reaching 100 km/h in 4.4 seconds with electronically limited 250 km/h top speed.",
+      "Jaguar bite force exceeds 1500 PSI, strongest among big cats relative to size. Unique killing technique involves skull penetration through temporal bones, directly accessing prey's brain. Powerful jaws enable consumption of turtle shells and armored caiman.",
+      "The F-PACE SVR performance SUV combines 550 hp supercharged V8 with all-wheel drive and active differential. Torque vectoring distributes power between rear wheels, improving cornering dynamics while maintaining practical 650-liter cargo capacity.",
+      "Jaguars are apex predators controlling ecosystem dynamics through trophic cascades. By regulating capybara and peccary populations, jaguars indirectly influence vegetation structure and riverbank erosion patterns in Pantanal wetlands.",
+      "Jaguar's Meridian sound systems feature 26 speakers with dual-channel subwoofers and 1300W amplification. Digital signal processing compensates for cabin acoustics, while Quantum Logic Surround technology creates immersive three-dimensional soundstage.",
+      "Unlike most felids, jaguars exhibit strong swimming ability and preference for aquatic habitats. They regularly hunt caimans, river turtles, and fish, with documented cases of individuals swimming 15+ km across river channels."
+    ],
+    "relevance_map": {
+      "0": 1,
+      "1": 0,
+      "2": 1,
+      "3": 0,
+      "4": 1,
+      "5": 0
+    },
+    "query_id": "aorb_015",
+    "num_docs": 6
+  }
+]

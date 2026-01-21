@@ -1,3 +1,5 @@
+# archive/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -63,13 +65,20 @@ venv.bak/
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# Model checkpoints and data
+# Model checkpoints
 models/
-data/
 *.pt
 *.pth
 *.h5
-*.pkl
+
+# Streamlit app artifacts
+.streamlit/
+output/
+results/
+*.xlsx
+
+# Note: data/ is included in repo for reproducibility
+# data/
 
 # Environment variables
 .env

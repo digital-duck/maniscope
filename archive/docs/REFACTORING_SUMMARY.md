@@ -13,8 +13,8 @@
 ├── maniscope/              # Core package
 │   ├── __init__.py        # v1.0.0, exports ManiscopeEngine
 │   └── engine.py          # Core implementation (450 lines)
-├── examples/
-│   └── basic_usage.py    # Working demo
+├── demo/
+│   └── basic_demo.py    # Working demo
 ├── tests/
 │   └── test_engine.py    # pytest test suite
 ├── setup.py              # Package installer
@@ -102,7 +102,7 @@ ManiscopeEngine(
 **Testing**:
 - Added 4 new tests: `test_caching_enabled`, `test_caching_disabled`, `test_cache_invalidation`, `test_cache_directory_creation`
 - All 11 tests pass (7 original + 4 caching)
-- Created `examples/caching_demo.py` to demonstrate benefits
+- Created `demo/caching_demo.py` to demonstrate benefits
 
 ### 6. Testing
 
@@ -124,7 +124,7 @@ print('Works!')
 pytest tests/
 
 # ✅ Example runs
-python examples/basic_usage.py
+python demo/basic_demo.py
 ```
 
 ## Key Accomplishments
