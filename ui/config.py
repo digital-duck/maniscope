@@ -107,6 +107,39 @@ DATASETS = [
         "priority": 2,  # NeurIPS
         "description": "Financial question answering"
     },
+    # New BEIR Datasets (Weekend Expansion - Multilingual Focus)
+    {
+        "name": "NFCorpus",
+        "file": "dataset-nfcorpus.json",
+        "short": "nfc",
+        "queries": 323,
+        "priority": 1,  # arXiv/ICML v4.0
+        "description": "Medical/nutrition information retrieval (English)"
+    },
+    {
+        "name": "FEVER",
+        "file": "dataset-fever.json",
+        "short": "fever",
+        "queries": 200,
+        "priority": 1,  # arXiv/ICML v4.0
+        "description": "Fact extraction and verification (English)"
+    },
+    {
+        "name": "MIRACL",
+        "file": "dataset-miracl.json",
+        "short": "miracl",
+        "queries": 200,
+        "priority": 1,  # arXiv/ICML v4.0 - Multilingual
+        "description": "🌍 Multilingual Information Retrieval Across Continents and Languages"
+    },
+    {
+        "name": "Mr. TyDi",
+        "file": "dataset-mrtydi.json",
+        "short": "mrtydi",
+        "queries": 200,
+        "priority": 1,  # arXiv/ICML v4.0 - Multilingual
+        "description": "🌍 Multilingual Typologically Diverse Question Answering"
+    },
 ]
 
 # ============================================================================
@@ -114,19 +147,31 @@ DATASETS = [
 # ============================================================================
 
 RE_RANKERS = [
-    "Maniscope",
+    "Maniscope",  # Uses version from sidebar dropdown
+    "Maniscope_v0",  # Explicit baseline (CPU, no caching) - 115ms avg
+    "Maniscope_v2o",  # Explicit v2o (GPU + all optimizations) - 0.4-20ms avg
+    "HNSW",  # Baseline - CPU only, no caching
+    "HNSW_v2o",  # Optimized - GPU + caching (3-10× faster)
+    "Jina Reranker v2",  # Baseline - CPU only, no caching
+    "Jina Reranker v2_v2o",  # Optimized - GPU + caching (3-5× faster)
+    "BGE-M3",  # Baseline - no explicit optimizations
+    "BGE-M3_v2o",  # Optimized - GPU + caching (2-3× faster)
     "LLM-Reranker",
-    "Jina Reranker v2",
-    "BGE-M3",
     # "Qwen-1.5B"  # Commented out - poor performance (MRR 0.3785)
 ]
 
 # Short names for filenames
 RERANKER_SHORT_MAP = {
     'Maniscope': 'mani',
-    'BGE-M3': 'bge',
-    'LLM-Reranker': 'llm',
+    'Maniscope_v0': 'mani_v0',
+    'Maniscope_v2o': 'mani_v2o',
+    'HNSW': 'hnsw',
+    'HNSW_v2o': 'hnsw_v2o',
     'Jina Reranker v2': 'jina',
+    'Jina Reranker v2_v2o': 'jina_v2o',
+    'BGE-M3': 'bge',
+    'BGE-M3_v2o': 'bge_v2o',
+    'LLM-Reranker': 'llm',
     'Qwen-1.5B': 'qwen'
 }
 
@@ -186,6 +231,48 @@ MANISCOPE_VERSIONS = {
 }
 
 # ============================================================================
+# Embedding Models Configuration (Weekend Expansion - Robustness Testing)
+# ============================================================================
+
+EMBEDDING_MODELS = [
+    {
+        "name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "short": "ml-minilm",
+        "dimensions": 384,
+        "description": "🌍 Multilingual MiniLM - 50+ languages, compact and fast",
+        "languages": "50+ languages",
+        "priority": 1  # New baseline - multilingual
+    },
+    {
+        "name": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
+        "short": "ml-mpnet",
+        "dimensions": 768,
+        "description": "🌍 Multilingual MPNet - 50+ languages, higher quality",
+        "languages": "50+ languages",
+        "priority": 1  # Weekend expansion - multilingual
+    },
+    {
+        "name": "intfloat/multilingual-e5-large",
+        "short": "ml-e5",
+        "dimensions": 1024,
+        "description": "🌍 Multilingual E5 Large - 100+ languages, SOTA performance",
+        "languages": "100+ languages",
+        "priority": 1  # Weekend expansion - multilingual
+    },
+    {
+        "name": "BAAI/bge-m3",
+        "short": "bge-m3",
+        "dimensions": 1024,
+        "description": "🌍 BGE-M3 - 100+ languages, multi-functionality, multi-granularity",
+        "languages": "100+ languages",
+        "priority": 1  # Weekend expansion - multilingual
+    },
+]
+
+# Default embedding model for Maniscope (now multilingual)
+DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+
+# ============================================================================
 # LLM ReRanker Configuration
 # ============================================================================
 
@@ -208,7 +295,7 @@ DEFAULT_OLLAMA_URL = "http://localhost:11434/v1"
 # ============================================================================
 
 METRICS_TO_PLOT = ["MRR", "NDCG@3", "NDCG@10", "MAP", "P@3", "R@10"]
-DEFAULT_METRICS = ["MRR", "NDCG@1", "NDCG@3", "NDCG@10", "P@1", "P@3", "P@10", "R@10", "MAP"]
+DEFAULT_METRICS = ["MRR", "NDCG@1", "NDCG@3", "NDCG@5", "NDCG@10", "P@1", "P@3", "P@5", "P@10", "R@10", "MAP"]
 
 # ============================================================================
 # UI Configuration
@@ -220,7 +307,13 @@ PAGE_LAYOUT = "wide"
 # Color scheme for charts (optional)
 COLORS = {
     "Maniscope": "#FF6B6B",
+    "Maniscope_v0": "#FF9999",  # Light red - baseline
+    "Maniscope_v2o": "#CC0000",  # Dark red - ultimate optimization
     "LLM-Reranker": "#4ECDC4",
     "Jina Reranker v2": "#45B7D1",
-    "BGE-M3": "#96CEB4"
+    "Jina Reranker v2_v2o": "#1E90FF",  # Dodger blue - v2o variant
+    "BGE-M3": "#96CEB4",
+    "BGE-M3_v2o": "#4CAF50",  # Green - v2o variant
+    "HNSW": "#FFA07A",  # Light salmon - graph-based baseline
+    "HNSW_v2o": "#FF6347"  # Tomato - graph-based v2o
 }

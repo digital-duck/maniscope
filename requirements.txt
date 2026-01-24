@@ -31,6 +31,7 @@ xlsxwriter>=3.0.0
 FlagEmbedding>=1.0.0
 openai>=1.0.0  # For LLM reranker via API
 einops>=0.6.0  # Required for Jina Reranker v2
+hnswlib>=0.7.0  # Required for HNSW reranker baseline
 
 # Optional: Dataset preparation
 mteb>=1.0.0

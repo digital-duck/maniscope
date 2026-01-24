@@ -200,8 +200,8 @@ def calculate_all_metrics(rankings: List[int], relevance_map: Dict[str, int]) ->
 
     Computes:
     - MRR (Mean Reciprocal Rank)
-    - NDCG@1, NDCG@3, NDCG@10 (Normalized Discounted Cumulative Gain)
-    - P@1, P@3, P@10 (Precision at K)
+    - NDCG@1, NDCG@3, NDCG@5, NDCG@10 (Normalized Discounted Cumulative Gain)
+    - P@1, P@3, P@5, P@10 (Precision at K)
     - R@10 (Recall at 10)
     - MAP (Mean Average Precision)
 
@@ -223,9 +223,11 @@ def calculate_all_metrics(rankings: List[int], relevance_map: Dict[str, int]) ->
         "MRR": calculate_mrr(rankings, relevance_map),
         "NDCG@1": calculate_ndcg(rankings, relevance_map, k=1),
         "NDCG@3": calculate_ndcg(rankings, relevance_map, k=3),
+        "NDCG@5": calculate_ndcg(rankings, relevance_map, k=5),
         "NDCG@10": calculate_ndcg(rankings, relevance_map, k=10),
         "P@1": calculate_precision_at_k(rankings, relevance_map, k=1),
         "P@3": calculate_precision_at_k(rankings, relevance_map, k=3),
+        "P@5": calculate_precision_at_k(rankings, relevance_map, k=5),
         "P@10": calculate_precision_at_k(rankings, relevance_map, k=10),
         "R@10": calculate_recall_at_k(rankings, relevance_map, k=10),
         "MAP": calculate_map(rankings, relevance_map)

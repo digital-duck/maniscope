@@ -3,7 +3,9 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 
-**Maniscope** is a lightweight geometric reranking method that leverages geodesic distances on k-nearest neighbor manifolds for efficient and accurate information retrieval. It combines global cosine similarity (telescope) with local manifold geometry (microscope) to achieve state-of-the-art retrieval quality with sub-5ms latency.
+**Maniscope** is a lightweight geometric reranking method that leverages geodesic distances on k-nearest neighbor manifolds for efficient and accurate information retrieval. It combines global cosine similarity (telescope) with local manifold geometry (microscope) to achieve state-of-the-art retrieval quality with sub-20ms latency.
+
+
 
 ## Key Features
 
@@ -14,7 +16,21 @@
 - **📊 Robust**: Handles disconnected graph components gracefully via hybrid scoring
 - **🔧 Simple**: Clean API, easy integration with existing RAG systems
 
-## Installation
+## Demo
+
+Real-world benchmark on AorB dataset (10 queries, warm cache):
+
+![Benchmark Results](./docs/batch-benchmark-warm-2026-01-24-08-27-41.png)
+
+**Highlights:**
+- ✅ **Maniscope: 8.2ms** - Fastest reranker with perfect accuracy (MRR=1.0)
+- ✅ **13× faster than Jina v2** (177.7ms), **134× faster than BGE-M3** (1100.2ms), **273× faster than LLM** (2235.9ms)
+- ✅ **All methods achieve perfect rankings** (MRR=1.0, NDCG@3=1.0) - Maniscope matches SOTA accuracy at fraction of latency
+
+
+## Quick Start
+
+### Installation
 
 ```bash
 conda create -n maniscope python=3.11 -y
@@ -30,12 +46,11 @@ pip install -e .
 ```
 
 ```bash
-pip install maniscope
+pip install maniscope  # coming soon
 ```
 
-## Quick Start
 
-### Option 1: Interactive Evaluation App (Recommended)
+### Option 1: Streamlit App (Recommended)
 
 Launch the Streamlit evaluation interface to benchmark and visualize results:
 
@@ -89,85 +104,6 @@ comparison = engine.compare_methods("What is Python?", top_n=5)
 print(f"Ranking changed: {comparison['ranking_changed']}")
 ```
 
-## Optimization Versions
-
-Maniscope provides multiple optimization levels for different use cases:
-
-| Version | Description | Speedup | Best For |
-|---------|-------------|---------|----------|
-| **v0** | Baseline (CPU, no cache) | 1.0× | Reference |
-| **v1** | Efficient k-NN construction | 17.8× | Early optimization |
-| **v2** | Heap-based Dijkstra | 22.0× | Reduced overhead |
-| **v2o** | 🌟 **RECOMMENDED** - SciPy optimized | **13.2×** | Production |
-| **v3** | Persistent cache + query LRU | Variable | Repeated experiments |
-
-**v2o Performance (Real-World Results on 8 BEIR datasets, 1,233 queries):**
-- Average latency: 4.7ms (3.2× faster than HNSW at 14.8ms)
-- Outperforms HNSW on hardest datasets (NFCorpus, TREC-COVID, AorB)
-- 10-45× faster than cross-encoder rerankers
-- Within 2% of best cross-encoder accuracy (Jina v2)
-
-### Using Optimized Versions
-
-```python
-# v2o: Ultimate optimization (recommended)
-from maniscope import ManiscopeEngine_v2o
-engine = ManiscopeEngine_v2o(
-    k=5, alpha=0.5,
-    device=None,       # Auto-detect GPU
-    use_cache=True,    # Persistent disk cache
-    use_faiss=True     # GPU-accelerated k-NN
-)
-
-# v3: CPU-friendly with caching
-from maniscope import ManiscopeEngine_v3
-engine = ManiscopeEngine_v3(k=5, alpha=0.5, use_cache=True)
-
-# v2: Fast cold-cache performance
-from maniscope import ManiscopeEngine_v2
-engine = ManiscopeEngine_v2(k=5, alpha=0.5, use_faiss=True)
-
-# v1: Simple GPU acceleration
-from maniscope import ManiscopeEngine_v1
-engine = ManiscopeEngine_v1(k=5, alpha=0.5)
-
-# v0: Baseline
-from maniscope import ManiscopeEngine
-engine = ManiscopeEngine(k=5, alpha=0.5)
-```
-
-## Advanced Configuration
-
-### Embedding Cache
-
-Maniscope automatically caches document embeddings to disk to avoid recomputation. This is especially valuable when:
-- Testing different `k` and `alpha` parameters on the same corpus
-- Re-running experiments after code changes
-- Benchmarking multiple rerankers on the same dataset
-
-```python
-engine = ManiscopeEngine_v2o(
-    model_name='all-MiniLM-L6-v2',
-    k=5,
-    alpha=0.5,
-    cache_dir='~/projects/embedding_cache/maniscope',  # Custom cache location
-    use_cache=True,           # Enable persistent disk cache
-    query_cache_size=100      # LRU cache for 100 queries
-)
-```
-
-**Cache behavior:**
-- Cache files are stored in `cache_dir` (default: `~/projects/embedding_cache/maniscope`)
-- Cache key is computed from document content + model name
-- Embeddings are automatically loaded from cache if available
-- Query LRU cache stores recent query embeddings in memory
-
-**Benefits:**
-- Avoid expensive re-encoding when testing different parameters
-- Faster iteration during development
-- Reduced computation time for batch benchmarking
-- Query cache provides instant response for repeated queries
-
 ## How It Works
 
 Maniscope uses a two-stage retrieval architecture:
@@ -219,33 +155,95 @@ Each dataset includes:
 
 See `data/` directory for all datasets.
 
-## Cleanup (after evaluation)
+
+
+## Advanced Engine Configuration
+
+
+### Optimization Versions
+
+Maniscope provides multiple optimization levels for different use cases:
+
+| Version | Description | Speedup | Best For |
+|---------|-------------|---------|----------|
+| **v0** | Baseline (CPU, no cache) | 1.0× | Reference |
+| **v1** | Efficient k-NN construction | 17.8× | Early optimization |
+| **v2** | Heap-based Dijkstra | 22.0× | Reduced overhead |
+| **v2o** | 🌟 **RECOMMENDED** - SciPy optimized | **13.2×** | Production |
+| **v3** | Persistent cache + query LRU | Variable | Repeated experiments |
+
+**v2o Performance (Real-World Results on 8 BEIR datasets, 1,233 queries):**
+- Average latency: 4.7ms (3.2× faster than HNSW at 14.8ms)
+- Outperforms HNSW on hardest datasets (NFCorpus, TREC-COVID, AorB)
+- 10-45× faster than cross-encoder rerankers
+- Within 2% of best cross-encoder accuracy (Jina v2)
+
+#### Using Optimized Versions
+
+```python
+# v2o: Ultimate optimization (recommended)
+from maniscope import ManiscopeEngine_v2o
+engine = ManiscopeEngine_v2o(
+    k=5, alpha=0.5,
+    device=None,       # Auto-detect GPU
+    use_cache=True,    # Persistent disk cache
+    use_faiss=True     # GPU-accelerated k-NN
+)
+
+# v3: CPU-friendly with caching
+from maniscope import ManiscopeEngine_v3
+engine = ManiscopeEngine_v3(k=5, alpha=0.5, use_cache=True)
+
+# v2: Fast cold-cache performance
+from maniscope import ManiscopeEngine_v2
+engine = ManiscopeEngine_v2(k=5, alpha=0.5, use_faiss=True)
+
+# v1: Simple GPU acceleration
+from maniscope import ManiscopeEngine_v1
+engine = ManiscopeEngine_v1(k=5, alpha=0.5)
+
+# v0: Baseline
+from maniscope import ManiscopeEngine
+engine = ManiscopeEngine(k=5, alpha=0.5)
+```
+
+
+### Embedding Cache
+
+Maniscope automatically caches document embeddings to disk to avoid recomputation. This is especially valuable when:
+- Testing different `k` and `alpha` parameters on the same corpus
+- Re-running experiments after code changes
+- Benchmarking multiple rerankers on the same dataset
+
+```python
+engine = ManiscopeEngine_v2o(
+    model_name='all-MiniLM-L6-v2',
+    k=5,
+    alpha=0.5,
+    cache_dir='~/projects/embedding_cache/maniscope',  # Custom cache location
+    use_cache=True,           # Enable persistent disk cache
+    query_cache_size=100      # LRU cache for 100 queries
+)
+```
+
+**Cache behavior:**
+- Cache files are stored in `cache_dir` (default: `~/projects/embedding_cache/maniscope`)
+- Cache key is computed from document content + model name
+- Embeddings are automatically loaded from cache if available
+- Query LRU cache stores recent query embeddings in memory
+
+**Benefits:**
+- Avoid expensive re-encoding when testing different parameters
+- Faster iteration during development
+- Reduced computation time for batch benchmarking
+- Query cache provides instant response for repeated queries
+
+
+## Cleanup (optional - after evaluation)
 
 ```bash
 conda env remove -n maniscope  
 ```
-
-## Performance
-
-Benchmarked on 8 BEIR datasets (1,233 queries total):
-
-| Dataset | Queries | MRR | NDCG@3 | Latency | Speedup vs HNSW |
-|---------|---------|-----|--------|---------|-----------------|
-| **NFCorpus** | 323 | 0.8247 | **0.7063** | 4.6ms | 3.7× |
-| **TREC-COVID** | 50 | 1.0000 | **0.9659** | 4.5ms | 3.9× |
-| **AorB** | 50 | 0.9483 | **0.8698** | 4.4ms | 1.4× |
-| **SciFact** | 100 | 0.9708 | 0.9739 | 4.6ms | 3.8× |
-| **ArguAna** | 100 | 0.9912 | 0.9900 | 5.4ms | 3.3× |
-| **FiQA** | 100 | 0.9814 | 0.9795 | 4.5ms | 3.7× |
-| **MS MARCO** | 200 | 1.0000 | 1.0000 | 4.6ms | 2.4× |
-| **FEVER** | 200 | 0.9975 | 0.9978 | 4.7ms | 3.1× |
-
-**Average: MRR 0.9642, NDCG@3 0.9354, 4.7ms latency, 3.2× faster than HNSW**
-
-**Key Results:**
-- Outperforms HNSW on hardest datasets: NFCorpus (+7.0%), TREC-COVID (+1.6%), AorB (+2.8% NDCG@3)
-- Within 2% of best cross-encoder (Jina v2) while being 10× faster
-- LLM-Reranker provides only +1.8% NDCG@3 improvement at 420× latency penalty
 
 ## Citation
 
