@@ -124,22 +124,23 @@ DATASETS = [
         "priority": 1,  # arXiv/ICML v4.0
         "description": "Fact extraction and verification (English)"
     },
-    {
-        "name": "MIRACL",
-        "file": "dataset-miracl.json",
-        "short": "miracl",
-        "queries": 200,
-        "priority": 1,  # arXiv/ICML v4.0 - Multilingual
-        "description": "🌍 Multilingual Information Retrieval Across Continents and Languages"
-    },
-    {
-        "name": "Mr. TyDi",
-        "file": "dataset-mrtydi.json",
-        "short": "mrtydi",
-        "queries": 200,
-        "priority": 1,  # arXiv/ICML v4.0 - Multilingual
-        "description": "🌍 Multilingual Typologically Diverse Question Answering"
-    },
+    # Multilingual datasets - Not yet implemented
+    # {
+    #     "name": "MIRACL",
+    #     "file": "dataset-miracl.json",
+    #     "short": "miracl",
+    #     "queries": 200,
+    #     "priority": 1,  # arXiv/ICML v4.0 - Multilingual
+    #     "description": "🌍 Multilingual Information Retrieval Across Continents and Languages"
+    # },
+    # {
+    #     "name": "Mr. TyDi",
+    #     "file": "dataset-mrtydi.json",
+    #     "short": "mrtydi",
+    #     "queries": 200,
+    #     "priority": 1,  # arXiv/ICML v4.0 - Multilingual
+    #     "description": "🌍 Multilingual Typologically Diverse Question Answering"
+    # },
 ]
 
 # ============================================================================

@@ -327,7 +327,9 @@ with tab2:
         query_text = result.get('query', '')[:80]
 
         model_scores = []
-        for model_name, model_data in result.get('models', {}).items():
+        # Backward compatibility: support both 'models' (old) and 'rerankers' (new)
+        models_data = result.get('models') or result.get('rerankers', {})
+        for model_name, model_data in models_data.items():
             score = model_data.get('metrics', {}).get(metric_for_heatmap, 0)
             model_scores.append(score)
 
@@ -380,11 +382,13 @@ with tab3:
     st.markdown("#### Latency Statistics")
 
     latency_stats = []
-    model_names = list(results[0].get('models', {}).keys())
+    # Backward compatibility: support both 'models' (old) and 'rerankers' (new)
+    first_result_models = results[0].get('models') or results[0].get('rerankers', {})
+    model_names = list(first_result_models.keys())
 
     for model_name in model_names:
         latencies = [
-            r.get('models', {}).get(model_name, {}).get('latency_ms', 0)
+            (r.get('models') or r.get('rerankers', {})).get(model_name, {}).get('latency_ms', 0)
             for r in results
         ]
 
@@ -423,7 +427,10 @@ with tab4:
         query_id = result.get('query_id', str(i))
         query_text = result.get('query', '')
 
-        for model_name, model_data in result.get('models', {}).items():
+        # Backward compatibility: support both 'models' (old) and 'rerankers' (new)
+        models_data = result.get('models') or result.get('rerankers', {})
+
+        for model_name, model_data in models_data.items():
             metrics = model_data.get('metrics', {})
             latency = model_data.get('latency_ms', 0)
 
