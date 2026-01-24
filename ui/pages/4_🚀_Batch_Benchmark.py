@@ -33,7 +33,15 @@ st.header("🚀 Batch Benchmark Execution")
 # ============================================================================
 
 # Import datasets and reranker mappings from config
-from config import DATASETS, RERANKER_SHORT_MAP, RE_RANKERS, MANISCOPE_VERSIONS, DEFAULT_MANISCOPE_VERSION
+from config import (
+    DATASETS,
+    RERANKER_SHORT_MAP,
+    RE_RANKERS,
+    MANISCOPE_VERSIONS,
+    DEFAULT_MANISCOPE_VERSION,
+    DEFAULT_MANISCOPE_K,
+    DEFAULT_MANISCOPE_ALPHA
+)
 
 # ============================================================================
 # Sidebar Configuration
@@ -44,19 +52,23 @@ with st.sidebar:
 
     # Dataset selection
     st.markdown("#### Datasets")
+    # Default to full datasets only (priority >= 1), exclude Quick test datasets
+    full_datasets = [d["name"] for d in DATASETS if d.get("priority", 0) >= 1]
     dataset_selection = st.multiselect(
         "Select Datasets",
         options=[d["name"] for d in DATASETS],
-        default=[d["name"] for d in DATASETS],
+        default=full_datasets,
         help="Choose which datasets to benchmark"
     )
 
     # ReRanker selection
     st.markdown("#### ReRankers")
+    # Default to Maniscope, Jina Reranker v2, and BGE-M3 (exclude LLM-Reranker)
+    default_rerankers = ["Maniscope", "Jina Reranker v2", "BGE-M3"]
     reranker_selection = st.multiselect(
         "Select ReRanker",
         options=RE_RANKERS,
-        default=RE_RANKERS,
+        default=default_rerankers,
         help="Choose which reranker to benchmark"
     )
 
@@ -68,7 +80,7 @@ with st.sidebar:
         "k (neighbors)",
         min_value=3,
         max_value=20,
-        value=5,
+        value=DEFAULT_MANISCOPE_K,
         step=1,
         help="Number of nearest neighbors for manifold graph"
     )
@@ -77,7 +89,7 @@ with st.sidebar:
         "α (hybrid weight)",
         min_value=0.0,
         max_value=1.0,
-        value=0.3,
+        value=DEFAULT_MANISCOPE_ALPHA,
         step=0.1,
         help="0=pure geodesic, 1=pure cosine"
     )

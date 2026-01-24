@@ -3,7 +3,12 @@ numpy>=1.21.0
 networkx>=2.6.0
 scikit-learn>=1.0.0
 sentence-transformers>=2.2.0
-torch>=1.10.0
+
+# PyTorch with CUDA 12.1 support
+# Install with: pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+torch>=2.0.0
+torchvision>=0.15.0
+torchaudio>=2.0.0
 
 # Optional: Advanced optimizations (v2, v2o)
 scipy>=1.7.0
@@ -12,6 +17,9 @@ joblib>=1.0.0
 # Optional: GPU acceleration (v2, v2o)
 # faiss-gpu>=1.7.0  # Uncomment for GPU support
 # faiss-cpu>=1.7.0  # Uncomment for CPU-only FAISS
+
+# Optional: Flash Attention for performance
+# flash-attn>=2.0.0  # Install with: pip install flash-attn --no-build-isolation
 
 # Streamlit evaluation app dependencies
 streamlit>=1.25.0
@@ -22,6 +30,7 @@ xlsxwriter>=3.0.0
 # Optional: Additional rerankers for comparison
 FlagEmbedding>=1.0.0
 openai>=1.0.0  # For LLM reranker via API
+einops>=0.6.0  # Required for Jina Reranker v2
 
 # Optional: Dataset preparation
 mteb>=1.0.0
