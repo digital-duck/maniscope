@@ -785,16 +785,20 @@ if 'eval_results' in st.session_state:
 
         # RAG Evaluation Section
         st.markdown("---")
-        st.markdown("#### 🤖 RAG Evaluation")
-        # st.caption("Compare RAG response quality using different reranking methods")
-
-        # Add selector for which ranking method to use
-        ranking_method = st.radio(
-            "Use documents from:",
-            options=["Baseline (Cosine Similarity)", f"{results['reranker']} (Reranker)"],
-            horizontal=True,
-            key="rag_ranking_method"
-        )
+        c1,_,c2 = st.columns([3,1,12])
+        with c1:
+            st.markdown("#### 🤖 RAG Evaluation")
+            # st.caption("Compare RAG response quality using different reranking methods")
+        with c2:
+            # Add selector for which ranking method to use
+            ranking_method = st.radio(
+                "Use documents from:",
+                options=["Baseline (Cosine Similarity)", f"{results['reranker']} (Reranker)"],
+                horizontal=True,
+                index=1,
+                help="Select which document ranking to use for RAG context",
+                key="rag_ranking_method"
+            )
 
         # Get RAG configuration from session state
         rag_top_k = st.session_state.get('config_rag_top_k', 3)
@@ -817,7 +821,7 @@ if 'eval_results' in st.session_state:
             method_name = results['reranker']
 
         # Create two columns for comparison
-        col_left, col_right = st.columns(2)
+        col_left, _, col_right = st.columns([16, 1, 20])
 
         # Left column: Display top-10 retrieved documents (Document Inspector style)
         with col_left:
@@ -845,7 +849,7 @@ if 'eval_results' in st.session_state:
 
                 header = " | ".join(header_parts)
 
-                with st.expander(header, expanded=(rank == 0)):
+                with st.expander(header, expanded=(rank in range(rag_top_k))):
                     st.markdown(doc_text)
 
         # Right column: Generate and display RAG response
