@@ -57,14 +57,49 @@ def concat_all_docs(dataset_items):
 
 @st.cache_resource
 def load_baseline_model(model_name='all-MiniLM-L6-v2'):
-    """Load sentence transformer for baseline cosine similarity"""
+    """Load sentence transformer for baseline cosine similarity with robust CUDA fallback"""
     import torch
-    device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    return SentenceTransformer(model_name, device=device)
+    import os
+
+    # Force CPU for now if there are persistent CUDA issues
+    force_cpu = os.getenv('MANISCOPE_FORCE_CPU', 'false').lower() == 'true'
+
+    if force_cpu:
+        st.info("💻 Using CPU mode (MANISCOPE_FORCE_CPU=true)")
+        return SentenceTransformer(model_name, device='cpu')
+
+    # Try CUDA with comprehensive error handling
+    if torch.cuda.is_available():
+        try:
+            # Clear CUDA cache first
+            torch.cuda.empty_cache()
+
+            # Load model on CUDA
+            model = SentenceTransformer(model_name, device='cuda')
+
+            # Test with minimal computation to ensure CUDA works
+            with torch.no_grad():
+                _ = model.encode(["test"], show_progress_bar=False, convert_to_numpy=True)
+
+            return model
+
+        except (RuntimeError, Exception) as cuda_error:
+            error_msg = str(cuda_error)
+            if "CUDA" in error_msg or "GPU" in error_msg or "device" in error_msg.lower():
+                st.warning(f"⚠️ GPU acceleration failed, using CPU mode for compatibility")
+            else:
+                st.warning(f"⚠️ Model loading failed, falling back to CPU")
+
+            # Clear any CUDA state
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+
+    # CPU fallback (always works)
+    return SentenceTransformer(model_name, device='cpu')
 
 def compute_baseline_scores(query: str, docs: list, model_name: str = 'all-MiniLM-L6-v2') -> np.ndarray:
     """
-    Compute baseline cosine similarity scores.
+    Compute baseline cosine similarity scores with error handling.
 
     Args:
         query: Query text
@@ -74,11 +109,25 @@ def compute_baseline_scores(query: str, docs: list, model_name: str = 'all-MiniL
     Returns:
         Numpy array of cosine similarity scores
     """
-    model = load_baseline_model(model_name)
-    query_embedding = model.encode([query])
-    doc_embeddings = model.encode(docs)
-    similarities = cosine_similarity(query_embedding, doc_embeddings)[0]
-    return similarities
+    try:
+        model = load_baseline_model(model_name)
+
+        # Compute embeddings with error handling
+        query_embedding = model.encode([query], show_progress_bar=False, convert_to_numpy=True)
+        doc_embeddings = model.encode(docs, show_progress_bar=False, convert_to_numpy=True)
+
+        # Compute similarities
+        similarities = cosine_similarity(query_embedding, doc_embeddings)[0]
+        return similarities
+
+    except Exception as e:
+        error_msg = str(e)
+        if "CUDA" in error_msg or "GPU" in error_msg:
+            st.error(f"❌ GPU computation failed: {error_msg}")
+            st.info("💡 Try setting environment variable MANISCOPE_FORCE_CPU=true to force CPU mode")
+        else:
+            st.error(f"❌ Embedding computation failed: {error_msg}")
+        raise
 
 def _get_cache_key(llm_model: str, query: str, context: str) -> str:
     """Generate cache key from model, query, and context."""
@@ -345,53 +394,165 @@ with st.sidebar:
 
     # st.markdown("---")
 
-    # Dataset selection (single select)
-    # st.markdown("#### Dataset")
-    dataset_names = [d["name"] for d in DATASETS]
-    selected_dataset_name = st.selectbox(
-        "Select Dataset",
-        options=dataset_names,
-        help="Choose one dataset to evaluate on"
+    # Dataset type selection
+    use_custom_dataset = st.checkbox(
+        "📂 Use Custom Dataset",
+        value=False,
+        help="Toggle to use custom datasets uploaded via Data Manager instead of BEIR datasets"
     )
 
-    # Get selected dataset config
-    selected_dataset = next(d for d in DATASETS if d["name"] == selected_dataset_name)
+    # Dataset selection based on type
+    if use_custom_dataset:
+        # Check for custom datasets in session state
+        custom_datasets = []
 
-    st.markdown(f"**{selected_dataset['description']}**")
-    st.markdown(f"📊 Total queries: {selected_dataset['queries']}")
+        # Check for uploaded MTEB-format datasets
+        if 'dataset' in st.session_state and 'dataset_source' in st.session_state:
+            if st.session_state.get('dataset_source') in ['upload', 'custom']:
+                dataset_name = st.session_state.get('dataset_name', 'Custom Dataset')
+                dataset_data = st.session_state['dataset']
+                num_queries = len(dataset_data) if dataset_data else 0
+                total_docs = sum(len(item.get('docs', [])) for item in dataset_data) if dataset_data else 0
 
-    # Load dataset first (needed for both modes)
-    try:
-        dataset_path = Path(__file__).parent.parent.parent / "data" / selected_dataset["file"]
-        dataset_items = load_mteb_dataset(dataset_path)
+                custom_datasets.append({
+                    'name': dataset_name,
+                    'source': st.session_state['dataset_source'],
+                    'queries': num_queries,
+                    'total_docs': total_docs,
+                    'data': dataset_data
+                })
 
-        if not dataset_items:
-            st.error("No queries found in dataset")
+        # Check for custom datasets in data/custom/ directory
+        custom_dir = Path(__file__).parent.parent.parent / "data" / "custom"
+        if custom_dir.exists():
+            for json_file in custom_dir.glob("*.json"):
+                try:
+                    with open(json_file, 'r') as f:
+                        custom_data = json.load(f)
+                        if isinstance(custom_data, list) and custom_data:
+                            # Calculate total documents across all items
+                            total_docs = sum(len(item.get('docs', [])) for item in custom_data)
+                            dataset_items_count = len(custom_data)
+
+                            custom_datasets.append({
+                                'name': f"📁 {json_file.stem}",
+                                'source': 'file',
+                                'queries': dataset_items_count,
+                                'total_docs': total_docs,
+                                'data': custom_data,
+                                'file_path': json_file
+                            })
+                except (json.JSONDecodeError, Exception):
+                    continue  # Skip invalid files
+
+        if not custom_datasets:
+            st.warning("⚠️ No custom datasets found. Upload a dataset via **Data Manager** page or uncheck this option to use BEIR datasets.")
             st.stop()
 
-    except FileNotFoundError:
-        st.error(f"Dataset file not found: {selected_dataset['file']}")
-        st.stop()
-    except Exception as e:
-        st.error(f"Error loading dataset: {str(e)}")
-        st.stop()
+        # Custom dataset dropdown - clean names only
+        custom_dataset_options = [ds['name'] for ds in custom_datasets]
+
+        selected_custom_idx = st.selectbox(
+            "Select Custom Dataset",
+            options=range(len(custom_dataset_options)),
+            format_func=lambda i: custom_dataset_options[i],
+            help="Choose a custom dataset"
+        )
+
+        selected_custom = custom_datasets[selected_custom_idx]
+        dataset_items = selected_custom['data']
+        total_docs = selected_custom.get('total_docs', sum(len(item.get('docs', [])) for item in dataset_items))
+
+        # Create a mock selected_dataset for compatibility with existing code
+        selected_dataset = {
+            'name': selected_custom['name'],
+            'description': f"Custom dataset ({selected_custom['source']})",
+            'queries': selected_custom['queries']
+        }
+
+        # Display info with clarified terminology
+        st.markdown(f"**Custom Dataset:** {selected_custom['name']}")
+
+        if selected_custom['queries'] == 1 and total_docs > 1:
+            # PDF-style dataset
+            st.markdown(f"📄 **PDF Import Dataset**: 1 dataset item containing {total_docs} text chunks")
+            st.info("💡 This dataset was created from PDF import. In Custom Query mode, you can search across all text chunks.")
+        else:
+            # Standard multi-query dataset
+            st.markdown(f"📊 **Dataset Items**: {selected_custom['queries']} queries with {total_docs} total documents")
+
+        if selected_custom['source'] == 'custom':
+            st.info("📝 No ground truth available - use Custom Query mode for exploration")
+
+    else:
+        # BEIR dataset selection (original logic)
+        dataset_names = [d["name"] for d in DATASETS]
+        selected_dataset_name = st.selectbox(
+            "Select Dataset",
+            options=dataset_names,
+            help="Choose one BEIR dataset to evaluate on"
+        )
+
+        # Get selected dataset config
+        selected_dataset = next(d for d in DATASETS if d["name"] == selected_dataset_name)
+
+        st.markdown(f"**{selected_dataset['description']}**")
+        st.markdown(f"📊 Total queries: {selected_dataset['queries']}")
+
+        # Load BEIR dataset
+        try:
+            dataset_path = Path(__file__).parent.parent.parent / "data" / selected_dataset["file"]
+            dataset_items = load_mteb_dataset(dataset_path)
+
+            if not dataset_items:
+                st.error("No queries found in dataset")
+                st.stop()
+
+        except FileNotFoundError:
+            st.error(f"Dataset file not found: {selected_dataset['file']}")
+            st.stop()
+        except Exception as e:
+            st.error(f"Error loading dataset: {str(e)}")
+            st.stop()
+
+    # Store dataset source info in session state for query mode logic
+    if use_custom_dataset:
+        st.session_state['current_dataset_source'] = 'custom'
+    else:
+        st.session_state['current_dataset_source'] = 'beir'
 
     # Query mode selection
-    # Check if using custom dataset (no ground truth)
-    is_custom_dataset = st.session_state.get('dataset_source') == 'custom'
+    # Check if using custom dataset (may not have ground truth)
+    current_dataset_source = st.session_state.get('current_dataset_source', 'beir')
+    is_custom_dataset = current_dataset_source == 'custom'
 
-    if is_custom_dataset:
-        # Force Custom Query mode for custom datasets
-        st.info("📝 Custom datasets use **Custom Query** mode (no ground truth available)")
+    # Check if current dataset has ground truth (relevance_map with meaningful values)
+    has_ground_truth = False
+    if dataset_items and len(dataset_items) > 0:
+        first_item = dataset_items[0]
+        relevance_map = first_item.get('relevance_map', {})
+        if relevance_map:
+            # Check if relevance_map has non-zero values (indicating real ground truth)
+            has_ground_truth = any(float(v) > 0 for v in relevance_map.values())
+
+    if is_custom_dataset and not has_ground_truth:
+        # Force Custom Query mode for custom datasets without ground truth
+        st.info("📝 Custom datasets without ground truth use **Custom Query** mode")
         query_mode = "Custom Query"
     else:
-        # Show radio button for standard datasets
+        # Show radio button for datasets with ground truth
         query_mode = st.radio(
             "Query Mode",
             options=["From Dataset", "Custom Query"],
             horizontal=True,
             help="Choose a query from the dataset or enter your own"
         )
+
+    # Initialize variables
+    query_text = ""
+    docs = []
+    relevance_map = {}
+    is_all_docs_mode = False
 
     # Create query options (used by both modes for document selection)
     query_options = {
@@ -431,31 +592,38 @@ with st.sidebar:
         )
 
         if doc_source_display == "__ALL_DOCS__":
-            with st.expander("About Docs", expanded=False):
-                # Helper tip for __ALL_DOCS__
-                st.info("💡 **RAG Performance Profiling Mode**: Using all documents from the entire dataset simulates a realistic RAG pipeline with large corpus retrieval. Perfect for stress testing and performance benchmarking!")
+            # Use all documents from dataset
+            query_text = user_query_text
+            docs = concat_all_docs(dataset_items)
+            relevance_map = {}  # No ground truth for custom queries
+            is_all_docs_mode = True
 
-                doc_source_idx = query_options.get(doc_source_display, -1)
-                if doc_source_idx > -1:
-                    # Use documents from selected query, but query text is custom
-                    selected_item = dataset_items[doc_source_idx]
-                    query_text = user_query_text  # FIX: Use custom query, not dataset query
-                    docs = selected_item['docs']
-                    relevance_map = {}  # FIX: No ground truth for custom queries
-                    is_all_docs_mode = False
+            with st.expander("About All Documents Mode", expanded=False):
+                # Display corpus statistics
+                total_queries = len(dataset_items)
+                total_docs = len(docs)
+
+                if total_queries == 1 and total_docs > 1:
+                    # PDF-style dataset explanation
+                    st.info("💡 **PDF Document Search**: Searching across all text chunks from the imported PDF document. Your custom query will be matched against all sections, paragraphs, and content from the original document.")
+                    st.success(f"📄 **Document Statistics**: {total_docs:,} text chunks from PDF document - Full content search")
                 else:
-                    # Use all documents from dataset
-                    query_text = user_query_text
-                    docs = concat_all_docs(dataset_items)
-                    relevance_map = {}
-                    is_all_docs_mode = True
-
-                    # Display corpus statistics
-                    total_queries = len(dataset_items)
-                    total_docs = len(docs)
+                    # Standard dataset explanation
                     avg_docs_per_query = total_docs / total_queries if total_queries > 0 else 0
-
+                    st.info("💡 **RAG Performance Profiling Mode**: Using all documents from the entire dataset simulates a realistic RAG pipeline with large corpus retrieval. Perfect for stress testing and performance benchmarking!")
                     st.success(f"📊 **Corpus Statistics**: {total_docs:,} documents from {total_queries} queries (avg {avg_docs_per_query:.1f} docs/query) - Realistic RAG scenario")
+        else:
+            # Use documents from selected query
+            doc_source_idx = query_options.get(doc_source_display, -1)
+            if doc_source_idx > -1:
+                selected_item = dataset_items[doc_source_idx]
+                query_text = user_query_text  # Use custom query, not dataset query
+                docs = selected_item['docs']
+                relevance_map = {}  # No ground truth for custom queries
+                is_all_docs_mode = False
+            else:
+                st.error("Invalid document source selected")
+                st.stop()
 
 
 
@@ -831,7 +999,7 @@ if 'eval_results' in st.session_state:
             method_name = results['reranker']
 
         # Create two columns for comparison
-        col_left, _, col_right = st.columns([16, 1, 20])
+        col_left, _, col_right = st.columns([20, 1, 16])
 
         # Left column: Display top-10 retrieved documents (Document Inspector style)
         with col_left:
@@ -867,7 +1035,7 @@ if 'eval_results' in st.session_state:
             st.markdown(f"##### 💬 RAG Response ({method_name} Context)")
 
             # Generate button and Top-K selector in one row
-            col_btn, _, col_k = st.columns([7, 2, 3])
+            col_btn,  col_k = st.columns([7, 3])
             with col_btn:
                 st.caption(f"Using model: **{rag_llm_model}** ({rag_llm_provider})")
                 generate_btn = st.button(

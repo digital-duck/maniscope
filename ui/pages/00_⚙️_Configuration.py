@@ -28,6 +28,8 @@ from config import (
     MANISCOPE_VERSIONS,
     OPENROUTER_MODELS,
     OLLAMA_MODELS,
+    EMBEDDING_MODELS,
+    DEFAULT_EMBEDDING_MODEL,
     METRICS_TO_PLOT,
     DEFAULT_METRICS,
     COLORS
@@ -48,7 +50,7 @@ if 'config_maniscope_k' not in st.session_state:
 if 'config_maniscope_alpha' not in st.session_state:
     st.session_state['config_maniscope_alpha'] = DEFAULT_MANISCOPE_ALPHA
 if 'config_embedding_model' not in st.session_state:
-    st.session_state['config_embedding_model'] = 'all-MiniLM-L6-v2'  # Default
+    st.session_state['config_embedding_model'] = DEFAULT_EMBEDDING_MODEL
 if 'config_optimization_level' not in st.session_state:
     st.session_state['config_optimization_level'] = 'v2o'  # Default to recommended v2o
 if 'config_rag_llm_provider' not in st.session_state:
@@ -201,6 +203,16 @@ with tab2:
         for model in OPENROUTER_MODELS:
             st.code(model, language=None)
 
+        st.markdown("**Available Embedding Models**")
+        # Group by priority for display
+        for priority in range(5):
+            priority_models = [m for m in EMBEDDING_MODELS if m['priority'] == priority]
+            if priority_models:
+                priority_names = ["⚡ Fastest", "🌍 Multilingual", "🚀 SOTA 2025", "🔬 Research", "💎 Advanced"]
+                st.write(f"**{priority_names[priority]}** ({len(priority_models)} models)")
+                for model in priority_models:
+                    st.caption(f"  {model['short']}: {model['params'] if 'params' in model else model['dimensions']+'D'}")
+
     with col2:
         st.markdown("**Ollama Models**")
         for model in OLLAMA_MODELS:
@@ -241,24 +253,60 @@ with tab3:
 
         st.markdown("#### Embedding Model")
 
-        embedding_models = [
-            'all-MiniLM-L6-v2',
-            'sentence-transformers/paraphrase-multilingual-mpnet-base-v2'
-        ]
-        embedding_labels = [
-            'all-MiniLM-L6-v2 (Default, 22M params)',
-            'Sentence-BERT Multilingual (MPNet, 278M params)'
-        ]
+        # Use comprehensive embedding models from config.py (validated from semanscope)
+        # Sort by priority (0=fastest, 4=most advanced) then by speed
+        sorted_models = sorted(EMBEDDING_MODELS, key=lambda m: (m['priority'], m.get('speed', 'medium')))
 
-        current_index = embedding_models.index(st.session_state['config_embedding_model']) if st.session_state['config_embedding_model'] in embedding_models else 0
+        embedding_model_names = [model['name'] for model in sorted_models]
+
+        # Create rich labels with metadata
+        embedding_labels = []
+        for model in sorted_models:
+            priority_icons = ["⚡", "🌍", "🚀", "🔬", "💎"]
+            icon = priority_icons[model['priority']] if model['priority'] < len(priority_icons) else "🔧"
+
+            label = f"{icon} {model['short'].upper()}"
+            if 'params' in model:
+                label += f" ({model['params']}"
+                if 'speed' in model:
+                    label += f", {model['speed']}"
+                label += ")"
+            else:
+                label += f" ({model.get('languages', 'Multi-lingual')})"
+
+            embedding_labels.append(label)
+
+        try:
+            current_index = embedding_model_names.index(st.session_state['config_embedding_model'])
+        except ValueError:
+            current_index = 0  # Default to first model if current not found
 
         new_embedding = st.selectbox(
             "Embedding Model",
-            options=embedding_models,
-            format_func=lambda x: embedding_labels[embedding_models.index(x)],
+            options=embedding_model_names,
+            format_func=lambda x: embedding_labels[embedding_model_names.index(x)],
             index=current_index,
-            help="Model used to encode queries and documents"
+            help="Model used to encode queries and documents. Sorted by priority: ⚡=fastest → 💎=most advanced"
         )
+
+        # Show detailed info about selected model
+        selected_model_info = next((m for m in sorted_models if m['name'] == new_embedding), None)
+        if selected_model_info:
+            with st.expander("📋 Model Details", expanded=False):
+                col_info1, col_info2 = st.columns(2)
+                with col_info1:
+                    st.write(f"**Name:** {selected_model_info['short']}")
+                    st.write(f"**Dimensions:** {selected_model_info['dimensions']}")
+                    st.write(f"**Languages:** {selected_model_info['languages']}")
+                with col_info2:
+                    if 'params' in selected_model_info:
+                        st.write(f"**Parameters:** {selected_model_info['params']}")
+                    if 'speed' in selected_model_info:
+                        st.write(f"**Speed:** {selected_model_info['speed']}")
+                    if 'mteb_rank' in selected_model_info:
+                        st.write(f"**MTEB Rank:** {selected_model_info['mteb_rank']}")
+
+                st.info(selected_model_info['description'])
 
         st.markdown("---")
 

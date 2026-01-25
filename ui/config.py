@@ -236,75 +236,211 @@ MANISCOPE_VERSIONS = {
 # ============================================================================
 
 EMBEDDING_MODELS = [
+    # === LIGHTWEIGHT & FAST (Priority 0 - Quick Testing) ===
+    {
+        "name": "all-MiniLM-L6-v2",
+        "short": "minilm-l6",
+        "dimensions": 384,
+        "description": "⚡ All-MiniLM L6 v2 - 22M params, fastest inference",
+        "languages": "English",
+        "priority": 0,
+        "params": "22M",
+        "speed": "fastest"
+    },
     {
         "name": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
         "short": "ml-minilm",
         "dimensions": 384,
         "description": "🌍 Multilingual MiniLM - 50+ languages, compact and fast",
         "languages": "50+ languages",
-        "priority": 1  # New baseline - multilingual
+        "priority": 1,
+        "params": "118M",
+        "speed": "fast"
     },
+    {
+        "name": "sentence-transformers/distiluse-base-multilingual-cased-v2",
+        "short": "distiluse-ml",
+        "dimensions": 512,
+        "description": "🌍 Universal Sentence Encoder Multilingual - 135M params",
+        "languages": "15+ languages",
+        "priority": 1,
+        "params": "135M",
+        "speed": "fast"
+    },
+
+    # === MULTILINGUAL LEADERS (Priority 1 - Production Ready) ===
     {
         "name": "sentence-transformers/paraphrase-multilingual-mpnet-base-v2",
         "short": "ml-mpnet",
         "dimensions": 768,
-        "description": "🌍 Multilingual MPNet - 50+ languages, higher quality",
+        "description": "🌍 Sentence-BERT Multilingual - MPNet, 50+ languages, proven baseline",
         "languages": "50+ languages",
-        "priority": 1  # Weekend expansion - multilingual
+        "priority": 1,
+        "params": "278M",
+        "speed": "medium"
     },
     {
-        "name": "intfloat/multilingual-e5-large",
-        "short": "ml-e5",
+        "name": "sentence-transformers/LaBSE",
+        "short": "labse",
+        "dimensions": 768,
+        "description": "🌍 Language-agnostic BERT - 109 languages, sentence similarity expert",
+        "languages": "109 languages",
+        "priority": 1,
+        "params": "471M",
+        "speed": "medium"
+    },
+    {
+        "name": "intfloat/multilingual-e5-large-instruct",
+        "short": "e5-instruct",
         "dimensions": 1024,
-        "description": "🌍 Multilingual E5 Large - 100+ languages, SOTA performance",
+        "description": "🌍 E5-Large-Instruct - 560M params, instruction-following, 100+ languages",
         "languages": "100+ languages",
-        "priority": 1  # Weekend expansion - multilingual
+        "priority": 1,
+        "params": "560M",
+        "speed": "medium"
+    },
+
+    # === CURRENT SOTA MODELS (Priority 2 - 2025 Leaders) ===
+    {
+        "name": "Qwen/Qwen3-Embedding-0.6B",
+        "short": "qwen3-06b",
+        "dimensions": 1024,
+        "description": "🚀 Qwen3-Embedding-0.6B - MTEB #1 series, 600M params, 100+ languages",
+        "languages": "100+ languages",
+        "priority": 2,
+        "params": "600M",
+        "speed": "medium",
+        "mteb_rank": "Top 5"
+    },
+    {
+        "name": "google/embeddinggemma-300m",
+        "short": "gemma-300m",
+        "dimensions": 768,
+        "description": "🚀 EmbeddingGemma - Google's 300M param model, 100+ languages, on-device AI",
+        "languages": "100+ languages",
+        "priority": 2,
+        "params": "300M",
+        "speed": "medium",
+        "mteb_rank": "SOTA class"
+    },
+    {
+        "name": "intfloat/e5-base-v2",
+        "short": "e5-base",
+        "dimensions": 768,
+        "description": "🚀 E5-Base-v2 - 278M params, balanced accuracy-speed, no prefix required",
+        "languages": "100+ languages",
+        "priority": 2,
+        "params": "278M",
+        "speed": "fast",
+        "mteb_rank": "High"
+    },
+
+    # === SPECIALIZED MODELS (Priority 3 - Research & Specific Use Cases) ===
+    {
+        "name": "bert-base-multilingual-cased",
+        "short": "mbert",
+        "dimensions": 768,
+        "description": "🔬 mBERT - Multilingual BERT, 104 languages, research baseline",
+        "languages": "104 languages",
+        "priority": 3,
+        "params": "178M",
+        "speed": "medium"
+    },
+    {
+        "name": "distilbert-base-multilingual-cased",
+        "short": "distilbert-ml",
+        "dimensions": 768,
+        "description": "🔬 DistilBERT Multilingual - Lightweight mBERT variant",
+        "languages": "104 languages",
+        "priority": 3,
+        "params": "134M",
+        "speed": "fast"
+    },
+    {
+        "name": "xlm-roberta-base",
+        "short": "xlm-roberta",
+        "dimensions": 768,
+        "description": "🔬 XLM-RoBERTa - Cross-lingual model, 100+ languages",
+        "languages": "100+ languages",
+        "priority": 3,
+        "params": "270M",
+        "speed": "medium"
+    },
+
+    # === HIGH-END MODELS (Priority 4 - Advanced Research) ===
+    {
+        "name": "intfloat/multilingual-e5-large",
+        "short": "e5-large",
+        "dimensions": 1024,
+        "description": "💎 E5-Large - 560M params, SOTA multilingual performance",
+        "languages": "100+ languages",
+        "priority": 4,
+        "params": "560M",
+        "speed": "slow",
+        "mteb_rank": "Top 10"
     },
     {
         "name": "BAAI/bge-m3",
         "short": "bge-m3",
         "dimensions": 1024,
-        "description": "🌍 BGE-M3 - 100+ languages, multi-functionality, multi-granularity",
+        "description": "💎 BGE-M3 - Multi-functionality, multi-granularity, 100+ languages",
         "languages": "100+ languages",
-        "priority": 1  # Weekend expansion - multilingual
+        "priority": 4,
+        "params": "568M",
+        "speed": "slow",
+        "mteb_rank": "Top 5"
     },
 ]
 
-# Default embedding model for Maniscope (now multilingual)
-DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+# Default embedding model for Maniscope (balanced speed and quality)
+DEFAULT_EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Fastest, most compatible
 
 # ============================================================================
 # LLM ReRanker Configuration
 # ============================================================================
 
+# Validated OpenRouter models (sorted alphabetically)
 OPENROUTER_MODELS = [
-    # Top-tier models (for research/arXiv paper study)
-    "anthropic/claude-opus-4-5",
-    "anthropic/claude-sonnet-4-5",
-    "anthropic/claude-opus-4",
-    "google/gemini-2.5-pro-latest",
-    "google/gemini-3-pro-latest",
-    "openai/gpt-5",
-    "qwen/qwen-3.5-turbo",
-
-    # Current production models
-    "google/gemini-2.0-flash-lite-001",
+    "anthropic/claude-3-haiku",
+    "anthropic/claude-3-opus",
+    "anthropic/claude-3-sonnet",
     "anthropic/claude-3.5-haiku",
     "anthropic/claude-3.5-sonnet",
-    "openai/chatgpt-4o-latest",
-    "openai/gpt-4o-mini",
+    "cohere/command-r",
+    "cohere/command-r-plus",
     "deepseek/deepseek-chat",
-    "qwen/qwen-2.5-72b-instruct",
-
-    # Free tier models (for testing)
+    "deepseek/deepseek-coder",
+    "google/gemini-2.0-flash-exp",
+    "google/gemini-flash-1.5",
+    "google/gemini-pro-1.5",
+    "meta-llama/llama-3.1-70b-instruct",
+    "meta-llama/llama-3.1-8b-instruct",
+    "meta-llama/llama-3.2-3b-instruct",
     "meta-llama/llama-3.2-3b-instruct:free",
-    "qwen/qwen-2-7b-instruct:free",
+    "microsoft/phi-3-medium-128k-instruct",
+    "microsoft/phi-3-mini-128k-instruct",
     "microsoft/phi-3-mini-128k-instruct:free",
+    "mistralai/mistral-7b-instruct",
+    "mistralai/mistral-large",
+    "mistralai/mistral-medium",
+    "openai/gpt-3.5-turbo",
+    "openai/gpt-4",
+    "openai/gpt-4-turbo",
+    "openai/gpt-4o",
+    "openai/gpt-4o-mini",
+    "perplexity/llama-3.1-sonar-large-128k-online",
+    "perplexity/llama-3.1-sonar-small-128k-online",
+    "qwen/qwen-2-7b-instruct:free",
+    "qwen/qwen-2.5-72b-instruct",
+    "qwen/qwen-2.5-7b-instruct",
 ]
 
+# Ollama models (sorted alphabetically)
 OLLAMA_MODELS = [
-    "llama3.1:latest",
     "deepseek-r1:7b",
+    "llama3.1:latest",
+    "llama3.2:latest",
+    "llama3.3:latest",
     "qwen2.5:latest"
 ]
 

@@ -521,8 +521,116 @@ with tab4:
 # TAB 3: Current Dataset Info
 # ============================================================================
 with tab3:
+    # First show existing custom datasets
+    st.markdown("### 📁 Existing Custom Datasets")
+
+    # Check data/custom/ directory for custom datasets
+    custom_dir = Path(__file__).parent.parent.parent / "data" / "custom"
+
+    if custom_dir.exists() and list(custom_dir.glob("*.json")):
+        st.caption("Custom datasets saved in data/custom/ directory:")
+
+        custom_files = sorted(custom_dir.glob("*.json"))
+        for json_file in custom_files:
+            try:
+                # Get file info
+                file_size = json_file.stat().st_size / 1024  # KB
+
+                # Try to get dataset info
+                with open(json_file, 'r') as f:
+                    data = json.load(f)
+
+                if isinstance(data, list) and data:
+                    num_items = len(data)
+                    total_docs = sum(len(item.get('docs', [])) for item in data)
+
+                    # Get dataset type and metadata
+                    first_item = data[0]
+                    metadata = first_item.get('metadata', {})
+                    source_type = "PDF Import" if metadata.get('source') == 'pdf_import' else "Custom"
+
+                    col1, col2 = st.columns([3, 1])
+
+                    with col1:
+                        if num_items == 1 and total_docs > 1:
+                            # PDF-style dataset
+                            st.write(f"📄 **{json_file.stem}** - {source_type} dataset")
+                            st.caption(f"   └ 1 dataset item, {total_docs} documents, {file_size:.1f} KB")
+                        else:
+                            # Multi-query dataset
+                            st.write(f"📊 **{json_file.stem}** - {source_type} dataset")
+                            st.caption(f"   └ {num_items} queries, {total_docs} docs, {file_size:.1f} KB")
+
+                        # Show PDF filename if available
+                        if 'pdf_filename' in metadata:
+                            st.caption(f"   📎 Source: {metadata['pdf_filename']}")
+
+                    with col2:
+                        # Load button
+                        if st.button(f"Load", key=f"load_{json_file.stem}"):
+                            try:
+                                st.session_state['dataset'] = data
+                                st.session_state['dataset_name'] = json_file.name
+                                st.session_state['dataset_path'] = str(json_file.resolve())
+                                st.session_state['dataset_source'] = 'custom'
+                                st.success(f"✅ Loaded {json_file.stem}")
+                                st.rerun()
+                            except Exception as e:
+                                st.error(f"❌ Failed to load: {str(e)}")
+
+            except (json.JSONDecodeError, Exception) as e:
+                # Show invalid files
+                st.write(f"⚠️ **{json_file.stem}** - Invalid JSON file")
+                st.caption(f"   └ {file_size:.1f} KB - {str(e)[:50]}...")
+    else:
+        st.info("📁 No custom datasets found. Upload PDFs in the 'Custom Dataset' tab to create custom datasets.")
+
+    # Show MTEB datasets for reference
+    st.markdown("### 📊 Available MTEB Datasets")
+
+    data_dir = Path(__file__).parent.parent.parent / "data"
+    mteb_files = sorted(data_dir.glob("dataset-*.json"))
+
+    if mteb_files:
+        st.caption(f"Found {len(mteb_files)} MTEB datasets in data/ directory:")
+
+        # Group files for more compact display
+        for i, json_file in enumerate(mteb_files):
+            if i % 2 == 0:
+                col1, col2 = st.columns(2)
+
+            target_col = col1 if i % 2 == 0 else col2
+
+            with target_col:
+                try:
+                    file_size = json_file.stat().st_size / 1024  # KB
+                    st.write(f"📊 **{json_file.stem}**")
+                    st.caption(f"   └ {file_size:.1f} KB")
+
+                    # Quick load button
+                    if st.button(f"Load", key=f"load_mteb_{json_file.stem}"):
+                        try:
+                            with open(json_file, 'r') as f:
+                                data = load_mteb_dataset(f, validate=True)
+                            st.session_state['dataset'] = data
+                            st.session_state['dataset_name'] = json_file.name
+                            st.session_state['dataset_path'] = str(json_file.resolve())
+                            st.session_state['dataset_source'] = 'mteb'
+                            st.success(f"✅ Loaded {json_file.stem}")
+                            st.rerun()
+                        except Exception as e:
+                            st.error(f"❌ Failed to load: {str(e)}")
+
+                except Exception as e:
+                    st.write(f"⚠️ **{json_file.stem}** - Error reading file")
+    else:
+        st.info("📊 No MTEB datasets found in data/ directory.")
+
+    st.markdown("---")
+    st.markdown("### 🔄 Currently Loaded Dataset")
+
     if st.session_state['dataset'] is None:
-        st.info("ℹ️ No dataset loaded. Use Tab 1 or Tab 2 to load a dataset.")
+        st.info("ℹ️ No dataset loaded. Use tabs above to load a dataset.")
     else:
         data = st.session_state['dataset']
         stats = get_dataset_statistics(data)

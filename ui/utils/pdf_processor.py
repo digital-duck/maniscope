@@ -12,6 +12,8 @@ Features:
 
 import json
 import re
+import logging
+import os
 from pathlib import Path
 from typing import List, Dict, Any, Tuple
 from datetime import datetime
@@ -20,6 +22,47 @@ from datetime import datetime
 class PDFProcessingError(Exception):
     """Custom exception for PDF processing errors"""
     pass
+
+
+def _setup_docling_logging():
+    """
+    Configure logging to suppress verbose docling output.
+    Optionally saves detailed logs to logs/data_manager/ subdirectory.
+    """
+    # Suppress docling's verbose logging (PageItem details, etc.)
+    docling_loggers = [
+        'docling',
+        'docling.document_converter',
+        'docling.datamodel',
+        'docling.backend',
+        'docling.chunking',
+        'docling.pipeline'
+    ]
+
+    for logger_name in docling_loggers:
+        logger = logging.getLogger(logger_name)
+        logger.setLevel(logging.WARNING)  # Only show warnings and errors
+
+    # Optionally setup file logging for detailed logs if needed for debugging
+    enable_detailed_logging = os.getenv('MANISCOPE_DEBUG_PDF', '').lower() == 'true'
+
+    if enable_detailed_logging:
+        # Create logs directory
+        logs_dir = Path(__file__).parent.parent.parent / "logs" / "data_manager"
+        logs_dir.mkdir(parents=True, exist_ok=True)
+
+        # Setup file handler for detailed docling logs
+        log_file = logs_dir / f"pdf_processing_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
+        file_handler = logging.FileHandler(log_file)
+        file_handler.setLevel(logging.DEBUG)
+        file_handler.setFormatter(
+            logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+        )
+
+        # Add file handler to docling loggers (but keep console level at WARNING)
+        for logger_name in docling_loggers:
+            logger = logging.getLogger(logger_name)
+            logger.addHandler(file_handler)
 
 
 def convert_pdf_to_markdown(pdf_file) -> Dict[str, Any]:
@@ -45,6 +88,9 @@ def convert_pdf_to_markdown(pdf_file) -> Dict[str, Any]:
         raise PDFProcessingError(
             "Docling not installed. Run: pip install docling>=1.0.0"
         )
+
+    # Setup logging suppression for docling
+    _setup_docling_logging()
 
     try:
         # Convert PDF to Docling document
