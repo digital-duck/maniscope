@@ -12,6 +12,7 @@ Allows users to manage application settings from config.py without editing code:
 import streamlit as st
 import json
 import sys
+import os
 from pathlib import Path
 
 # Add parent directory to path for imports
@@ -34,7 +35,7 @@ from config import (
 
 st.set_page_config(page_title="Configuration", layout="wide", page_icon="⚙️")
 
-st.header("⚙️ Application Configuration")
+st.header("⚙️ Configuration")
 st.markdown("Manage application settings without editing code. Changes are temporary (session only).")
 
 # Initialize session state for configuration
@@ -50,15 +51,23 @@ if 'config_embedding_model' not in st.session_state:
     st.session_state['config_embedding_model'] = 'all-MiniLM-L6-v2'  # Default
 if 'config_optimization_level' not in st.session_state:
     st.session_state['config_optimization_level'] = 'v2o'  # Default to recommended v2o
+if 'config_rag_llm_provider' not in st.session_state:
+    st.session_state['config_rag_llm_provider'] = 'OpenRouter'
+if 'config_rag_llm_model' not in st.session_state:
+    st.session_state['config_rag_llm_model'] = 'google/gemini-2.0-flash-lite-001'
+if 'config_rag_top_k' not in st.session_state:
+    st.session_state['config_rag_top_k'] = 3
+if 'config_rag_api_key' not in st.session_state:
+    st.session_state['config_rag_api_key'] = os.getenv("OPENROUTER_API_KEY", "")
 
 # ============================================================================
 # TABS
 # ============================================================================
 
-tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab3, tab2, tab1, tab4, tab5 = st.tabs([
+    "⚡ Defaults",
     "📊 Datasets",
     "🤖 ReRankers",
-    "⚡ Defaults",
     "📈 Metrics",
     "🎨 UI Settings"
 ])
@@ -274,12 +283,71 @@ with tab3:
             help="Performance optimization level for Maniscope"
         )
 
+        st.markdown("---")
+
+        st.markdown("#### RAG Evaluation Settings")
+
+        rag_provider = st.radio(
+            "RAG LLM Provider",
+            options=["OpenRouter", "Ollama"],
+            index=0 if st.session_state['config_rag_llm_provider'] == 'OpenRouter' else 1,
+            horizontal=True,
+            help="Provider for RAG answer generation"
+        )
+
+        if rag_provider == "OpenRouter":
+            # Check if env var exists
+            env_key = os.getenv("OPENROUTER_API_KEY", "")
+            default_key = st.session_state.get('config_rag_api_key', env_key)
+
+            rag_api_key = st.text_input(
+                "OpenRouter API Key",
+                type="password",
+                value=default_key,
+                help="API key for OpenRouter (falls back to OPENROUTER_API_KEY env var if not set)"
+            )
+
+            # Show status if using env var
+            if not rag_api_key and env_key:
+                st.success("✅ Using OPENROUTER_API_KEY from environment variable")
+            elif not rag_api_key and not env_key:
+                st.warning("⚠️ No API key set. Please enter API key or set OPENROUTER_API_KEY environment variable.")
+
+            rag_model = st.selectbox(
+                "RAG LLM Model",
+                options=OPENROUTER_MODELS,
+                index=OPENROUTER_MODELS.index(st.session_state['config_rag_llm_model']) if st.session_state['config_rag_llm_model'] in OPENROUTER_MODELS else 0,
+                help="LLM model for generating RAG responses"
+            )
+        else:
+            rag_api_key = None
+            rag_model = st.selectbox(
+                "RAG LLM Model",
+                options=OLLAMA_MODELS,
+                index=OLLAMA_MODELS.index(st.session_state['config_rag_llm_model']) if st.session_state['config_rag_llm_model'] in OLLAMA_MODELS else 0,
+                help="LLM model for generating RAG responses"
+            )
+
+        rag_top_k = st.slider(
+            "RAG Top-K Documents",
+            min_value=1,
+            max_value=10,
+            value=st.session_state['config_rag_top_k'],
+            step=1,
+            help="Number of top-ranked documents to use as context for RAG"
+        )
+
         if st.button("💾 Save All Settings", type="primary"):
             st.session_state['config_maniscope_k'] = new_k
             st.session_state['config_maniscope_alpha'] = new_alpha
             st.session_state['config_embedding_model'] = new_embedding
             st.session_state['config_optimization_level'] = new_opt_level
-            st.success(f"✅ Saved: k={new_k}, α={new_alpha}, model={new_embedding}, opt={new_opt_level}")
+            st.session_state['config_rag_llm_provider'] = rag_provider
+            st.session_state['config_rag_llm_model'] = rag_model
+            st.session_state['config_rag_top_k'] = rag_top_k
+            if rag_api_key:
+                st.session_state['config_rag_api_key'] = rag_api_key
+            st.success(f"✅ Saved: k={new_k}, α={new_alpha}, model={new_embedding}, opt={new_opt_level}, RAG={rag_model}, top-k={rag_top_k}")
             st.rerun()
 
     with col2:
@@ -288,6 +356,8 @@ with tab3:
         st.metric("Maniscope α", st.session_state['config_maniscope_alpha'])
         st.metric("Embedding Model", st.session_state['config_embedding_model'].split('/')[-1])
         st.metric("Optimization", st.session_state['config_optimization_level'])
+        st.metric("RAG LLM Model", st.session_state['config_rag_llm_model'].split('/')[-1])
+        st.metric("RAG Top-K", st.session_state['config_rag_top_k'])
 
         st.markdown("---")
 

@@ -2,6 +2,7 @@ archive/
 chat-history/
 logs/
 output/
+cache/
 
 
 # Byte-compiled / optimized / DLL files

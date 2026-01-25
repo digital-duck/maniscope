@@ -21,6 +21,7 @@ import io
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
 
+from config import OUTPUT_DIRS, ensure_output_dirs
 from utils.visualization import (
     plot_metric_comparison,
     plot_all_metrics_comparison,
@@ -42,7 +43,8 @@ with st.sidebar:
     st.markdown("### 📁 Load Results")
 
     # Scan output directory for result files
-    output_dir = Path(__file__).parent.parent.parent / "output"
+    ensure_output_dirs()  # Ensure all output directories exist
+    output_dir = OUTPUT_DIRS["benchmark"]
 
     if output_dir.exists():
         # Get all JSON files, sorted by modification time (newest first)

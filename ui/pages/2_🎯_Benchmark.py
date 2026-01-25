@@ -27,7 +27,9 @@ from config import (
     DEFAULT_OLLAMA_URL,
     COLORS,
     PAGE_ICON,
-    PAGE_LAYOUT
+    PAGE_LAYOUT,
+    OUTPUT_DIRS,
+    ensure_output_dirs
 )
 
 from utils.models import (
@@ -364,8 +366,8 @@ if run_button:
 
         # Save results to output folder with descriptive filename
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-        output_dir = Path(__file__).parent.parent.parent / "output"
-        output_dir.mkdir(exist_ok=True)
+        ensure_output_dirs()  # Ensure all output directories exist
+        output_dir = OUTPUT_DIRS["benchmark"]
 
         # Extract dataset short name from config
         dataset_short = 'unknown'

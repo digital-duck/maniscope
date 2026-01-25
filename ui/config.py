@@ -279,7 +279,12 @@ DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-
 
 OPENROUTER_MODELS = [
     "google/gemini-2.0-flash-lite-001",
-    "anthropic/claude-3.5-haiku"
+    "anthropic/claude-3.5-haiku",
+    "anthropic/claude-3.5-sonnet",
+    "openai/chatgpt-4o-latest",
+    "openai/gpt-4o-mini",
+    "deepseek/deepseek-chat",
+    "qwen/qwen-2.5-72b-instruct"
 ]
 
 OLLAMA_MODELS = [
@@ -297,6 +302,29 @@ DEFAULT_OLLAMA_URL = "http://localhost:11434/v1"
 
 METRICS_TO_PLOT = ["MRR", "NDCG@3", "NDCG@10", "MAP", "P@3", "R@10"]
 DEFAULT_METRICS = ["MRR", "NDCG@1", "NDCG@3", "NDCG@5", "NDCG@10", "P@1", "P@3", "P@5", "P@10", "R@10", "MAP"]
+
+# ============================================================================
+# Output Directory Configuration
+# ============================================================================
+
+from pathlib import Path
+
+# Base output directory (root/output)
+OUTPUT_BASE_DIR = Path(__file__).parent.parent / "output"
+
+# Subdirectories for organized output
+OUTPUT_DIRS = {
+    "eval_rag": OUTPUT_BASE_DIR / "eval-rag",        # Eval ReRanker page
+    "benchmark": OUTPUT_BASE_DIR / "benchmark",      # Benchmark & Batch Benchmark pages
+    "grid_search": OUTPUT_BASE_DIR / "grid-search",  # Grid Search page
+    "metrics": OUTPUT_BASE_DIR / "metrics",          # Analytics page
+}
+
+def ensure_output_dirs():
+    """Create all output subdirectories if they don't exist."""
+    OUTPUT_BASE_DIR.mkdir(exist_ok=True)
+    for dir_path in OUTPUT_DIRS.values():
+        dir_path.mkdir(exist_ok=True, parents=True)
 
 # ============================================================================
 # UI Configuration

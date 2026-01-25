@@ -20,7 +20,7 @@ from streamlit_echarts import st_echarts
 # Add utils to path for release structure
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from config import DATASETS
+from config import DATASETS, OUTPUT_DIRS, ensure_output_dirs
 from utils.grid_search import run_single_experiment, load_dataset, parse_range
 from utils.metrics import calculate_all_metrics
 
@@ -626,8 +626,8 @@ def main():
             with col3:
                 # Save to output directory - FIXED for release structure
                 if st.button("💾 Save to Output Directory", use_container_width=True):
-                    output_dir = Path(__file__).parent.parent.parent / "output" / "grid_search"
-                    output_dir.mkdir(parents=True, exist_ok=True)
+                    ensure_output_dirs()  # Ensure all output directories exist
+                    output_dir = OUTPUT_DIRS["grid_search"]
 
                     csv_path = output_dir / f"grid_search_{metadata['dataset']}_{metadata['timestamp']}.csv"
                     json_path = output_dir / f"grid_search_{metadata['dataset']}_{metadata['timestamp']}.json"

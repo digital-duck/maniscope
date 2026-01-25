@@ -40,7 +40,9 @@ from config import (
     MANISCOPE_VERSIONS,
     DEFAULT_MANISCOPE_VERSION,
     DEFAULT_MANISCOPE_K,
-    DEFAULT_MANISCOPE_ALPHA
+    DEFAULT_MANISCOPE_ALPHA,
+    OUTPUT_DIRS,
+    ensure_output_dirs
 )
 
 # ============================================================================
@@ -377,8 +379,8 @@ if run_batch:
             st.markdown(f"### 💾 Saving Results for {dataset_name}...")
 
             timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            output_dir = Path(__file__).parent.parent.parent / "output"
-            output_dir.mkdir(exist_ok=True)
+            ensure_output_dirs()  # Ensure all output directories exist
+            output_dir = OUTPUT_DIRS["benchmark"]
 
             # Build filename using mappings from config
             reranker_shorts = sorted([RERANKER_SHORT_MAP.get(m, m.lower()[:4]) for m in reranker_selection])
@@ -504,9 +506,9 @@ if run_batch:
         # Quick analysis command
         st.markdown("### 📊 Quick Analysis")
         st.markdown("Run this command to analyze all results:")
-        output_dir = Path(__file__).parent.parent.parent / "output"
+        output_dir = OUTPUT_DIRS["benchmark"]
         today_date = datetime.now().strftime("%Y%m%d")
-        analysis_cmd = f"cd {output_dir.parent} && python3 analyze_results.py output/k*-*_{today_date}_*.json"
+        analysis_cmd = f"cd {output_dir.parent.parent} && python3 analyze_results.py output/benchmark/k*-*_{today_date}_*.json"
         st.code(analysis_cmd, language="bash")
 
     except RerankerModelError as e:

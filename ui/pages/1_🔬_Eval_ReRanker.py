@@ -15,6 +15,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import time
+import hashlib
 
 # Add parent directory to path for imports
 sys.path.append(str(Path(__file__).parent.parent))
@@ -57,7 +58,7 @@ def concat_all_docs(dataset_items):
 @st.cache_resource
 def load_baseline_model(model_name='all-MiniLM-L6-v2'):
     """Load sentence transformer for baseline cosine similarity"""
-    return SentenceTransformer(model_name)
+    return SentenceTransformer(model_name, device='cpu')
 
 def compute_baseline_scores(query: str, docs: list, model_name: str = 'all-MiniLM-L6-v2') -> np.ndarray:
     """
@@ -76,6 +77,147 @@ def compute_baseline_scores(query: str, docs: list, model_name: str = 'all-MiniL
     doc_embeddings = model.encode(docs)
     similarities = cosine_similarity(query_embedding, doc_embeddings)[0]
     return similarities
+
+def _get_cache_key(llm_model: str, query: str, context: str) -> str:
+    """Generate cache key from model, query, and context."""
+    # Create a unique hash from the combination
+    cache_string = f"{llm_model}|{query}|{context}"
+    return hashlib.sha256(cache_string.encode()).hexdigest()
+
+
+def _load_from_cache(cache_key: str) -> str | None:
+    """Load cached response if it exists."""
+    cache_dir = Path(__file__).parent.parent.parent / "cache"
+    cache_dir.mkdir(exist_ok=True)
+
+    cache_file = cache_dir / f"rag_{cache_key}.json"
+
+    if cache_file.exists():
+        try:
+            with open(cache_file, 'r') as f:
+                cached_data = json.load(f)
+                return cached_data.get('response')
+        except Exception:
+            return None
+    return None
+
+
+def _save_to_cache(cache_key: str, response: str, llm_model: str, query: str):
+    """Save response to cache."""
+    cache_dir = Path(__file__).parent.parent.parent / "cache"
+    cache_dir.mkdir(exist_ok=True)
+
+    cache_file = cache_dir / f"rag_{cache_key}.json"
+
+    try:
+        cache_data = {
+            'response': response,
+            'model': llm_model,
+            'query': query,
+            'timestamp': time.time()
+        }
+        with open(cache_file, 'w') as f:
+            json.dump(cache_data, f, indent=2)
+    except Exception:
+        pass  # Silently fail if cache write fails
+
+
+def _cached_llm_call(llm_model: str, query: str, context: str, llm_provider: str, base_url: str, api_key: str) -> str:
+    """
+    Cached LLM API call. Uses disk cache in cache/ folder based on (model, query, context) key.
+
+    Args:
+        llm_model: LLM model identifier
+        query: User query
+        context: Document context (pre-formatted)
+        llm_provider: Provider name
+        base_url: API base URL
+        api_key: API key
+
+    Returns:
+        Generated answer text
+    """
+    from openai import OpenAI
+
+    # Check cache first
+    cache_key = _get_cache_key(llm_model, query, context)
+    cached_response = _load_from_cache(cache_key)
+
+    if cached_response:
+        st.caption("💾 Using cached response")
+        return cached_response
+
+    # Create prompt
+    prompt = f"""Answer the following query using ONLY the information provided in the documents below. If the documents don't contain enough information to answer the query, say so.
+
+Query: {query}
+
+Documents:
+{context}
+
+Answer:"""
+
+    client = OpenAI(
+        base_url=base_url,
+        api_key=api_key
+    )
+
+    # Generate response
+    response = client.chat.completions.create(
+        model=llm_model,
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.0,
+        max_tokens=500
+    )
+
+    content = response.choices[0].message.content
+    result = content if content else "No response generated."
+
+    # Save to cache
+    _save_to_cache(cache_key, result, llm_model, query)
+
+    return result
+
+
+def generate_rag_response(query: str, documents: list, llm_model: str, llm_provider: str, api_key: str) -> str:
+    """
+    Generate RAG response using LLM with retrieved documents as context.
+    Uses caching to avoid redundant API calls for same (model, query, context) combinations.
+
+    Args:
+        query: User query
+        documents: List of retrieved document texts to use as context
+        llm_model: LLM model identifier
+        llm_provider: Provider name ("OpenRouter" or "Ollama")
+        api_key: API key (for OpenRouter, falls back to OPENROUTER_API_KEY env var)
+
+    Returns:
+        Generated answer text
+    """
+    # Prepare context from documents
+    context_parts = []
+    for i, doc in enumerate(documents, 1):
+        context_parts.append(f"Document {i}:\n{doc}")
+
+    context = "\n\n".join(context_parts)
+
+    # Set up API client configuration
+    if llm_provider == "OpenRouter":
+        base_url = DEFAULT_OPENROUTER_URL
+
+        # Use provided API key, or fall back to environment variable
+        if not api_key:
+            api_key = os.getenv("OPENROUTER_API_KEY", "")
+
+        if not api_key:
+            raise ValueError("OpenRouter API key is required. Please set it in Configuration page or set OPENROUTER_API_KEY environment variable.")
+    else:  # Ollama
+        base_url = DEFAULT_OLLAMA_URL
+        api_key = "ollama"  # Ollama doesn't require real API key
+
+    # Call cached LLM function
+    # Cache key is based on: (llm_model, query, context, llm_provider, base_url, api_key)
+    return _cached_llm_call(llm_model, query, context, llm_provider, base_url, api_key)
 
 st.header("🔬 Evaluating ReRanker")
 st.markdown("""
@@ -261,6 +403,7 @@ with st.sidebar:
             query_text = selected_item['query']
             docs = selected_item['docs']
             relevance_map = selected_item['relevance_map']
+            is_all_docs_mode = False
 
     else:
         # Custom Query mode - enter custom query but use dataset documents
@@ -277,18 +420,32 @@ with st.sidebar:
             help="Select which query's documents to use as the candidate pool"
         )
 
-        doc_source_idx = query_options.get(doc_source_display, -1)
-        if doc_source_idx > -1:
-            # Use documents from selected query, but query text is custom
-            selected_item = dataset_items[doc_source_idx]
-            query_text = user_query_text  # FIX: Use custom query, not dataset query
-            docs = selected_item['docs']
-            relevance_map = {}  # FIX: No ground truth for custom queries
-        else:
-            # Use all documents from dataset
-            query_text = user_query_text
-            docs = concat_all_docs(dataset_items)
-            relevance_map = {}
+        if doc_source_display == "__ALL_DOCS__":
+            with st.expander("About Docs", expanded=False):
+                # Helper tip for __ALL_DOCS__
+                st.info("💡 **RAG Performance Profiling Mode**: Using all documents from the entire dataset simulates a realistic RAG pipeline with large corpus retrieval. Perfect for stress testing and performance benchmarking!")
+
+                doc_source_idx = query_options.get(doc_source_display, -1)
+                if doc_source_idx > -1:
+                    # Use documents from selected query, but query text is custom
+                    selected_item = dataset_items[doc_source_idx]
+                    query_text = user_query_text  # FIX: Use custom query, not dataset query
+                    docs = selected_item['docs']
+                    relevance_map = {}  # FIX: No ground truth for custom queries
+                    is_all_docs_mode = False
+                else:
+                    # Use all documents from dataset
+                    query_text = user_query_text
+                    docs = concat_all_docs(dataset_items)
+                    relevance_map = {}
+                    is_all_docs_mode = True
+
+                    # Display corpus statistics
+                    total_queries = len(dataset_items)
+                    total_docs = len(docs)
+                    avg_docs_per_query = total_docs / total_queries if total_queries > 0 else 0
+
+                    st.success(f"📊 **Corpus Statistics**: {total_docs:,} documents from {total_queries} queries (avg {avg_docs_per_query:.1f} docs/query) - Realistic RAG scenario")
 
 
 
@@ -319,13 +476,23 @@ if evaluate_button:
 
     # Show configuration summary
     st.markdown("### 📋 Evaluation Summary")
+
+    # Check if in Real RAG Simulation mode
+    try:
+        simulation_mode = is_all_docs_mode
+    except NameError:
+        simulation_mode = False
+
+    if simulation_mode:
+        st.info("🎯 **Real RAG Simulation Mode**: Profiling with full corpus - realistic performance benchmarking")
+
     col1, col2, col3, col4 = st.columns(4)
     with col1:
         st.metric("Dataset", selected_dataset["name"])
     with col2:
         st.metric("ReRanker", selected_reranker)
     with col3:
-        st.metric("Documents", len(docs))
+        st.metric("Documents", f"{len(docs):,}")
     with col4:
         st.metric("Embedding Model", embedding_model.split('/')[-1])
 
@@ -374,6 +541,14 @@ if evaluate_button:
     else:
         metrics = None
 
+    # Check if we're in __ALL_DOCS__ mode (set in query selection logic above)
+    # is_all_docs_mode is defined in the sidebar, but we need to access it here
+    try:
+        all_docs_mode = is_all_docs_mode
+    except NameError:
+        # Fallback if variable not set
+        all_docs_mode = False
+
     # Store results in session state (including baseline results)
     st.session_state['eval_results'] = {
         'query': query_text,
@@ -389,7 +564,10 @@ if evaluate_button:
         'baseline_scores': baseline_scores,
         'baseline_ranked_indices': baseline_ranked_indices,
         'baseline_latency_ms': baseline_latency_ms,
-        'baseline_metrics': baseline_metrics
+        'baseline_metrics': baseline_metrics,
+        # RAG profiling mode
+        'is_all_docs_mode': all_docs_mode,
+        'num_docs': len(docs)
     }
 
     # Show completion message
@@ -605,80 +783,297 @@ if 'eval_results' in st.session_state:
         styled_rankings = ranking_comp_df.style.apply(highlight_difference, axis=1)
         st.dataframe(styled_rankings, use_container_width=True, hide_index=True, height=400)
 
-        # Document Inspector Section
-        # st.markdown("---")
-        st.markdown("#### 📄 Document Inspector")
-        st.caption("View full text of retrieved documents")
+        # RAG Evaluation Section
+        st.markdown("---")
+        st.markdown("#### 🤖 RAG Evaluation")
+        # st.caption("Compare RAG response quality using different reranking methods")
 
-        # Collect unique doc IDs from both rankings (top-10)
-        baseline_top10_ids = baseline_ranked_indices[:10].tolist()
-        reranker_top10_ids = results['ranked_indices'][:10].tolist()
-        all_doc_ids = sorted(set(baseline_top10_ids + reranker_top10_ids))
+        # Add selector for which ranking method to use
+        ranking_method = st.radio(
+            "Use documents from:",
+            options=["Baseline (Cosine Similarity)", f"{results['reranker']} (Reranker)"],
+            horizontal=True,
+            key="rag_ranking_method"
+        )
 
-        # Create document table
-        doc_inspection_data = []
-        for doc_id in all_doc_ids:
-            doc_text = results['docs'][doc_id]
+        # Get RAG configuration from session state
+        rag_top_k = st.session_state.get('config_rag_top_k', 3)
+        rag_llm_model = st.session_state.get('config_rag_llm_model', 'google/gemini-2.0-flash-lite-001')
+        rag_llm_provider = st.session_state.get('config_rag_llm_provider', 'OpenRouter')
 
-            # Check where this doc appears
-            baseline_rank = baseline_top10_ids.index(doc_id) + 1 if doc_id in baseline_top10_ids else "-"
-            reranker_rank = reranker_top10_ids.index(doc_id) + 1 if doc_id in reranker_top10_ids else "-"
+        # Get API key from session state, or fall back to environment variable
+        rag_api_key = st.session_state.get('config_rag_api_key', '')
+        if not rag_api_key:
+            rag_api_key = os.getenv("OPENROUTER_API_KEY", "")
 
-            # Get scores
-            baseline_score = f"{baseline_scores[doc_id]:.4f}"
-            reranker_score = f"{results['scores'][doc_id]:.4f}"
+        # Determine which ranking to use
+        if ranking_method == "Baseline (Cosine Similarity)":
+            selected_ranked_indices = baseline_ranked_indices
+            selected_scores = baseline_scores
+            method_name = "Baseline"
+        else:
+            selected_ranked_indices = results['ranked_indices']
+            selected_scores = results['scores']
+            method_name = results['reranker']
 
-            relevant = "✅" if has_relevance and str(doc_id) in results['relevance_map'] else ""
+        # Create two columns for comparison
+        col_left, col_right = st.columns(2)
 
-            row = {
-                'Doc ID': doc_id,
-                'Baseline Rank': baseline_rank,
-                f'{results["reranker"]} Rank': reranker_rank,
-                'Baseline Score': baseline_score,
-                f'{results["reranker"]} Score': reranker_score,
-                'Document Text': doc_text
-            }
+        # Left column: Display top-10 retrieved documents (Document Inspector style)
+        with col_left:
+            st.markdown(f"##### 📄 Top-10 Retrieved Documents ({method_name})")
 
-            if has_relevance:
-                row['✓'] = relevant
+            for rank in range(min(10, len(selected_ranked_indices))):
+                doc_idx = selected_ranked_indices[rank]
+                doc_text = results['docs'][doc_idx]
+                score = selected_scores[doc_idx]
 
-            doc_inspection_data.append(row)
+                # Check relevance
+                is_relevant = str(doc_idx) in results['relevance_map'] if results['relevance_map'] else False
+                relevance_badge = "✅" if is_relevant else ""
 
-        doc_inspection_df = pd.DataFrame(doc_inspection_data)
+                # Detect category for this document
+                doc_category = detect_category(results['docs'][doc_idx])
 
-        # Display with expandable rows
-        for idx, row in doc_inspection_df.iterrows():
-            doc_id = row['Doc ID']
-            baseline_rank = row['Baseline Rank']
-            reranker_rank = row[f'{results["reranker"]} Rank']
+                # Create header with rank info
+                header_parts = [f"**#{rank+1} - Doc {doc_idx}**"]
+                if doc_category:
+                    header_parts.append(doc_category)
+                if is_relevant:
+                    header_parts.append("✅ Relevant")
+                header_parts.append(f"Score: {score:.4f}")
 
-            # Detect category for this document
-            doc_category = detect_category(results['docs'][doc_id])
+                header = " | ".join(header_parts)
 
-            # Create header with rank info
-            header_parts = [f"**Doc {doc_id}**"]
-            if doc_category:
-                header_parts.append(doc_category)
-            if baseline_rank != "-":
-                header_parts.append(f"Baseline: #{baseline_rank}")
-            if reranker_rank != "-":
-                header_parts.append(f"{results['reranker']}: #{reranker_rank}")
-            if has_relevance and row.get('✓') == "✅":
-                header_parts.append("✅ Relevant")
+                with st.expander(header, expanded=(rank == 0)):
+                    st.markdown(doc_text)
 
-            header = " | ".join(header_parts)
+        # Right column: Generate and display RAG response
+        with col_right:
+            st.markdown(f"##### 💬 RAG Response ({method_name} Context)")
 
-            with st.expander(header):
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.caption("**Baseline Score**")
-                    st.write(row['Baseline Score'])
-                with col2:
-                    st.caption(f"**{results['reranker']} Score**")
-                    st.write(row[f'{results["reranker"]} Score'])
+            # Generate button and Top-K selector in one row
+            col_btn, _, col_k = st.columns([7, 2, 3])
+            with col_btn:
+                st.caption(f"Using model: **{rag_llm_model}** ({rag_llm_provider})")
+                generate_btn = st.button(
+                    "🚀 Generate Answer",
+                    key=f"generate_rag_{method_name}",
+                    type="primary",
+                    use_container_width=True
+                )
 
-                st.caption("**Document Text:**")
-                st.markdown(row['Document Text'])
+            with col_k:
+                current_top_k = st.number_input(
+                    "Top-K",
+                    min_value=1,
+                    max_value=10,
+                    value=rag_top_k,
+                    step=1,
+                    help="Number of top-ranked documents to use as context",
+                    key=f"rag_top_k_{method_name}"
+                )
+
+
+            # Button to generate RAG response
+            if generate_btn:
+                # Get top-k documents
+                top_k_indices = selected_ranked_indices[:current_top_k]
+                top_k_docs = [results['docs'][idx] for idx in top_k_indices]
+
+                # Generate RAG response
+                with st.spinner("Generating RAG response..."):
+                    try:
+                        llm_start_time = time.time()
+                        rag_response = generate_rag_response(
+                            query=results['query'],
+                            documents=top_k_docs,
+                            llm_model=rag_llm_model,
+                            llm_provider=rag_llm_provider,
+                            api_key=rag_api_key
+                        )
+                        llm_latency_ms = (time.time() - llm_start_time) * 1000
+
+                        # Store in session state
+                        st.session_state[f'rag_response_{method_name}'] = rag_response
+                        st.session_state[f'rag_llm_latency_{method_name}'] = llm_latency_ms
+
+                    except Exception as e:
+                        st.error(f"❌ Failed to generate RAG response: {str(e)}")
+
+            # Display stored RAG response if available
+            if f'rag_response_{method_name}' in st.session_state:
+                st.markdown("**Query:**")
+                st.info(results['query'])
+
+                st.markdown("**Answer:**")
+                st.success(st.session_state[f'rag_response_{method_name}'])
+
+                # st.caption(f"Generated using top-{current_top_k} documents from {method_name}")
+
+                # Display latency breakdown
+                # st.markdown("---")
+                is_rag_simulation = results.get('is_all_docs_mode', False)
+                latency_section_label = f"⏱️ Latency Breakdown (Simulation Mode)" if is_rag_simulation else "⏱️ Latency Breakdown"
+                with st.expander(latency_section_label, expanded=False):
+                    # Check if we're in Real RAG Simulation mode
+                    num_docs = results.get('num_docs', len(results['docs']))
+                    if is_rag_simulation:
+                        st.caption(f"Performance profiling with {num_docs:,} documents corpus")
+
+                    # Get latency values based on selected method
+                    if method_name == "Baseline":
+                        # For baseline: only baseline latency, no separate reranking
+                        global_retrieval_ms = results.get('baseline_latency_ms', 0)
+                        local_reranking_ms = 0
+                        reranking_label = "Local Reranking"
+                        reranking_help = "No reranking (using baseline only)"
+                    else:
+                        # For reranker: baseline + reranker latency
+                        global_retrieval_ms = results.get('baseline_latency_ms', 0)
+                        local_reranking_ms = results.get('latency_ms', 0)
+                        reranking_label = "Local Reranking"
+                        reranking_help = f"{results['reranker']} reranking"
+
+                    llm_generation_ms = st.session_state.get(f'rag_llm_latency_{method_name}', 0)
+                    total_rag_latency = global_retrieval_ms + local_reranking_ms + llm_generation_ms
+
+                    # Calculate percentages
+                    if total_rag_latency > 0:
+                        retrieval_pct = (global_retrieval_ms / total_rag_latency) * 100
+                        reranking_pct = (local_reranking_ms / total_rag_latency) * 100
+                        llm_pct = (llm_generation_ms / total_rag_latency) * 100
+                    else:
+                        retrieval_pct = reranking_pct = llm_pct = 0
+
+                    # Create latency breakdown table
+                    latency_data = []
+
+                    # Row 1: Global Retrieval
+                    latency_data.append({
+                        "Metric": "1️⃣ Global Retrieval",
+                        "Time (ms)": f"{global_retrieval_ms:.1f}",
+                        "%": f"{retrieval_pct:.1f}%"
+                    })
+
+                    # Row 2: Local Reranking
+                    latency_data.append({
+                        "Metric": "2️⃣ Local Reranking",
+                        "Time (ms)": f"{local_reranking_ms:.1f}",
+                        "%": f"{reranking_pct:.1f}%"
+                    })
+
+                    # Row 3: LLM Generation
+                    latency_data.append({
+                        "Metric": "3️⃣ LLM Generation",
+                        "Time (ms)": f"{llm_generation_ms:.1f}",
+                        "%": f"{llm_pct:.1f}%"
+                    })
+
+                    # Row 4: Total
+                    latency_data.append({
+                        "Metric": "🏁 Total RAG Time",
+                        "Time (ms)": f"{total_rag_latency:.1f}",
+                        "%": "100.0%"
+                    })
+
+                    # Display as dataframe
+                    latency_df = pd.DataFrame(latency_data)
+                    st.dataframe(latency_df, use_container_width=True, hide_index=True)
+
+                    # Show percentage breakdown and performance insights
+                    if total_rag_latency > 0:
+
+                        # Add performance insights for Real RAG Simulation mode
+                        if is_rag_simulation:
+                            st.markdown("---")
+                            st.markdown("**💡 Performance Insights**")
+
+                            # Calculate throughput
+                            total_latency_sec = total_rag_latency / 1000
+                            queries_per_sec = 1.0 / total_latency_sec if total_latency_sec > 0 else 0
+
+                            col_i1, col_i2, col_i3 = st.columns(3)
+
+                            with col_i1:
+                                st.metric(
+                                    "Throughput",
+                                    f"{queries_per_sec:.2f} q/s",
+                                    help="Queries per second for this RAG pipeline"
+                                )
+
+                            with col_i2:
+                                # Estimate cost per 1M queries (assuming time-based cost)
+                                time_per_million = total_latency_sec * 1_000_000 / 3600  # hours
+                                st.metric(
+                                    "Time/1M Queries",
+                                    f"{time_per_million:.1f} hrs",
+                                    help="Estimated time to process 1 million queries"
+                                )
+
+                            with col_i3:
+                                # Show scalability indicator - use percentages calculated above
+                                if llm_pct > 80:
+                                    bottleneck = "LLM (GPU scaling recommended)"
+                                elif retrieval_pct > 50:
+                                    bottleneck = "Retrieval (index optimization)"
+                                elif reranking_pct > 50:
+                                    bottleneck = "Reranking (consider v2o)"
+                                else:
+                                    bottleneck = "Balanced ✅"
+
+                                st.metric(
+                                    "Bottleneck",
+                                    bottleneck,
+                                    help="Primary performance bottleneck"
+                                )
+
+                            # Comparison table if multiple evaluations exist
+                            if f'rag_comparison_data' not in st.session_state:
+                                st.session_state['rag_comparison_data'] = []
+
+                            # Add button to save this run for comparison
+                            if st.button("💾 Save for Comparison", key=f"save_comparison_{method_name}"):
+                                comparison_entry = {
+                                    'method': method_name,
+                                    'reranker': results['reranker'],
+                                    'docs': num_docs,
+                                    'top_k': current_top_k,
+                                    'retrieval_ms': global_retrieval_ms,
+                                    'reranking_ms': local_reranking_ms,
+                                    'llm_ms': llm_generation_ms,
+                                    'total_ms': total_rag_latency,
+                                    'llm_model': rag_llm_model
+                                }
+                                st.session_state['rag_comparison_data'].append(comparison_entry)
+                                st.success(f"✅ Saved: {method_name} with {num_docs:,} docs")
+
+                            # Show comparison table if we have saved data
+                            if len(st.session_state.get('rag_comparison_data', [])) > 0:
+                                st.markdown("**📊 Saved Comparisons**")
+
+                                comparison_df = pd.DataFrame(st.session_state['rag_comparison_data'])
+
+                                # Format the dataframe for display
+                                display_df = comparison_df.copy()
+                                display_df['Docs'] = display_df['docs'].apply(lambda x: f"{x:,}")
+                                display_df['Retrieval'] = display_df['retrieval_ms'].apply(lambda x: f"{x:.1f}ms")
+                                display_df['Reranking'] = display_df['reranking_ms'].apply(lambda x: f"{x:.1f}ms" if x > 0 else "—")
+                                display_df['LLM'] = display_df['llm_ms'].apply(lambda x: f"{x:.1f}ms")
+                                display_df['Total'] = display_df['total_ms'].apply(lambda x: f"{x:.1f}ms")
+
+                                # Select columns to display
+                                display_df = display_df[['method', 'reranker', 'Docs', 'top_k', 'Retrieval', 'Reranking', 'LLM', 'Total', 'llm_model']]
+                                display_df.columns = ['Method', 'Reranker', 'Corpus Size', 'Top-K', 'Retrieval', 'Reranking', 'LLM', 'Total', 'LLM Model']
+
+                                st.dataframe(display_df, use_container_width=True, hide_index=True)
+
+                                # Add clear button
+                                if st.button("🗑️ Clear Comparisons", key="clear_comparisons"):
+                                    st.session_state['rag_comparison_data'] = []
+                                    st.rerun()
+            else:
+                st.info(f"Click 'Generate Answer' to create a RAG response using top-{current_top_k} documents from {method_name}.")
 
     # Tab 2: Score Distribution
     with tab2:

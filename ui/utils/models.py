@@ -72,13 +72,13 @@ def load_bge_reranker_v2o():
         import torch
         from pathlib import Path
 
-        # GPU auto-detection
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        # Force CPU due to CUDA kernel compatibility issue
+        device = 'cpu'
 
-        # Load model with GPU support and fp16
+        # Load model
         model = FlagReranker(
             'BAAI/bge-reranker-v2-m3',
-            use_fp16=True,
+            use_fp16=False,  # Disable fp16 for CPU
             device=device
         )
 
@@ -176,7 +176,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device=None,  # Auto-detect GPU
+                device='cpu',  # Force CPU (CUDA kernel incompatibility with GTX 1080 Ti)
                 local_files_only=True,
                 use_cache=True,  # Enable persistent disk cache
                 query_cache_size=100,  # Cache 100 queries in memory
@@ -189,7 +189,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device=None,  # Auto-detect GPU
+                device='cpu',  # Force CPU (CUDA kernel incompatibility)
                 local_files_only=True
             )
         elif version == 'v2':
@@ -199,7 +199,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device=None,  # Auto-detect GPU
+                device='cpu',  # Force CPU (CUDA kernel incompatibility)
                 local_files_only=True,
                 use_faiss=True
             )
@@ -308,13 +308,9 @@ def load_jina_reranker_v2_v2o(model_name: str = "jinaai/jina-reranker-v2-base-mu
 
         tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 
-        # GPU auto-detection with fp16 for speed
-        device = "cuda" if torch.cuda.is_available() else "cpu"
-
-        if device == "cuda":
-            torch_dtype = torch.float16  # 2-3× faster on GPU
-        else:
-            torch_dtype = torch.float32
+        # Force CPU due to CUDA kernel compatibility issue
+        device = "cpu"
+        torch_dtype = torch.float32
 
         model = AutoModelForSequenceClassification.from_pretrained(
             model_name,
@@ -425,10 +421,10 @@ def load_hnsw_reranker_v2o(embedding_model: str = "all-MiniLM-L6-v2", space: str
         import pickle
         from pathlib import Path
 
-        # GPU auto-detection
-        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        # Force CPU due to CUDA kernel compatibility issue (GTX 1080 Ti sm_61 not in PyTorch build)
+        device = 'cpu'
 
-        # Load embedding model with GPU support
+        # Load embedding model
         model = SentenceTransformer(embedding_model, device=device)
         dim = model.get_sentence_embedding_dimension()
 
