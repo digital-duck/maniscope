@@ -58,7 +58,9 @@ def concat_all_docs(dataset_items):
 @st.cache_resource
 def load_baseline_model(model_name='all-MiniLM-L6-v2'):
     """Load sentence transformer for baseline cosine similarity"""
-    return SentenceTransformer(model_name, device='cpu')
+    import torch
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    return SentenceTransformer(model_name, device=device)
 
 def compute_baseline_scores(query: str, docs: list, model_name: str = 'all-MiniLM-L6-v2') -> np.ndarray:
     """
@@ -375,13 +377,21 @@ with st.sidebar:
         st.stop()
 
     # Query mode selection
-    # st.markdown("#### Enter Query")
-    query_mode = st.radio(
-        "Query Mode",
-        options=["From Dataset", "Custom Query"],
-        horizontal=True,
-        help="Choose a query from the dataset or enter your own"
-    )
+    # Check if using custom dataset (no ground truth)
+    is_custom_dataset = st.session_state.get('dataset_source') == 'custom'
+
+    if is_custom_dataset:
+        # Force Custom Query mode for custom datasets
+        st.info("📝 Custom datasets use **Custom Query** mode (no ground truth available)")
+        query_mode = "Custom Query"
+    else:
+        # Show radio button for standard datasets
+        query_mode = st.radio(
+            "Query Mode",
+            options=["From Dataset", "Custom Query"],
+            horizontal=True,
+            help="Choose a query from the dataset or enter your own"
+        )
 
     # Create query options (used by both modes for document selection)
     query_options = {

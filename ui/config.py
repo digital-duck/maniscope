@@ -278,13 +278,28 @@ DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-
 # ============================================================================
 
 OPENROUTER_MODELS = [
+    # Top-tier models (for research/arXiv paper study)
+    "anthropic/claude-opus-4-5",
+    "anthropic/claude-sonnet-4-5",
+    "anthropic/claude-opus-4",
+    "google/gemini-2.5-pro-latest",
+    "google/gemini-3-pro-latest",
+    "openai/gpt-5",
+    "qwen/qwen-3.5-turbo",
+
+    # Current production models
     "google/gemini-2.0-flash-lite-001",
     "anthropic/claude-3.5-haiku",
     "anthropic/claude-3.5-sonnet",
     "openai/chatgpt-4o-latest",
     "openai/gpt-4o-mini",
     "deepseek/deepseek-chat",
-    "qwen/qwen-2.5-72b-instruct"
+    "qwen/qwen-2.5-72b-instruct",
+
+    # Free tier models (for testing)
+    "meta-llama/llama-3.2-3b-instruct:free",
+    "qwen/qwen-2-7b-instruct:free",
+    "microsoft/phi-3-mini-128k-instruct:free",
 ]
 
 OLLAMA_MODELS = [

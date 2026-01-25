@@ -38,3 +38,6 @@ hnswlib>=0.7.0  # Required for HNSW reranker baseline
 mteb>=1.0.0
 beir>=1.0.0
 datasets>=2.0.0
+
+# PDF processing for custom datasets
+docling>=1.0.0

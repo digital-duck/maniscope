@@ -72,13 +72,13 @@ def load_bge_reranker_v2o():
         import torch
         from pathlib import Path
 
-        # Force CPU due to CUDA kernel compatibility issue
-        device = 'cpu'
+        # Auto-detect GPU (GTX 1080 Ti fully supported by PyTorch 2.5.1+cu121)
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # Load model
         model = FlagReranker(
             'BAAI/bge-reranker-v2-m3',
-            use_fp16=False,  # Disable fp16 for CPU
+            use_fp16=torch.cuda.is_available(),  # Enable fp16 for GPU
             device=device
         )
 
@@ -168,15 +168,19 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
         if version is None:
             version = DEFAULT_MANISCOPE_VERSION
 
+        # Auto-detect GPU (GTX 1080 Ti fully supported by PyTorch 2.5.1+cu121)
+        import torch
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
         if version == 'v2o':
-            # v2o: RECOMMENDED - Ultimate optimization (20-235× speedup)
+            # v2o: RECOMMENDED - Ultimate optimization (20-235× speedup with GPU)
             from maniscope.maniscope_engine import ManiscopeEngine_v2o
             model = ManiscopeEngine_v2o(
                 model_name='all-MiniLM-L6-v2',
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device='cpu',  # Force CPU (CUDA kernel incompatibility with GTX 1080 Ti)
+                device=device,
                 local_files_only=True,
                 use_cache=True,  # Enable persistent disk cache
                 query_cache_size=100,  # Cache 100 queries in memory
@@ -189,7 +193,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device='cpu',  # Force CPU (CUDA kernel incompatibility)
+                device=device,
                 local_files_only=True
             )
         elif version == 'v2':
@@ -199,7 +203,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device='cpu',  # Force CPU (CUDA kernel incompatibility)
+                device=device,
                 local_files_only=True,
                 use_faiss=True
             )
@@ -210,7 +214,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device='cpu',  # v3 is CPU-friendly (can change to 'cuda' if GPU available)
+                device=device,
                 local_files_only=True,
                 use_cache=True,  # Enable persistent disk cache
                 query_cache_size=100  # Cache 100 queries in memory
@@ -222,7 +226,7 @@ def load_maniscope_reranker(k: int = 5, alpha: float = 0.3, version: Optional[st
                 k=k,
                 alpha=alpha,
                 verbose=False,
-                device='cpu',
+                device=device,
                 local_files_only=True
             )
         return model
@@ -252,9 +256,9 @@ def load_jina_reranker_v2(model_name: str = "jinaai/jina-reranker-v2-base-multil
 
         tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 
-        # Baseline: CPU only, float32, no caching optimization
-        device = "cpu"
-        torch_dtype = torch.float32
+        # Auto-detect GPU (GTX 1080 Ti fully supported by PyTorch 2.5.1+cu121)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
 
         model = AutoModelForSequenceClassification.from_pretrained(
             model_name,
@@ -308,9 +312,9 @@ def load_jina_reranker_v2_v2o(model_name: str = "jinaai/jina-reranker-v2-base-mu
 
         tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
 
-        # Force CPU due to CUDA kernel compatibility issue
-        device = "cpu"
-        torch_dtype = torch.float32
+        # Auto-detect GPU (GTX 1080 Ti fully supported by PyTorch 2.5.1+cu121)
+        device = "cuda" if torch.cuda.is_available() else "cpu"
+        torch_dtype = torch.float16 if torch.cuda.is_available() else torch.float32
 
         model = AutoModelForSequenceClassification.from_pretrained(
             model_name,
@@ -369,12 +373,14 @@ def load_hnsw_reranker(embedding_model: str = "all-MiniLM-L6-v2", space: str = "
     try:
         from sentence_transformers import SentenceTransformer
         import hnswlib
+        import torch
 
-        # Load embedding model (no GPU optimization in baseline)
-        model = SentenceTransformer(embedding_model, device='cpu')
+        # Auto-detect GPU (GTX 1080 Ti fully supported by PyTorch 2.5.1+cu121)
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
+        model = SentenceTransformer(embedding_model, device=device)
         dim = model.get_sentence_embedding_dimension()
 
-        print(f"Loaded HNSW reranker with {embedding_model} ({dim}d)")
+        print(f"Loaded HNSW reranker with {embedding_model} ({dim}d) on {device}")
 
         return {
             "type": "hnsw",
@@ -421,8 +427,8 @@ def load_hnsw_reranker_v2o(embedding_model: str = "all-MiniLM-L6-v2", space: str
         import pickle
         from pathlib import Path
 
-        # Force CPU due to CUDA kernel compatibility issue (GTX 1080 Ti sm_61 not in PyTorch build)
-        device = 'cpu'
+        # Auto-detect GPU (GTX 1080 Ti fully supported by PyTorch 2.5.1+cu121)
+        device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
         # Load embedding model
         model = SentenceTransformer(embedding_model, device=device)

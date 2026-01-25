@@ -51,7 +51,12 @@ if st.session_state['dataset'] is None and DEFAULT_DATASET_PATH.exists():
         st.warning(f"⚠️ Could not auto-load default dataset: {str(e)}")
 
 # Create tabs
-tab1, tab2, tab3 = st.tabs(["📁 Load MTEB Dataset", "🤖 Generate Synthetic", "ℹ️ Current Dataset"])
+tab1, tab2, tab4, tab3 = st.tabs([
+    "📁 Load MTEB Dataset",
+    "🤖 Generate Synthetic",
+    "📄 Custom Dataset",
+    "ℹ️ Current Dataset"
+])
 
 # ============================================================================
 # TAB 1: Load MTEB Dataset
@@ -311,6 +316,208 @@ Negative documents should be plausible but not directly relevant."""
                 st.exception(e)
 
 # ============================================================================
+# TAB 4: Custom Dataset (PDF Import)
+# ============================================================================
+with tab4:
+    st.markdown("""
+    ### 📄 Import PDF for RAG Evaluation
+
+    Upload PDF documents (e.g., arXiv papers) to create custom datasets for RAG testing.
+
+    **Use for:**
+    - Studying research papers interactively
+    - Testing retrieval on domain-specific documents
+    - Exploring new content with custom queries
+
+    **Features:**
+    - Section-based chunking with overlap
+    - Figure/table caption extraction
+    - No ground truth needed (Custom Query mode only)
+    """)
+
+    col_upload, col_settings = st.columns([1, 1])
+
+    with col_upload:
+        st.markdown("#### 📤 Upload PDF")
+
+        pdf_file = st.file_uploader(
+            "Select PDF File",
+            type=['pdf'],
+            help="Upload a PDF document (academic papers work best)"
+        )
+
+        if pdf_file is not None:
+            file_size_mb = len(pdf_file.getvalue()) / (1024 * 1024)
+            st.caption(f"📊 File: {pdf_file.name} ({file_size_mb:.2f} MB)")
+
+            if file_size_mb > 10:
+                st.warning("⚠️ Large file (>10MB) may take longer to process")
+
+    with col_settings:
+        st.markdown("#### ⚙️ Settings")
+
+        dataset_name = st.text_input(
+            "Dataset Name",
+            value="custom_paper",
+            help="Name for the dataset (will be sanitized)"
+        )
+
+        include_figures = st.checkbox(
+            "Extract Figure/Table Captions",
+            value=True,
+            help="Include figure and table captions as searchable documents (Tier 1)"
+        )
+
+        max_chunk_size = st.slider(
+            "Max Chunk Size (words)",
+            min_value=200,
+            max_value=2000,
+            value=1000,
+            step=100,
+            help="Maximum words per chunk"
+        )
+
+        overlap_words = st.slider(
+            "Overlap Between Chunks (words)",
+            min_value=0,
+            max_value=200,
+            value=50,
+            step=10,
+            help="Word overlap for better retrieval across boundaries"
+        )
+
+    st.markdown("---")
+
+    # Process button
+    if pdf_file is not None:
+        col_process, col_info = st.columns([1, 2])
+
+        with col_process:
+            process_button = st.button("🔄 Process PDF", type="primary")
+
+        with col_info:
+            st.caption("Processing will convert PDF → markdown → chunks → dataset")
+
+        if process_button:
+            try:
+                from utils.pdf_processor import (
+                    convert_pdf_to_markdown,
+                    chunk_markdown_by_sections,
+                    extract_figures_and_tables,
+                    create_custom_dataset,
+                    save_custom_dataset,
+                    validate_dataset_schema,
+                    PDFProcessingError
+                )
+
+                # Step 1: Convert PDF to markdown
+                with st.spinner("Step 1/4: Converting PDF to markdown..."):
+                    pdf_data = convert_pdf_to_markdown(pdf_file)
+                    markdown = pdf_data['markdown']
+                    figures = pdf_data['figures']
+                    tables = pdf_data['tables']
+                    metadata = pdf_data['metadata']
+
+                st.success(f"✅ Converted {metadata['num_pages']} pages")
+
+                # Step 2: Chunk markdown
+                with st.spinner("Step 2/4: Chunking by sections..."):
+                    chunks = chunk_markdown_by_sections(
+                        markdown,
+                        max_chunk_size=max_chunk_size,
+                        overlap_words=overlap_words
+                    )
+
+                st.success(f"✅ Created {len(chunks)} chunks")
+
+                # Step 3: Extract figures/tables
+                figure_table_docs = []
+                if include_figures:
+                    with st.spinner("Step 3/4: Extracting figures and tables..."):
+                        figure_table_docs = extract_figures_and_tables(figures, tables)
+
+                    st.success(f"✅ Extracted {len(figure_table_docs)} figures/tables")
+                else:
+                    st.info("ℹ️ Skipping figure/table extraction")
+
+                # Step 4: Create dataset
+                with st.spinner("Step 4/4: Creating dataset..."):
+                    dataset = create_custom_dataset(
+                        chunks=chunks,
+                        figure_table_docs=figure_table_docs,
+                        dataset_name=dataset_name,
+                        pdf_metadata=metadata,
+                        chunking_config={
+                            'max_chunk_size': max_chunk_size,
+                            'overlap_words': overlap_words
+                        }
+                    )
+
+                    # Validate schema
+                    is_valid, error_msg = validate_dataset_schema(dataset)
+                    if not is_valid:
+                        st.error(f"❌ Dataset validation failed: {error_msg}")
+                        st.stop()
+
+                    # Save to disk
+                    saved_path = save_custom_dataset(dataset, dataset_name)
+
+                st.success(f"✅ Dataset created successfully!")
+                st.info(f"💾 Saved to: `{saved_path}`")
+
+                # Display statistics
+                st.markdown("### 📊 Dataset Statistics")
+                col1, col2, col3, col4 = st.columns(4)
+
+                with col1:
+                    st.metric("Total Docs", len(dataset[0]['docs']))
+                with col2:
+                    st.metric("Text Chunks", len(chunks))
+                with col3:
+                    st.metric("Figures/Tables", len(figure_table_docs))
+                with col4:
+                    st.metric("Pages", metadata['num_pages'])
+
+                # Preview chunks
+                st.markdown("### 📝 Preview: Text Chunks (First 3)")
+                with st.expander("Show chunks", expanded=True):
+                    for i, chunk in enumerate(chunks[:3]):
+                        st.markdown(f"**Chunk {i+1}: {chunk['heading']}**")
+                        preview_text = chunk['text'][:300] + "..." if len(chunk['text']) > 300 else chunk['text']
+                        st.text(preview_text)
+                        st.markdown("---")
+
+                # Preview figures
+                if figure_table_docs:
+                    st.markdown("### 🖼️ Preview: Figures/Tables (First 5)")
+                    with st.expander("Show figures/tables", expanded=False):
+                        for i, fig_table in enumerate(figure_table_docs[:5]):
+                            st.text(fig_table['text'])
+                            if i < len(figure_table_docs) - 1:
+                                st.markdown("---")
+
+                # Load button
+                st.markdown("---")
+                if st.button("✅ Load This Dataset", type="primary", key="load_custom"):
+                    st.session_state['dataset'] = dataset
+                    st.session_state['dataset_name'] = f"{dataset_name}.json"
+                    st.session_state['dataset_path'] = str(saved_path)
+                    st.session_state['dataset_source'] = 'custom'
+                    st.success(f"📥 Custom dataset loaded into session!")
+                    st.rerun()
+
+            except PDFProcessingError as e:
+                st.error(f"❌ PDF Processing Error:\n\n{str(e)}")
+            except ImportError as e:
+                st.error(f"❌ Docling not installed:\n\n```\npip install docling>=1.0.0\n```")
+            except Exception as e:
+                st.error(f"❌ Unexpected error: {str(e)}")
+                st.exception(e)
+
+    else:
+        st.info("👆 Upload a PDF file to get started")
+
+# ============================================================================
 # TAB 3: Current Dataset Info
 # ============================================================================
 with tab3:
@@ -322,7 +529,19 @@ with tab3:
 
         dataset_path = st.session_state.get('dataset_path', st.session_state['dataset_name'])
         st.success(f"✅ Active Dataset: **{dataset_path}**")
-        st.caption(f"Source: {st.session_state['dataset_source'].upper()}")
+        source = st.session_state.get('dataset_source')
+        if source:
+            st.caption(f"Source: {source.upper()}")
+
+        # Custom dataset metadata
+        if source == 'custom' and len(data) > 0:
+            metadata = data[0].get('metadata', {})
+            if 'pdf_filename' in metadata:
+                st.caption(f"📄 Original PDF: {metadata['pdf_filename']}")
+            if metadata.get('has_figures'):
+                num_figures = metadata.get('num_figures', 0)
+                num_tables = metadata.get('num_tables', 0)
+                st.caption(f"🖼️ Includes {num_figures} figures and {num_tables} tables")
 
         # Statistics
         st.markdown("### Dataset Statistics")
