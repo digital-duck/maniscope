@@ -110,45 +110,29 @@ with st.sidebar:
     # st.markdown("---")
 
     # ReRanker selection
-    st.markdown("#### ReRankers")
+    # st.markdown("#### ReRankers")
 
-    selected_rerankers = []
-    for reranker_name in RE_RANKERS:
-        info = get_model_info(reranker_name)
-        is_selected = st.checkbox(
-            reranker_name,
-            value=(reranker_name in ["Maniscope",'BGE-M3', "Jina Reranker v2", ]),  # Only Maniscope by default
-            help=f"{info['architecture']}\n\n{info['description']}"
-        )
-        if is_selected:
-            selected_rerankers.append(reranker_name)
+    # reranker_selection = []
+    # for reranker_name in RE_RANKERS:
+    #     info = get_model_info(reranker_name)
+    #     is_selected = st.checkbox(
+    #         reranker_name,
+    #         value=(reranker_name in ["Maniscope","HNSW", "BGE-M3", "Jina Reranker v2", ]),  # Only Maniscope by default
+    #         help=f"{info['architecture']}\n\n{info['description']}"
+    #     )
+    #     if is_selected:
+    #         reranker_selection.append(reranker_name)
 
-    # Execution Settings
-    st.markdown("#### Execution Settings")
-
-    c_1, c_2 = st.columns(2)
-    with c_1:
-        max_queries = st.number_input(
-            "Max Queries",
-            min_value=1,
-            max_value=len(dataset),
-            value=min(10, len(dataset)),
-            help="Limit number of queries for quick tests"
-        )
-
-    with c_2:
-        batch_size = st.number_input(
-            "Batch Size",
-            min_value=1,
-            max_value=len(dataset),
-            value=min(5, len(dataset)),
-            help="Process queries in batches for progress updates"
-        )
-
-
+    default_rerankers = ["Maniscope","HNSW", "Jina Reranker v2", "BGE-M3"]
+    reranker_selection = st.multiselect(
+        "Select ReRanker",
+        options=RE_RANKERS,
+        default=default_rerankers,
+        help="Choose which reranker to benchmark"
+    )            
 
     # Maniscope configuration (if selected)
-    if "Maniscope" in selected_rerankers:
+    if "Maniscope" in reranker_selection:
         st.markdown("#### Maniscope Settings")
 
         c__1, c__2 = st.columns(2)
@@ -174,7 +158,8 @@ with st.sidebar:
             )
             st.session_state['maniscope_alpha'] = maniscope_alpha
 
-    if "LLM-Reranker" in selected_rerankers:
+
+    if "LLM-Reranker" in reranker_selection:
         st.markdown("#### LLM Model Config")
         llm_provider = st.radio(
             "Provider",
@@ -219,13 +204,35 @@ with st.sidebar:
 
         # st.markdown("---")
 
+    # Execution Settings
+    st.markdown("#### Execution Settings")
+
+    c_1, c_2 = st.columns(2)
+    with c_1:
+        max_queries = st.number_input(
+            "Max Queries",
+            min_value=1,
+            max_value=len(dataset),
+            value=min(10, len(dataset)),
+            help="Limit number of queries for quick tests"
+        )
+
+    with c_2:
+        batch_size = st.number_input(
+            "Batch Size",
+            min_value=1,
+            max_value=len(dataset),
+            value=min(5, len(dataset)),
+            help="Process queries in batches for progress updates"
+        )
+
 
     c_b1, c_b2 = st.columns([5,2])
     with c_b1:
         run_button = st.button(
             "Start Benchmark",
             type="primary",
-            disabled=len(selected_rerankers) == 0,
+            disabled=len(reranker_selection) == 0,
             use_container_width=True
         )
 
@@ -249,7 +256,7 @@ with st.sidebar:
         st.success("Results cleared!")
         st.rerun()
 
-    if not selected_rerankers:
+    if not reranker_selection:
         st.warning("⚠️ Select at least one reranker above")
 
 # ============================================================================
@@ -261,8 +268,8 @@ st.header("🎯 Benchmark Results")
 if run_button:
     try:
         # Load rerankers
-        with st.spinner(f"Loading {len(selected_rerankers)} rerankers..."):
-            rerankers = load_all_models(selected_rerankers)
+        with st.spinner(f"Loading {len(reranker_selection)} rerankers..."):
+            rerankers = load_all_models(reranker_selection)
 
         st.success(f"✅ Loaded {len(rerankers)} rerankers successfully")
 
@@ -378,12 +385,12 @@ if run_button:
                 break
 
         # Map reranker names to short names from config (sorted alphabetically)
-        reranker_shorts = sorted([RERANKER_SHORT_MAP.get(m, m.lower()[:4]) for m in selected_rerankers])
+        reranker_shorts = sorted([RERANKER_SHORT_MAP.get(m, m.lower()[:4]) for m in reranker_selection])
         reranker_list_str = '-'.join(reranker_shorts)
 
         # Get k value (if Maniscope is used)
-        k_val = st.session_state.get('maniscope_k', 5) if 'Maniscope' in selected_rerankers else 0
-        k_prefix = f"k{k_val}" if 'Maniscope' in selected_rerankers else "k0"
+        k_val = st.session_state.get('maniscope_k', 5) if 'Maniscope' in reranker_selection else 0
+        k_prefix = f"k{k_val}" if 'Maniscope' in reranker_selection else "k0"
 
         # Build filename: <k-val>-<dataset>_<max_queries>-<rerankers>_<timestamp>.json
         results_filename = output_dir / f"{k_prefix}-{dataset_short}_{max_queries}-{reranker_list_str}_{timestamp}.json"
@@ -397,7 +404,7 @@ if run_button:
                 "dataset_source": st.session_state.get('dataset_source', 'unknown'),
                 "num_queries": len(results),
                 "max_queries_requested": max_queries,
-                "rerankers": selected_rerankers,
+                "rerankers": reranker_selection,
                 "reranker_shorts": reranker_shorts,
                 "maniscope_k": st.session_state.get('maniscope_k', None),
                 "maniscope_alpha": st.session_state.get('maniscope_alpha', None),

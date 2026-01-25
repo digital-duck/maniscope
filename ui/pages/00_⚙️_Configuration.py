@@ -30,6 +30,7 @@ from config import (
     OLLAMA_MODELS,
     EMBEDDING_MODELS,
     DEFAULT_EMBEDDING_MODEL,
+    DEFAULT_LLM_MODEL,
     METRICS_TO_PLOT,
     DEFAULT_METRICS,
     COLORS
@@ -251,6 +252,29 @@ with tab3:
 
         st.markdown("---")
 
+        st.markdown("#### Optimization Level")
+
+        optimization_levels = ['v0', 'v1', 'v2', 'v3', 'v2o']
+        optimization_labels = {
+            'v0': 'v0 - Baseline (CPU, no caching)',
+            'v1': 'v1 - GPU + Graph Caching (3× faster)',
+            'v2': 'v2 - Full Optimization (5× faster)',
+            'v3': 'v3 - Persistent Cache + Query Cache (variable)',
+            'v2o': 'v2o - Ultimate ⭐ RECOMMENDED (20-235× faster)'
+        }
+
+        current_opt_index = optimization_levels.index(st.session_state['config_optimization_level']) if st.session_state['config_optimization_level'] in optimization_levels else 4  # Default to v2o
+
+        new_opt_level = st.selectbox(
+            "Optimization Level",
+            options=optimization_levels,
+            format_func=lambda x: optimization_labels[x],
+            index=current_opt_index,
+            help="Performance optimization level for Maniscope"
+        )
+
+        st.markdown("---")
+
         st.markdown("#### Embedding Model")
 
         # Use comprehensive embedding models from config.py (validated from semanscope)
@@ -277,15 +301,15 @@ with tab3:
             embedding_labels.append(label)
 
         try:
-            current_index = embedding_model_names.index(st.session_state['config_embedding_model'])
+            default_embed_index = embedding_model_names.index(DEFAULT_EMBEDDING_MODEL)
         except ValueError:
-            current_index = 0  # Default to first model if current not found
+            default_embed_index = 0  # Default to first model if current not found
 
         new_embedding = st.selectbox(
             "Embedding Model",
             options=embedding_model_names,
             format_func=lambda x: embedding_labels[embedding_model_names.index(x)],
-            index=current_index,
+            index=default_embed_index,
             help="Model used to encode queries and documents. Sorted by priority: ⚡=fastest → 💎=most advanced"
         )
 
@@ -308,32 +332,10 @@ with tab3:
 
                 st.info(selected_model_info['description'])
 
-        st.markdown("---")
-
-        st.markdown("#### Optimization Level")
-
-        optimization_levels = ['v0', 'v1', 'v2', 'v3', 'v2o']
-        optimization_labels = {
-            'v0': 'v0 - Baseline (CPU, no caching)',
-            'v1': 'v1 - GPU + Graph Caching (3× faster)',
-            'v2': 'v2 - Full Optimization (5× faster)',
-            'v3': 'v3 - Persistent Cache + Query Cache (variable)',
-            'v2o': 'v2o - Ultimate ⭐ RECOMMENDED (20-235× faster)'
-        }
-
-        current_opt_index = optimization_levels.index(st.session_state['config_optimization_level']) if st.session_state['config_optimization_level'] in optimization_levels else 4  # Default to v2o
-
-        new_opt_level = st.selectbox(
-            "Optimization Level",
-            options=optimization_levels,
-            format_func=lambda x: optimization_labels[x],
-            index=current_opt_index,
-            help="Performance optimization level for Maniscope"
-        )
 
         st.markdown("---")
 
-        st.markdown("#### RAG Evaluation Settings")
+        st.markdown("#### RAG LLM Model")
 
         rag_provider = st.radio(
             "RAG LLM Provider",
@@ -361,10 +363,11 @@ with tab3:
             elif not rag_api_key and not env_key:
                 st.warning("⚠️ No API key set. Please enter API key or set OPENROUTER_API_KEY environment variable.")
 
+            default_model_index = OPENROUTER_MODELS.index(DEFAULT_LLM_MODEL) if st.session_state['config_rag_llm_model'] in OPENROUTER_MODELS else 0
             rag_model = st.selectbox(
                 "RAG LLM Model",
                 options=OPENROUTER_MODELS,
-                index=OPENROUTER_MODELS.index(st.session_state['config_rag_llm_model']) if st.session_state['config_rag_llm_model'] in OPENROUTER_MODELS else 0,
+                index=default_model_index,
                 help="LLM model for generating RAG responses"
             )
         else:

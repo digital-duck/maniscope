@@ -8,13 +8,12 @@ import streamlit as st
 
 st.set_page_config(page_title="RAG Reranker Lab", layout="wide", page_icon="🚀")
 
-st.header("🚀 Welcome to RAG Reranker Evaluation Lab")
+st.header("🚀 Welcome to Maniscope")
 st.markdown("""
-(1) **Standardized benchmarks** using [MTEB](https://pypi.org/project/mteb/) and [BEIR](https://pypi.org/project/beir/) datasets
-(2) **Reproducible results** with configurable random seeds
-(3) **Comprehensive metrics** following IR best practices
-(4) **Publication-ready exports** with detailed statistics
-(5) **Flexibility** to add custom models and datasets
+- **Standardized benchmarks** using [MTEB](https://pypi.org/project/mteb/) and [BEIR](https://pypi.org/project/beir/) datasets
+- **Comprehensive metrics** following IR best practices
+- **Publication-ready exports** with detailed statistics
+- **Flexibility** to add custom models and datasets
 
 """)
 
@@ -35,12 +34,11 @@ with workflow_cols[1]:
     st.markdown("""
     **Execute evaluation:**
     - Supported ReRankers: 
-        - **Maniscope** (this work) Based on Geodesic Distances on k-NN Manifolds
-        - **LLM-Reranker** (via API)
-        Flexible LLM scoring via Ollama or OpenRouter
+        - **Maniscope**
+        - **HNSW**
         - **Jina Reranker v2** 
-        - **BGE-M3** (BAAI/bge-reranker-v2-m3)
-        Encoder-based cross-encoder reranker
+        - **BGE-M3**
+        - **LLM-Reranker** 
     - Configure batch processing
     - Monitor progress in real-time
     - Save results automatically

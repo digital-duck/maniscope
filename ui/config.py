@@ -392,8 +392,7 @@ EMBEDDING_MODELS = [
     },
 ]
 
-# Default embedding model for Maniscope (balanced speed and quality)
-DEFAULT_EMBEDDING_MODEL = "all-MiniLM-L6-v2"  # Fastest, most compatible
+
 
 # ============================================================================
 # LLM ReRanker Configuration
@@ -446,6 +445,10 @@ OLLAMA_MODELS = [
 
 DEFAULT_OPENROUTER_URL = "https://openrouter.ai/api/v1"
 DEFAULT_OLLAMA_URL = "http://localhost:11434/v1"
+
+# Default embedding model for Maniscope (balanced speed and quality)
+DEFAULT_EMBEDDING_MODEL = "sentence-transformers/LaBSE" #"all-MiniLM-L6-v2"  # Fastest, most compatible
+DEFAULT_LLM_MODEL = "openai/gpt-3.5-turbo"
 
 # ============================================================================
 # Metrics Configuration

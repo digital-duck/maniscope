@@ -53,7 +53,7 @@ with st.sidebar:
     st.markdown("### Batch Configuration")
 
     # Dataset selection
-    st.markdown("#### Datasets")
+    # st.markdown("#### Datasets")
     # Default to full datasets only (priority >= 1), exclude Quick test datasets
     full_datasets = [d["name"] for d in DATASETS if d.get("priority", 0) >= 1]
     dataset_selection = st.multiselect(
@@ -64,9 +64,9 @@ with st.sidebar:
     )
 
     # ReRanker selection
-    st.markdown("#### ReRankers")
+    # st.markdown("#### ReRankers")
     # Default to Maniscope, Jina Reranker v2, and BGE-M3 (exclude LLM-Reranker)
-    default_rerankers = ["Maniscope", "Jina Reranker v2", "BGE-M3"]
+    default_rerankers = ["Maniscope","HNSW", "Jina Reranker v2", "BGE-M3"]
     reranker_selection = st.multiselect(
         "Select ReRanker",
         options=RE_RANKERS,
@@ -74,27 +74,29 @@ with st.sidebar:
         help="Choose which reranker to benchmark"
     )
 
-    st.markdown("---")
+    # st.markdown("---")
 
     # Maniscope configuration
     st.markdown("#### Maniscope Config")
-    maniscope_k = st.number_input(
-        "k (neighbors)",
-        min_value=3,
-        max_value=20,
-        value=DEFAULT_MANISCOPE_K,
-        step=1,
-        help="Number of nearest neighbors for manifold graph"
-    )
-
-    maniscope_alpha = st.number_input(
-        "α (hybrid weight)",
-        min_value=0.0,
-        max_value=1.0,
-        value=DEFAULT_MANISCOPE_ALPHA,
-        step=0.1,
-        help="0=pure geodesic, 1=pure cosine"
-    )
+    c__1, c__2 = st.columns(2)
+    with c__1:
+        maniscope_k = st.number_input(
+            "k (neighbors)",
+            min_value=3,
+            max_value=20,
+            value=DEFAULT_MANISCOPE_K,
+            step=1,
+            help="Number of nearest neighbors for manifold graph"
+        )
+    with c__2:
+        maniscope_alpha = st.number_input(
+            "α (hybrid weight)",
+            min_value=0.0,
+            max_value=1.0,
+            value=DEFAULT_MANISCOPE_ALPHA,
+            step=0.1,
+            help="0=pure geodesic, 1=pure cosine"
+        )
 
     # ManiscopeEngine version selection
     version_options = list(MANISCOPE_VERSIONS.keys())

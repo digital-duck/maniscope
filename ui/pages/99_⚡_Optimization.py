@@ -33,7 +33,7 @@ st.markdown("Compare different optimization versions to find the best performanc
 # ============================================================================
 
 with st.sidebar:
-    st.markdown("### ⚙️ Benchmark Configuration")
+    st.markdown("### ⚙️ Configuration")
 
     # Benchmark settings
     # st.markdown("#### Benchmark Settings")
@@ -100,12 +100,12 @@ with st.sidebar:
         selected_dataset = DATASETS[0]  # Use first dataset as default
         num_queries = 5
 
-    btn_run_benchmark = st.button("🚀 Run Benchmark", type="primary")
+    btn_run_benchmark = st.button("🚀 Compare Optimizations", type="primary")
 
     st.markdown("---")
 
     # Show benchmark configuration
-    with st.expander("📋 Benchmark Configuration", expanded=False):
+    with st.expander("📋 Configuration", expanded=False):
         st.write(f"**Dataset:** {selected_dataset_name}")
         st.write(f"**Queries to test:** {num_queries}")
         st.write(f"**Runs per query:** {num_runs}")
@@ -144,13 +144,13 @@ if not selected_versions:
 # ============================================================================
 # BENCHMARK EXECUTION
 # ============================================================================
-# if st.button("🚀 Run Benchmark", type="primary"):
+
 if btn_run_benchmark:
     st.markdown("#### 🔬 Benchmark Results")
 
 
     # Progress tracking
-    c_1,c_2 = st.columns([6,2])
+    c_1,c_2 = st.columns([8,2])
     with c_1:
         progress_bar = st.progress(0)
     with c_2:
