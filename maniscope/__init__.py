@@ -18,7 +18,7 @@ Example:
     >>> results = engine.search("your query", top_n=10)
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 __author__ = "Wen G. Gong"
 __license__ = "MIT"
 
