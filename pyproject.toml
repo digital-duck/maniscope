@@ -4,14 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "maniscope"
-version = "1.1.0"
+version = "1.1.1"
 description = "Efficient neural reranking via geodesic distances on k-NN manifolds"
 readme = "README.md"
 requires-python = ">=3.8"
 license = "MIT"
 authors = [
-    {name = "Digital Duck", email = "p2p2learn@outlook.com"},
-    {name = "Albert Gong", email = "ag2435@cornell.edu"},
+    {name = "Digital Duck", email = "p2p2learn@outlook.com"}
 ]
 keywords = [
     "information-retrieval",
