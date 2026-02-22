@@ -438,13 +438,17 @@ conda env remove -n maniscope
 If you use Maniscope in your research, please cite:
 
 ```bibtex
-@inproceedings{gong2026maniscope,
-  title={A Novel RAG Reranker via Geodesic Distances on k-NN Manifolds},
+@article{gong2026maniscope,
+  title={Reranker Optimization via Geodesic Distances on k-NN Manifolds},
   author={Gong, Wen G.},
-  booktitle={International Conference on Machine Learning (ICML)},
-  year={2026}
+  journal={arXiv preprint arXiv:2602.15860},
+  year={2026},
+  doi={10.48550/arXiv.2602.15860},
+  url={https://arxiv.org/abs/2602.15860}
 }
 ```
+
+**ArXiv Paper:** [arXiv:2602.15860](https://arxiv.org/abs/2602.15860) - Reranker Optimization via Geodesic Distances on k-NN Manifolds
 
 ## License
 
